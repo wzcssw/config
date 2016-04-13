@@ -1,6 +1,7 @@
 var app = require('koa')();
 var render = require('koa-ejs');
 var mdKoa =require('./middleware/koa');
+var controllers = require('./app/controllers');
 
 render(app, {
     root: './app/views',
@@ -18,10 +19,7 @@ app.use(mdKoa.logger());
 app.use(mdKoa.notFound());
 
 // response
-
-app.use(function *(){
-    yield this.render('test');
-});
+app.use(controllers.users);
 
 module.exports = app;
 if (!module.parent) {
