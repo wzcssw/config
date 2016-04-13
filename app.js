@@ -1,7 +1,10 @@
 var app = require('koa')();
 var render = require('koa-ejs');
+var staticServe = require('koa-static');
 var mdKoa =require('./middleware/koa');
 var controllers = require('./app/controllers');
+
+app.use(staticServe('./app/public'));
 
 render(app, {
     root: './app/views',
@@ -12,7 +15,9 @@ render(app, {
 });
 
 // error
-app.use(mdKoa.error());
+app.on('error', function(err,ctx){
+    console.log('app--err', err);
+});
 // logger
 app.use(mdKoa.logger());
 // 404
