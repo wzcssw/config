@@ -1,4 +1,4 @@
-var redis = require('../db').redis;
+var redis = require('../../app/proxy').reids;
 function Session(){
     "use strict";
     return function *(next){
@@ -8,9 +8,9 @@ function Session(){
             session = new Buffer(session, 'base64');
             session = session.toString();
             session = JSON.parse(session);
+            console.log(session.uid);
         }
 
-        console.log(session.uid);
         yield  next;
     }
 }
