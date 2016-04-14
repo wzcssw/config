@@ -1,2 +1,3 @@
-module.exports.notFound = require('./notFound');
-module.exports.logger = require('./logger');
+module.exports.Session = require('./session');
+module.exports.NotFound = require('./notFound');
+module.exports.Logger = require('./logger');

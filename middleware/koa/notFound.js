@@ -1,4 +1,4 @@
-function notFound(){
+function NotFound(){
     "use strict";
     return function *pageNotFound(next){
         yield next;
@@ -26,4 +26,4 @@ function notFound(){
     }
 }
 
-module.exports = notFound;
+module.exports = NotFound;

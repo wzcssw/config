@@ -1,4 +1,4 @@
-function logger(){
+function Logger(){
     "use strict";
     return function *(next){
         var start = new Date;
@@ -8,4 +8,4 @@ function logger(){
     }
 }
 
-module.exports = logger;
+module.exports = Logger;

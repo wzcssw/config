@@ -4,8 +4,9 @@ var staticServe = require('koa-static');
 var mdKoa =require('./middleware/koa');
 var controllers = require('./app/controllers');
 
-app.use(staticServe('./app/public'));
+app.keys = ['TXPrice', 'DoNode'];
 
+app.use(staticServe('./app/public'));
 render(app, {
     root: './app/views',
     layout: 'layout',
@@ -18,10 +19,12 @@ render(app, {
 app.on('error', function(err,ctx){
     console.log('app--err', err);
 });
+// session
+app.use(mdKoa.Session());
 // logger
-app.use(mdKoa.logger());
+app.use(mdKoa.Logger());
 // 404
-app.use(mdKoa.notFound());
+app.use(mdKoa.NotFound());
 
 // response
 app.use(controllers.users);
