@@ -7,9 +7,18 @@ var getUserByUid = function (uid, cb){
     });
 };
 
-function getUidByUname(uname, fn){
+
+var getUserByUname = function(uname, cb){
+    "use strict";
+    getUidByUname(uname, function(err, uid){
+        if (err) return cb(err);
+        getUserByUid(uid, cb);
+    });
+};
+
+function getUidByUname(uname, cb){
     rdb.get('session:uid:' + uname, function(err, uid){
-        fn(err, uid);
+        cb(err, uid);
     });
 }
 
@@ -23,16 +32,31 @@ var save = function(user, cb){
     getUidByUname(uname, function(err, uid){
         if (err) cb(err);
         if (uid){
-            user.uid = uid;
-            console.log('uid', uid);
-            update(user, cb);
+            // 若想多点登录，直接使用原来的uid
+            //user.uid = uid;
+            //更新用户信息（可选）
+            //update(user, cb);
+
+            // 若想单点登录,先删除已有用户,创建新的reids_id(uid)即可
+            rdb.del('session:uid:' + user.uname, function(err){
+                if (err) return cb(err);
+                rdb.del('session:user:uid', function(err){
+                    if (err) return cb(err);
+                    // 删除原来的用户创建新的,保证每次save只保留一个新创建的用户
+                    rdb.incr('session:ids', function(err, uid){
+                        if (err) return cb(err);
+                        user.uid = uid;
+                        update(user, cb);
+                    });
+                });
+            });
+
         }else {
             rdb.incr('session:ids', function(err, uid){
                 if (err) return cb(err);
                 user.uid = uid;
-                console.log('uid', uid);
                 update(user, cb);
-            })
+            });
         }
     });
 };
@@ -50,6 +74,7 @@ function update(user, cb){
     });
 }
 
-module.exports.save = save;
-module.exports.getUserByUid = getUserByUid;
+exports.save = save;
+exports.getUserByUid = getUserByUid;
+exports.getUserByUname = getUserByUname;
 

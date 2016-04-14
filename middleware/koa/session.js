@@ -11,6 +11,16 @@ function Session(){
             console.log(session.uid);
         }
 
+        redis.save({id: 111, username: 'wuyuedefeng', name: 'wangsen'}, function(err, user){
+            if (err){
+                return console.log(err);
+            }
+            console.log(user);
+        });
+
+
+
+
         yield  next;
     }
 }
