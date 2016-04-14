@@ -38,26 +38,27 @@ var save = function(user, cb){
             //update(user, cb);
 
             // 若想单点登录,先删除已有用户,创建新的reids_id(uid)即可
+            // 删除原来的用户创建新的,保证每次save只保留一个新创建的用户
             rdb.del('session:uid:' + user.uname, function(err){
                 if (err) return cb(err);
                 rdb.del('session:user:uid', function(err){
                     if (err) return cb(err);
-                    // 删除原来的用户创建新的,保证每次save只保留一个新创建的用户
-                    rdb.incr('session:ids', function(err, uid){
-                        if (err) return cb(err);
-                        user.uid = uid;
-                        update(user, cb);
-                    });
+                    createNew(user, cb);
                 });
             });
 
         }else {
-            rdb.incr('session:ids', function(err, uid){
-                if (err) return cb(err);
-                user.uid = uid;
-                update(user, cb);
-            });
+            createNew(user, cb);
         }
+    });
+};
+
+function createNew(user, cb){
+    "use strict";
+    rdb.incr('session:ids', function(err, uid){
+        if (err) return cb(err);
+        user.uid = uid;
+        update(user, cb);
     });
 };
 
