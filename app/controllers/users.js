@@ -4,7 +4,7 @@ var router = require('koa-router')({
 
 router.get('/', function *(){
     "use strict";
-    yield this.render('test');
+    yield this.render('users/test');
 });
 
 module.exports = router;

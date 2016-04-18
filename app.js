@@ -7,6 +7,8 @@ var routes = require('./app/routes');
 app.keys = ['TXPrice', 'DoNode'];
 
 app.use(staticServe('./app/public'));
+app.use(staticServe('./app/bower_components'));
+app.use(staticServe('./app/views'));
 render(app, {
     root: './app/views',
     layout: 'layout',
@@ -27,6 +29,7 @@ app.use(mdKoa.Logger());
 app.use(mdKoa.NotFound());
 
 // response
+app.use(routes.root);
 app.use(routes.users);
 
 module.exports = app;

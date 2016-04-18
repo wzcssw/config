@@ -1,13 +1,25 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app="myApp">
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/angular/angular.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/angular-ui-router/release/angular-ui-router.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/angular-bootstrap/ui-bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/angular-bootstrap/ui-bootstrap-tpls.min.js" type="text/javascript" charset="utf-8"></script>
+
+    <script src="scripts/filters.js" type="text/javascript" charset="utf-8"></script>
+    <script src="scripts/routes.js" type="text/javascript" charset="utf-8"></script>
+    <script src="scripts/directives.js" type="text/javascript" charset="utf-8"></script>
+    <script src="scripts/services.js" type="text/javascript" charset="utf-8"></script>
+    <script src="scripts/controllers.js" type="text/javascript" charset="utf-8"></script>
+
+    <script src="scripts/app.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
-<div class="container">
-    <h3>koa ejs</h3>
-    <%- body %>
-</div>
+<div ui-view></div>
 </body>
 </html>
