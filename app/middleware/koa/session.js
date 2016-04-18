@@ -1,4 +1,4 @@
-var redis = require('../../app/proxy').reids;
+var redis = require('../../common').reids;
 function Session(){
     "use strict";
     return function *(next){

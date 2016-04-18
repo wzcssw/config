@@ -1,4 +1,4 @@
-var rdb = require('../../middleware/db').redis;
+var rdb = require('../middleware/db').redis;
 
 var getUserByUid = function (uid, cb){
     "use strict";

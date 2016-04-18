@@ -1,7 +1,7 @@
 var app = require('koa')();
 var render = require('koa-ejs');
 var staticServe = require('koa-static');
-var mdKoa =require('./middleware/koa');
+var mdKoa =require('./app/middleware/koa');
 var controllers = require('./app/controllers');
 
 app.keys = ['TXPrice', 'DoNode'];
