@@ -3,7 +3,7 @@ routes.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 	console.log('111');
     $stateProvider.state('test', {
         url:'/test',
-        templateUrl:'test.html',
+        templateUrl:'templates/test.html',
         controller:'testController'
     });
      $urlRouterProvider.otherwise('/test');
