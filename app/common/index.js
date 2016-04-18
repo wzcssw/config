@@ -1,1 +1,1 @@
-module.exports.reids = require('./redis');
+module.exports.session = require('./session');
