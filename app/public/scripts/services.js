@@ -44,54 +44,15 @@ services.factory('httpBase', ['$http', 'handleHttpError', function($http, handle
         get: function(paramsObj){
             paramsObj.method = "GET";
             this.request(paramsObj);
-
-            //$http({
-            //    method:'GET',
-            //    url: paramsObj.url,
-            //    params: paramsObj.params
-            //}).success(function(result,status,headers,config){
-            //    var handleResult = {result: result,status: status,headers: headers,config:config, paramsObj:paramsObj};
-            //    if(handleHttpError.deal_app_error(handleResult)){
-            //        paramsObj["successDo"] && paramsObj["successDo"](handleResult);
-            //    }
-            //}).error(function(result,status,headers,config){
-            //    handleHttpError.deal_network_error({result: result,status: status,headers: headers,config:config, paramsObj:paramsObj});
-            //})
         },
 
         post: function(paramsObj, url, params, successFunc, errorFunc, alwaysFunc){
             paramsObj.method = "POST";
             this.request(paramsObj);
-
-            //$http({
-            //    method:'POST',
-            //    url: paramsObj.url,
-            //    data: paramsObj.params
-            //}).success(function(result){
-            //    var handleResult = {result: result,status: status,headers: headers,config:config, paramsObj:paramsObj};
-            //    if(handleHttpError.deal_app_error(handleResult)){
-            //        paramsObj["successDo"] && paramsObj["successDo"](handleResult);
-            //    }
-            //}).error(function(result,status,headers,config){
-            //    handleHttpError.deal_network_error({result: result,status: status,headers: headers,config:config, paramsObj:paramsObj});
-            //})
         },
         put: function(paramsObj){
             paramsObj.method = "PUT";
             this.request(paramsObj);
-
-            //$http({
-            //    method:'PUT',
-            //    url: paramsObj.url,
-            //    data: paramsObj.params
-            //}).success(function(result){
-            //    var handleResult = {result: result,status: status,headers: headers,config:config, paramsObj:paramsObj};
-            //    if(handleHttpError.deal_app_error(handleResult)){
-            //        paramsObj["successDo"] && paramsObj["successDo"](handleResult);
-            //    }
-            //}).error(function(result,status,headers,config){
-            //    handleHttpError.deal_network_error({result: result,status: status,headers: headers,config:config, paramsObj:paramsObj});
-            //})
         }
     }
 }]);
