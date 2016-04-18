@@ -2,7 +2,7 @@ var app = require('koa')();
 var render = require('koa-ejs');
 var staticServe = require('koa-static');
 var mdKoa =require('./app/middleware/koa');
-var controllers = require('./app/controllers');
+var routes = require('./app/routes');
 
 app.keys = ['TXPrice', 'DoNode'];
 
@@ -27,7 +27,7 @@ app.use(mdKoa.Logger());
 app.use(mdKoa.NotFound());
 
 // response
-app.use(controllers.users);
+app.use(routes.users);
 
 module.exports = app;
 if (!module.parent) {

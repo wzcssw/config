@@ -1,4 +1,4 @@
-module.exports.users = require('./users').routes();
+exports.users = require('./users');
 
 
 
