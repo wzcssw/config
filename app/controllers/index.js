@@ -1,4 +1,4 @@
-exports.users = require('./users');
+exports.userRoutes = require('./users');
 
 
 var router = require('koa-router')();
@@ -8,4 +8,4 @@ router.get('/', function *(){
     yield this.render('/templates/index');
 });
 
-exports.root = router;
+exports.rootRoutes = router.routes();

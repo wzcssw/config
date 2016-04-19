@@ -7,4 +7,4 @@ router.get('/', function *(){
     yield this.render('users/test');
 });
 
-module.exports = router;
+module.exports = router.routes();
