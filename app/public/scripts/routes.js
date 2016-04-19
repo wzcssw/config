@@ -5,6 +5,10 @@ routes.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
         url:'/test',
         templateUrl:'templates/test.html',
         controller:'testController'
+    }).state('login', {
+        url:'/login',
+        templateUrl:'templates/login.html',
+        controller:'loginController'
     });
-     $urlRouterProvider.otherwise('/test');
+     $urlRouterProvider.otherwise('/login');
 }]);

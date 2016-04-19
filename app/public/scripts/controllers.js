@@ -20,3 +20,7 @@ controllers.controller('testController', ['$scope', 'orderHttp', function($scope
 		console.log(errorObj);
 	})
 }]);
+
+controllers.controller('loginController', ['$scope', function($scope){
+
+}]);
