@@ -5,7 +5,6 @@ services.factory("handleHttpError", function(){
     return {
         deal_app_error: function(params) {
             if (!params.result || !params.result.success) {
-                console.log(params.result || params.params.result.msg);
                 params && params["paramsObj"] && (params["error_code"] = "app_error") && params["paramsObj"]["errorDo"] && params["paramsObj"]["errorDo"](params);
                 return false;
             }
@@ -19,7 +18,7 @@ services.factory("handleHttpError", function(){
     }
 });
 
-// paramsObj {url: '/', params:{a:1, b:1}, successDo:function(handleResult), errorDo:(handleResult)   }
+// paramsObj {url: '/', params:{a:1, b:1}, successDo:function(handleResult), errorDo:(handleResult), alwaysDo:(isError, handleResult)}
 services.factory('httpBase', ['$http', 'handleHttpError', function($http, handleHttpError){
     return{
         request: function(paramsObj){
@@ -35,18 +34,20 @@ services.factory('httpBase', ['$http', 'handleHttpError', function($http, handle
                 if(handleHttpError.deal_app_error(handleResult)){
                     paramsObj["successDo"] && paramsObj["successDo"](handleResult);
                 }
+                paramsObj["alwaysDo"] && paramsObj["alwaysDo"](false, handleResult);
             }).error(function(result,status,headers,config){
-                handleHttpError.deal_network_error({result: result,status: status,headers: headers,config:config, paramsObj:paramsObj});
+                var handleResult = {result: result,status: status,headers: headers,config:config, paramsObj:paramsObj};
+                handleHttpError.deal_network_error(handleResult);
+                paramsObj["alwaysDo"] && paramsObj["alwaysDo"](handleResult, true);
             })
         },
-
 
         get: function(paramsObj){
             paramsObj.method = "GET";
             this.request(paramsObj);
         },
 
-        post: function(paramsObj, url, params, successFunc, errorFunc, alwaysFunc){
+        post: function(paramsObj){
             paramsObj.method = "POST";
             this.request(paramsObj);
         },
@@ -68,12 +69,13 @@ services.factory('userHttp', ['httpBase', function(httpBase){
                 errorDo: errorDo
             });
         },
-        register: function(params, successDo, errorDo){
+        register: function(params, successDo, errorDo, alwaysDo){
             httpBase.post({
                 url: '/api/users/register',
                 params: params,
                 successDo: successDo,
-                errorDo: errorDo
+                errorDo: errorDo,
+                alwaysDo: alwaysDo
             });
         }
     }
