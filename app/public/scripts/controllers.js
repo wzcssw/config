@@ -24,3 +24,14 @@ controllers.controller('testController', ['$scope', 'orderHttp', function($scope
 controllers.controller('loginController', ['$scope', function($scope){
 
 }]);
+
+controllers.controller('registerController', ['$scope', 'userHttp', function($scope, userHttp){
+	$scope.self = $scope;
+    $scope.register = function(){
+		"use strict";
+		userHttp.register({username: $scope.username, password: $scope.password}, function (data) {
+			var result = data.result;
+			console.log(data);
+		});
+	}
+}]);

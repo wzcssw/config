@@ -1,13 +1,17 @@
 var app = require('koa')();
 var render = require('koa-ejs');
-var staticServe = require('koa-static');
+var bodyParser = require('koa-bodyparser');
+    var staticServe = require('koa-static');
 var mdKoa =require('./app/middleware/koa');
 
 app.keys = ['TXPrice', 'DoNode'];
 
+// 静态文件目录
 app.use(staticServe('./app/public'));
 app.use(staticServe('./app/bower_components'));
 app.use(staticServe('./app/views'));
+// 处理post参数到app(this.request.body)中
+app.use(bodyParser());
 render(app, {
     root: './app/views',
     layout: 'layout',

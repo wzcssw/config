@@ -10,7 +10,7 @@ router.get('/login', function *(){
 
 router.post('/register', function *(){
     "use strict";
-    console.log('register...');
+    console.log(this.request.body);
     this.body = {success: true};
 });
 

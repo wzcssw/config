@@ -57,12 +57,20 @@ services.factory('httpBase', ['$http', 'handleHttpError', function($http, handle
     }
 }]);
 
-// custom orderHttp demo
-services.factory('orderHttp', ['httpBase', function(httpBase){
+// custom userHttp demo
+services.factory('userHttp', ['httpBase', function(httpBase){
     return {
-        get_test: function(params, successDo, errorDo){
+        login: function(params, successDo, errorDo){
             httpBase.get({
-                url: '/api/orders/list',
+                url: '/api/users/login',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            });
+        },
+        register: function(params, successDo, errorDo){
+            httpBase.post({
+                url: '/api/users/register',
                 params: params,
                 successDo: successDo,
                 errorDo: errorDo

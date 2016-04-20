@@ -9,6 +9,10 @@ routes.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
         url:'/login',
         templateUrl:'templates/login.html',
         controller:'loginController'
+    }).state('register', {
+        url:'/register',
+        templateUrl:'templates/register.html',
+        controller:'registerController'
     });
      $urlRouterProvider.otherwise('/login');
 }]);
