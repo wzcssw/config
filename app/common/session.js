@@ -41,7 +41,7 @@ var save = function(user, cb){
             // 删除原来的用户创建新的,保证每次save只保留一个新创建的用户
             rdb.del('session:uid:' + user.uname, function(err){
                 if (err) return cb(err);
-                rdb.del('session:user:uid', function(err){
+                rdb.del('session:user:' + uid, function(err){
                     if (err) return cb(err);
                     createNew(user, cb);
                 });
