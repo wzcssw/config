@@ -31,10 +31,12 @@ services.factory('httpBase', ['$http', 'handleHttpError', function($http, handle
 
             $http(requestObj).success(function(result,status,headers,config){
                 var handleResult = {result: result,status: status,headers: headers,config:config, paramsObj:paramsObj};
+                var isErr = true;
                 if(handleHttpError.deal_app_error(handleResult)){
+                    isErr = false;
                     paramsObj["successDo"] && paramsObj["successDo"](handleResult);
                 }
-                paramsObj["alwaysDo"] && paramsObj["alwaysDo"](false, handleResult);
+                paramsObj["alwaysDo"] && paramsObj["alwaysDo"](isErr, handleResult);
             }).error(function(result,status,headers,config){
                 var handleResult = {result: result,status: status,headers: headers,config:config, paramsObj:paramsObj};
                 handleHttpError.deal_network_error(handleResult);
@@ -61,12 +63,13 @@ services.factory('httpBase', ['$http', 'handleHttpError', function($http, handle
 // custom userHttp demo
 services.factory('userHttp', ['httpBase', function(httpBase){
     return {
-        login: function(params, successDo, errorDo){
+        login: function(params, successDo, errorDo, alwaysDo){
             httpBase.get({
                 url: '/api/users/login',
                 params: params,
                 successDo: successDo,
-                errorDo: errorDo
+                errorDo: errorDo,
+                alwaysDo: alwaysDo
             });
         },
         register: function(params, successDo, errorDo, alwaysDo){
