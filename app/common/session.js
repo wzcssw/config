@@ -30,7 +30,7 @@ var save = function(user, cb){
     user.uname = uname;
 
     getUidByUname(uname, function(err, uid){
-        if (err) cb(err);
+        if (err) return cb(err);
         if (uid){
             // 若想多点登录，直接使用原来的uid
             //user.uid = uid;
@@ -41,7 +41,7 @@ var save = function(user, cb){
             // 删除原来的用户创建新的,保证每次save只保留一个新创建的用户
             rdb.del('session:uid:' + user.uname, function(err){
                 if (err) return cb(err);
-                rdb.del('session:user:' + uid, function(err){
+                rdb.del('session:user:uid', function(err){
                     if (err) return cb(err);
                     createNew(user, cb);
                 });
