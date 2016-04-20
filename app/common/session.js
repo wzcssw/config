@@ -64,12 +64,14 @@ function createNew(user, cb){
 
 function update(user, cb){
     var uid = user.uid;
-    console.log(user);
+    var uname = user.uname;
     rdb.set('session:uid:' + user.uname, uid, function(err){
         if (err) return cb(err);
         delete user.uid;
         delete user.uname;
         rdb.hmset('session:user:' + uid, user, function(err, user){
+            user.uid = uid;
+            user.uname = uname;
             cb(err, user);
         });
     });
