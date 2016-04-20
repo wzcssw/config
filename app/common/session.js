@@ -69,7 +69,7 @@ function update(user, cb){
         if (err) return cb(err);
         delete user.uid;
         delete user.uname;
-        rdb.hmset('session:user:' + uid, user, function(err, user){
+        rdb.hmset('session:user:' + uid, user, function(err){
             user.uid = uid;
             user.uname = uname;
             cb(err, user);

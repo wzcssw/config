@@ -17,11 +17,13 @@ router.post('/register', function *(){
     yield new Promise((resolve, reject) => {
         session.save({username: params.username}, function(err, user){
             if (err){
+                console.log(err);
                 reject();
                 return self.body = {success: false};
             }
+            console.log(user);
             self.cookies.set("uid", user.uid, {signed: true});
-            self.body = {success: true};
+            self.body = {success: true, user: user};
             resolve();
         });
     });
