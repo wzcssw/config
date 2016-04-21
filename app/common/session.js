@@ -1,4 +1,5 @@
 var rdb = require('../middleware/db').redis;
+var config = {};
 
 var getUserByUid = function (uid, cb){
     "use strict";
@@ -26,8 +27,12 @@ function getUidByUname(uname, cb){
 var save = function(user, cb){
     "use strict";
     // 这里可以自定义uname, 提供修改接口
-    var uname = user.username;
+    var unameShadow = config.unameShadow;
+    var uname = user[unameShadow];
     user.uname = uname;
+    if (!uname){
+        return cb(new Error('uname映射字段' + config.unameShadow +'不在对象中, 如果需要映射其他字段请调用本mudule的config方法进行设置unameShadow的值'));
+    }
 
     getUidByUname(uname, function(err, uid){
         if (err) return cb(err);
@@ -41,7 +46,7 @@ var save = function(user, cb){
             // 删除原来的用户创建新的,保证每次save只保留一个新创建的用户
             rdb.del('session:uid:' + user.uname, function(err){
                 if (err) return cb(err);
-                rdb.del('session:user:uid', function(err){
+                rdb.del('session:user:' + uid, function(err){
                     if (err) return cb(err);
                     createNew(user, cb);
                 });
@@ -60,7 +65,7 @@ function createNew(user, cb){
         user.uid = uid;
         update(user, cb);
     });
-};
+}
 
 function update(user, cb){
     var uid = user.uid;
@@ -77,6 +82,15 @@ function update(user, cb){
     });
 }
 
+
+function configOpt(opt){
+    opt = opt || {unameShadow: 'username'};
+    "use strict";
+    // 默认映射username字段作为uname的值(即可以通过username查询到user通过:getUserByUid)
+    config.unameShadow = opt.unameShadow || 'username'
+}
+configOpt();
+exports.config = configOpt;
 exports.save = save;
 exports.getUserByUid = getUserByUid;
 exports.getUserByUname = getUserByUname;
