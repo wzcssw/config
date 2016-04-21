@@ -3,10 +3,25 @@ var router = require('koa-router')({
     prefix: '/api/users'
 });
 
-router.get('/login', function *(){
+router.post('/login', function *(){
     "use strict";
-    console.log('login...');
-    this.body = {success: true};
+    var params = this.request.body;
+    var self = this;
+
+    yield new Promise((resolve, reject) => {
+        session.getUserByUname(params.username, function(err, user){
+            if (err){
+                self.body = {success: false};
+                reject(err);
+            }
+            resolve(user);
+        });
+    }).then(function(user){
+        console.log(user);
+        self.cookies.set("uid", user.uid, {signed: true});
+        self.body = {success: true};
+    });
+
 });
 
 router.post('/register', function *(){
@@ -17,15 +32,14 @@ router.post('/register', function *(){
     yield new Promise((resolve, reject) => {
         session.save({username: params.username}, function(err, user){
             if (err){
-                console.log(err);
-                reject();
-                return self.body = {success: false};
+                self.body = {success: false};
+                reject(err);
             }
-            console.log(user);
-            self.cookies.set("uid", user.uid, {signed: true});
-            self.body = {success: true, user: user};
-            resolve();
+            resolve(user);
         });
+    }).then(function(user){
+        console.log(user);
+        self.body = {success: true, user: user};
     });
 
 });

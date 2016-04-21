@@ -64,7 +64,7 @@ services.factory('httpBase', ['$http', 'handleHttpError', function($http, handle
 services.factory('userHttp', ['httpBase', function(httpBase){
     return {
         login: function(params, successDo, errorDo, alwaysDo){
-            httpBase.get({
+            httpBase.post({
                 url: '/api/users/login',
                 params: params,
                 successDo: successDo,

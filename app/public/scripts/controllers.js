@@ -21,8 +21,14 @@ controllers.controller('testController', ['$scope', 'orderHttp', function($scope
 	})
 }]);
 
-controllers.controller('loginController', ['$scope', function($scope){
-
+controllers.controller('loginController', ['$scope', 'userHttp', function($scope, userHttp){
+	$scope.self = $scope;
+	$scope.login = function(){
+		"use strict";
+		userHttp.login({username: $scope.username, password: $scope.password}, function (data) {
+			console.log(data);
+		});
+	}
 }]);
 
 controllers.controller('registerController', ['$scope', 'userHttp', function($scope, userHttp){
