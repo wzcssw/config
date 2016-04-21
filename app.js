@@ -1,7 +1,7 @@
 var app = require('koa')();
 var render = require('koa-ejs');
 var bodyParser = require('koa-bodyparser');
-    var staticServe = require('koa-static');
+var staticServe = require('koa-static');
 var mdKoa =require('./app/middleware/koa');
 
 app.keys = ['TXPrice', 'DoNode'];
