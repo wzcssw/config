@@ -8,7 +8,6 @@ var getUserByUid = function (uid, cb){
     });
 };
 
-
 var getUserByUname = function(uname, cb){
     "use strict";
     getUidByUname(uname, function(err, uid){
@@ -22,7 +21,6 @@ function getUidByUname(uname, cb){
         cb(err, uid);
     });
 }
-
 
 var save = function(user, cb){
     "use strict";
@@ -81,7 +79,6 @@ function update(user, cb){
         });
     });
 }
-
 
 function configOpt(opt){
     opt = opt || {unameShadow: 'username'};
