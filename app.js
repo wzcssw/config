@@ -8,7 +8,7 @@ app.keys = ['TXPrice', 'DoNode'];
 
 // 静态文件目录
 app.use(staticServe('./app/public'));
-app.use(staticServe('./app/bower_components'));
+app.use(staticServe('./bower_components'));
 app.use(staticServe('./app/views'));
 // 处理post参数到app(this.request.body)中
 app.use(bodyParser());
