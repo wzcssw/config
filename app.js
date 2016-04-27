@@ -5,7 +5,6 @@ var staticServe = require('koa-static');
 var mdKoa =require('./app/middleware/koa');
 
 app.keys = ['TXPrice', 'DoNode'];
-
 // 静态文件目录
 app.use(staticServe('./app/public'));
 app.use(staticServe('./app/bower_components'));

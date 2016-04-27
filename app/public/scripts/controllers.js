@@ -41,3 +41,8 @@ controllers.controller('registerController', ['$scope', 'userHttp', function($sc
 		});
 	}
 }]);
+
+controllers.controller('photoController', ['$scope', 'userHttp', function($scope, userHttp){
+	$scope.self = $scope;
+}]);
+
