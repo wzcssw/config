@@ -2,6 +2,7 @@ var app = require('koa')();
 var render = require('koa-ejs');
 var bodyParser = require('koa-bodyparser');
 var staticServe = require('koa-static');
+var config = require('./config')();
 var mdKoa =require('./app/middleware/koa');
 
 app.keys = ['TXPrice', 'DoNode'];
@@ -38,5 +39,8 @@ require('./app/api')(app);
 
 module.exports = app;
 if (!module.parent) {
-    app.listen(3000);
+    app.listen(config.port, function(){
+        "use strict";
+        console.log('app has run at port of ' + config.port );
+    });
 }
