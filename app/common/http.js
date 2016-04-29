@@ -8,7 +8,7 @@ var apiConfig = config['api'];
 
 var commonParams = {
     app_key: apiConfig.key,
-    access_token: apiConfig.token,
+    app_token: apiConfig.token,
     timestamp: '',
     sign: ''
 };
@@ -17,16 +17,25 @@ function request(url, method, params){
     "use strict";
     return new Promise((resolve, reject) => {
         method = method || 'GET';
-
         _.extend(params, commonParams);
         params.timestamp = moment().subtract(100, 'seconds').format('YYYY-MM-DD HH:mm:ss');
         params.sign = sign(params);
+        console.log(params);
         var postData = querystring.stringify(params);
+
+        var headers = {};
+        if(method.match(/get/i)){
+            url = url + '?' + postData;
+            console.log(url);
+        }else {
+            headers["Content-Type"] = 'application/x-www-form-urlencoded; charset=UTF-8';
+            headers["Content-Length"] = postData.length;
+        }
 
         var options = {
             hostname: apiConfig.host,
             path: url,
-            port: 80,
+            port: apiConfig.port,
             method: method,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -42,6 +51,7 @@ function request(url, method, params){
             });
 
             res.on('end', function(){
+                console.log('----', data);
                 resolve(data);
             });
         });
@@ -63,5 +73,13 @@ exports.post = function (url, params){
             password: '123456'
         };
     return request(url, 'POST', params);
+};
+
+exports.get = function(url, params){
+    "use strict";
+    var params = params || {
+            fields: 'id,name,pinyin,level,city_id,lng,lat,address,province_id'
+        };
+    return request(url, 'GET', params);
 };
 

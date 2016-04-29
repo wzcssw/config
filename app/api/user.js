@@ -23,7 +23,8 @@ router.post('/login', function *(){
     //});
 
     var http = require('../common').http;
-    var data = yield http.post('/v1/login');
+    //var data = yield http.post('/v1/login');
+    var data = yield http.get('/v1/config_hospital/list');
     this.body = data;
 
 });
