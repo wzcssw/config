@@ -9,7 +9,6 @@ module.exports = function(params){
         paramsString += (key + params[key])
     });
     paramsString += params.app_token;
-    console.log(paramsString);
     return md5Encryption(paramsString).toUpperCase();
 };
 
