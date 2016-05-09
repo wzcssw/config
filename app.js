@@ -4,6 +4,7 @@ var bodyParser = require('koa-bodyparser');
 var staticServe = require('koa-static');
 var config = require('./config')();
 var mdKoa =require('./app/middleware/koa');
+var common = require('./app/common');
 
 app.keys = ['TXPrice', 'DoNode'];
 
