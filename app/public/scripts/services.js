@@ -34,7 +34,7 @@ services.factory('httpBase', ['$http', 'handleHttpError', function($http, handle
                 var isErr = true;
                 if(handleHttpError.deal_app_error(handleResult)){
                     isErr = false;
-                    paramsObj["successDo"] && paramsObj["successDo"](handleResult);
+                    paramsObj["successDo"] && paramsObj["successDo"](handleResult["result"],handleResult);
                 }
                 paramsObj["alwaysDo"] && paramsObj["alwaysDo"](isErr, handleResult);
             }).error(function(result,status,headers,config){
