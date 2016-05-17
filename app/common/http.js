@@ -49,11 +49,20 @@ function request(url, method, params){
             });
 
             res.on('end', function(){
-                resolve(JSON.parse(data));
+                var dataParse = JSON.parse(data);
+                if (dataParse["error"]){
+                    var err = new Error(dataParse["error"]);
+                    err.msg = dataParse["error"];
+                    err.status = res.statusCode;
+                    reject(err);
+                }else {
+                    resolve(dataParse);
+                }
             });
         });
 
         req.on('error', function (e) {
+            console.log('error', e);
             reject(e);
         });
 

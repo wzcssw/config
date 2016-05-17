@@ -31,7 +31,7 @@ render(app, {
  * error
  */
 app.on('error', function(err,ctx){
-    console.log('app--err', err);
+    console.log('app--err', JSON.stringify(err));
 });
 
 /**
