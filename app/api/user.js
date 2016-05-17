@@ -6,23 +6,7 @@ var router = require('koa-router')({
 router.post('/login', function *(){
     "use strict";
     var params = this.request.body;
-    console.log(params);
     var self = this;
-    //yield new Promise((resolve, reject) => {
-    //    session.getUserByUname(params.username, function(err, user){
-    //        if (err){
-    //            self.body = {success: false};
-    //            reject(err);
-    //        }
-    //        resolve(user);
-    //    });
-    //}).then(function(user){
-    //    console.log('====');
-    //    console.log(user);
-    //    self.cookies.set("uid", user.uid, {signed: true});
-    //    self.body = {success: true};
-    //});
-
     var http = require('../common').http;
     var access = yield http.post('/v1/login', {
         login_type: 'user',
@@ -53,17 +37,26 @@ router.post('/login', function *(){
             resolve(user);
         });
     }).then(function(user){
-        console.log(user);
         self.cookies.set("uid", user.uid, {signed: true});
         self.body = {success: true, user: user};
     });
 
 });
 
-router.post('/register', function *(){
+router.post('/logout', function *(){
     "use strict";
-    console.log(this.currentUser);
-    this.body = {success: true, user: '11'};
+    this.cookies.set("uid", null, {signed: true});
+    this.body = {success: true};
+});
+
+router.get('/userInfo', function *(){
+    "use strict";
+    var user = this.currentUser;
+    if (user){
+        this.body = {success: true, user: user};
+    }else {
+        this.body = {success: false, msg: '未登陆'};
+    }
 });
 
 module.exports = router.routes();

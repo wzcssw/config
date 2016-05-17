@@ -72,14 +72,31 @@ services.factory('userHttp', ['httpBase', function(httpBase){
                 alwaysDo: alwaysDo
             });
         },
-        register: function(params, successDo, errorDo, alwaysDo){
+        logout: function(successDo, errorDo){
+            "use strict";
             httpBase.post({
-                url: '/api/users/register',
-                params: params,
+                url: '/api/users/logout',
                 successDo: successDo,
-                errorDo: errorDo,
-                alwaysDo: alwaysDo
+                errorDo: errorDo
             });
+        },
+        getUser: function(cb){
+            "use strict";
+            var self = this;
+            if(self.user){
+                cb(self.user);
+            }else {
+                httpBase.get({
+                    url: '/api/users/userInfo',
+                    successDo: function(data){
+                        self.user = data.user;
+                        cb(self.user)
+                    },
+                    errorDo: function(){
+                        cb();
+                    }
+                });
+            }
         }
     }
 }]);
