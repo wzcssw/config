@@ -97,6 +97,17 @@ services.factory('userHttp', ['httpBase', function(httpBase){
                     }
                 });
             }
+        },
+        getHospital: function(params, successDo, errorDo, alwaysDo){
+          "use strict";
+          var self = this;
+          httpBase.get({
+            url: '/api/hospitals/hospitals',
+            params: params,
+            successDo: successDo,
+            errorDo: errorDo,
+            alwaysDo: alwaysDo
+          });
         }
     }
 }]);

@@ -31,4 +31,13 @@ controllers.controller('mainController', ['$scope', 'userHttp', function($scope,
 	}
 }]);
 
+controllers.controller('hospitalController', ['$scope', 'userHttp', function($scope, userHttp){
+	$scope.self = $scope;
+	"use strict";
+	userHttp.getHospital({page: 2}, function (data){
+		$scope.hospitals = data.hospitals;
+		console.log($scope.hospitals);
+	});
+}]);
+
 
