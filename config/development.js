@@ -7,8 +7,8 @@ module.exports = {
     //    key: 's0JLjZ'
     //},
     api: {
-        host: '127.0.0.1',
-        port: 3000,
+        host: 'apitest.txzs.org',
+        port: 80,
         token: "2BbasqQg75g",
         key: 's0JLjZ'
     }

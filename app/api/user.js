@@ -6,6 +6,7 @@ var router = require('koa-router')({
 router.post('/login', function *(){
     "use strict";
     var params = this.request.body;
+    console.log(params);
     var self = this;
     var http = require('../common').http;
     var access = yield http.post('/v1/login', {
