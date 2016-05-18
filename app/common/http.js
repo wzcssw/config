@@ -20,13 +20,11 @@ function request(url, method, params){
         _.extend(params, commonParams);
         params.timestamp = moment().subtract(100, 'seconds').format('YYYY-MM-DD HH:mm:ss');
         params.sign = sign(params);
-        console.log(params);
         var postData = querystring.stringify(params);
 
         var headers = {};
         if(method.match(/get/i)){
             url = url + '?' + postData;
-            console.log(url);
         }else {
             headers["Content-Type"] = 'application/x-www-form-urlencoded; charset=UTF-8';
             headers["Content-Length"] = postData.length;
@@ -51,12 +49,20 @@ function request(url, method, params){
             });
 
             res.on('end', function(){
-                console.log('----', data);
-                resolve(data);
+                var dataParse = JSON.parse(data);
+                if (dataParse["error"]){
+                    var err = new Error(dataParse["error"]);
+                    err.msg = dataParse["error"];
+                    err.status = res.statusCode;
+                    reject(err);
+                }else {
+                    resolve(dataParse);
+                }
             });
         });
 
         req.on('error', function (e) {
+            console.log('error', e);
             reject(e);
         });
 
@@ -67,19 +73,14 @@ function request(url, method, params){
 
 exports.post = function (url, params){
     "use strict";
-    var params = params || {
-            login_type: 'user',
-            login: 'wangsen',
-            password: '123456'
-        };
     return request(url, 'POST', params);
 };
 
 exports.get = function(url, params){
     "use strict";
-    var params = params || {
-            fields: 'id,name,pinyin,level,city_id,lng,lat,address,province_id'
-        };
+    //var params = params || {
+    //        fields: 'id,name,pinyin,level,city_id,lng,lat,address,province_id'
+    //    };
     return request(url, 'GET', params);
 };
 

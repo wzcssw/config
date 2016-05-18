@@ -1,10 +1,9 @@
 var routes = angular.module('routes', ['ui.router']);
 routes.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
-	console.log('111');
-    $stateProvider.state('test', {
-        url:'/test',
-        templateUrl:'templates/test.html',
-        controller:'testController'
+    $stateProvider.state('main', {
+        url:'/main',
+        templateUrl:'templates/main.html',
+        controller:'mainController'
     }).state('login', {
         url:'/login',
         templateUrl:'templates/login.html',
@@ -18,5 +17,5 @@ routes.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
         templateUrl:'templates/photo.html',
         controller:'photoController'
     });
-     $urlRouterProvider.otherwise('/login');
+    $urlRouterProvider.otherwise('/login');
 }]);

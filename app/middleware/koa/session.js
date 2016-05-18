@@ -2,25 +2,21 @@ var session = require('../../common').session;
 function Session(){
     "use strict";
     return function *(next){
-        //var session = this.cookies.get("session", {signed: true});
-        //var sessionCookie = this.cookies.get("session");
-        //if (sessionCookie){
-        //    sessionCookie = new Buffer(sessionCookie, 'base64');
-        //    sessionCookie = sessionCookie.toString();
-        //    sessionCookie = JSON.parse(sessionCookie);
-        //    console.log(sessionCookie.uid);
-        //}
-        //
-        //session.save({id: 111, username: 'wuyuedefeng', name: 'wangsen'}, function(err, user){
-        //    if (err){
-        //        return console.log(err);
-        //    }
-        //    console.log(user);
-        //});
-
-
-
-
+        var uid = this.cookies.get("uid", {signed: true});
+        var self = this;
+        if (uid){
+            yield new Promise((resolve, reject) => {
+                session.getUserByUid(uid, function(err, user){
+                    if (err){
+                        self.body = {success: false};
+                        reject(err);
+                    }
+                    resolve(user);
+                });
+            }).then(function(user){
+                self.currentUser = user;
+            });
+        }
         yield  next;
     }
 }

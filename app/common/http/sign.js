@@ -1,5 +1,4 @@
 var crypto = require('crypto');
-var md5 = crypto.createHash('md5');
 module.exports = function(params){
     "use strict";
     var keys = Object.keys(params).sort();
@@ -14,6 +13,7 @@ module.exports = function(params){
 
 function md5Encryption(string){
     "use strict";
+    var md5 = crypto.createHash('md5');
     md5.update(string);
     return md5.digest('hex');
 }

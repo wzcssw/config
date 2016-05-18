@@ -4,8 +4,17 @@ var bodyParser = require('koa-bodyparser');
 var staticServe = require('koa-static');
 var config = require('./config')();
 var mdKoa =require('./app/middleware/koa');
+var raven = require('raven');
 
 app.keys = ['TXPrice', 'DoNode'];
+
+
+var sentry = new raven.Client('http://fc9cac2d0ee64de386b0c9ae1b09d6eb:49677cc8d42040e8ad1a586e91a377e0@101.201.210.99:9000/4');
+app.on('error', function(err) {
+    sentry.captureException(err);
+});
+
+
 // 静态文件目录
 app.use(staticServe('./app/public'));
 app.use(staticServe('./bower_components'));
@@ -24,7 +33,7 @@ render(app, {
  * error
  */
 app.on('error', function(err,ctx){
-    console.log('app--err', err);
+    console.log('app--err', JSON.stringify(err));
 });
 
 /**
@@ -52,7 +61,7 @@ module.exports = app;
 if (!module.parent) {
     app.listen(config.port, function(){
         "use strict";
-        console.log('app has run at port of ' + config.port );
+        console.log('app has run at port of' + config.port );
     });
 }
 
