@@ -1,4 +1,6 @@
-var session = require('../common').session;
+var common = require('../common');
+var session = common.session;
+var http = common.http;
 var router = require('koa-router')({
     prefix: '/api/users'
 });
@@ -8,7 +10,6 @@ router.post('/login', function *(){
     var params = this.request.body;
     console.log(params);
     var self = this;
-    var http = require('../common').http;
     var access = yield http.post('/v1/login', {
         login_type: 'user',
         login: params.username,
