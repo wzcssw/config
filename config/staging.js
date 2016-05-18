@@ -1,5 +1,8 @@
 module.exports = {
     port:  3000,
+    winston: {
+        level: 'verbose'
+    },
     api: {
         host: 'http://apitest.txzs.org',
         token: "2BbasqQg75g",
