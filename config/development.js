@@ -1,5 +1,8 @@
 module.exports = {
     port:  3333,
+    winston: {
+        level: 'debug'
+    },
     //api: {
     //    host: '127.0.0.1',
     //    port: 3000,

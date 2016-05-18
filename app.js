@@ -30,21 +30,21 @@ render(app, {
 });
 
 /**
+ * logger
+ */
+app.use(mdKoa.Logger());
+
+/**
  * error
  */
 app.on('error', function(err,ctx){
-    console.log('app--err', JSON.stringify(err));
+    ctx.logger.error(err)
 });
 
 /**
  * session
  */
 app.use(mdKoa.Session());
-
-/**
- * logger
- */
-app.use(mdKoa.Logger());
 
 /**
  * 404

@@ -59,11 +59,15 @@ function request(url, method, params){
                     resolve(dataParse);
                 }
             });
+
+            res.on('error', function(error) {
+                console.log(error);
+                reject(error);
+            });
         });
 
-        req.on('error', function (e) {
-            console.log('error', e);
-            reject(e);
+        req.on('error', function (error) {
+            reject(error);
         });
 
         req.write(postData);
