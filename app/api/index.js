@@ -3,6 +3,7 @@ function JoinedApi(app){
     app.use(require('./user.js'));
     app.use(require('./hospitals.js'));
     app.use(require('./projects.js'));
+    app.use(require('./cities.js'));
 }
 
 module.exports = JoinedApi;
