@@ -61,4 +61,3 @@ controllers.controller('createHospitalController', ['$scope', '$state', 'userHtt
   'use strict'; 
 }]);
 
-
