@@ -102,7 +102,7 @@ services.factory('userHttp', ['httpBase', function(httpBase){
           "use strict";
           var self = this;
           httpBase.get({
-            url: '/api/hospitals/hospitals',
+            url: '/api/hospitals',
             params: params,
             successDo: successDo,
             errorDo: errorDo,
