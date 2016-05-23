@@ -8,27 +8,21 @@
     <thead style="text-align:center;display:table-header-group;vertical-align:middle;">
     <tr>
         <th>#</th>
-        <th>医院名称</th>
-        <th>医院等级</th>
-        <th>所在城市</th>
-        <th>所在省份</th>
-        <th>拼音</th>
-        <th>时间</th>
+        <th>项目名称</th>
+        <th>entity</th>
         <th>操作</th>
     </tr>
     </thead>
     <tbody style="text-align: center;display: table-row-group;vertical-align: middle;">
-    <tr ng-repeat="project in self.projects">
-        <!--<td>{{hospital.id}}</td>-->
-        <!--<td>{{hospital.name}}</td>-->
-        <!--<td>{{hospital.level_name}}</td>-->
-        <!--<td>{{hospital.city_id}}</td>-->
-        <!--<td>{{hospital.province_name}}</td>-->
-        <!--<td>{{hospital.pinyin}}</td>-->
-        <!--<td>{{hospital.created_at}}</td>-->
+    <tr ng-repeat="project in projectInfo.projects">
+        <td>{{project.id}}</td>
+        <td>{{project.name}}</td>
+        <td>{{project}}</td>
         <td><a class="btn btn-default btn-success btn-xs color_box" href="#">编辑</a>
             <a class="btn btn-default btn-danger btn-xs color_box" href="#">删除</a>
         </td>
     </tr>
     </tbody>
 </table>
+
+<uib-pagination ng-change="pageChanged()" total-items="projectInfo.total_count" ng-model="projectInfo.current_page" items-per-page=20 max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" rotate="false" first-text="首页" last-text="尾页" previous-text="上一页" next-text="下一页"></uib-pagination>

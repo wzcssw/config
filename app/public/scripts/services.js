@@ -130,3 +130,18 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
         }
     }
 }]);
+
+services.factory('projectHttp', ['httpBase', function(httpBase){
+    return {
+        getProjects: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url: '/api/projects',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo,
+                alwaysDo: alwaysDo
+            });
+        }
+    }
+}]);
