@@ -80,6 +80,10 @@ services.factory('userHttp', ['httpBase', function(httpBase){
                 errorDo: errorDo
             });
         },
+        isLogin: function(){
+            "use strict";
+            return !!($('#userIsLogin').val() == 1);
+        },
         getUser: function(cb){
             "use strict";
             var self = this;

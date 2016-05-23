@@ -10,15 +10,15 @@
 </head>
 <body>
 <% if (locals.user){ %>
+    <input type="number" value="1" id="userIsLogin" hidden>
     <nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
             <a href="/" class="navbar-brand">配置系统</a>
         </div>
         <ul class="nav navbar-nav navbar-left hidden-xs">
-            <li id="nav-posts"><a href="/posts">文章列表</a></li>
-            <li id="nav-starter"><a href="#">新手入门</a></li>
-            <li id="nav-npms"><a href="#">Npms</a></li>
-            <li id="nav-hospitals"><a href="/#/hospitals">医院列表</a></li>
+            <li><a href="/#/hospitals">医院列表</a></li>
+            <li><a href="/#/projects">检查项目/检验项目</a></li>
+            <li><a href="/#/cities">城市管理</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right hidden-xs" style="margin-right: 15px">
             <li class="dropdown">
