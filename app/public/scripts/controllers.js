@@ -30,3 +30,35 @@ controllers.controller('mainController', ['$scope', 'userHttp', function($scope,
 		});
 	}
 }]);
+
+controllers.controller('hospitalController', ['$scope', 'userHttp', '$state', function($scope, userHttp, $state){
+	"use strict";
+	$scope.self = $scope;
+	$scope.maxSize = 5;
+	userHttp.getHospital({},function(data){
+	  $scope.hospitals = JSON.parse(data.hospitals);
+	  $scope.current_page = data.current_page;
+	  $scope.total_count = data.total_count; 
+	  console.log($scope.total_count);
+	});
+	$scope.pageChanged = function(){
+    userHttp.getHospital({page: $scope.current_page},function(data){
+		  $scope.current_page = data.current_page;	  
+      $scope.hospitals = JSON.parse(data.hospitals);
+		});
+	};
+
+  $scope.setPage = function () {
+    $scope.current_page = $('#go_page').val();
+    $scope.pageChanged();
+    $('#go_page').val("");
+  }; 
+
+}]);
+
+controllers.controller('createHospitalController', ['$scope', '$state', 'userHttp', function($scope, $state, userHttp){
+  $scope.self = $scope;
+  'use strict'; 
+}]);
+
+

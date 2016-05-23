@@ -1,0 +1,48 @@
+<div class="title-panel">
+	<h3>医院字典</h3>
+	<div>
+	  <a class="btn btn-default" ng-click="create_hospital()">新增医院</a>
+	  <a href="#" class="btn btn-default">导出</a>
+	</div>
+</div>
+<table class="table table-bordered table-hover valign main">
+  <thead style="text-align:center;display:table-header-group;vertical-align:middle;">
+  	<tr>
+  	  <th>#</th>
+  	  <th>医院名称</th>
+  	  <th>医院等级</th>
+  	  <th>所在城市</th>
+  	  <th>所在省份</th>
+  	  <th>拼音</th>
+  	  <th>时间</th>
+  	  <th>操作</th>	
+  	</tr>
+  </thead>
+  <tbody style="text-align: center;display: table-row-group;vertical-align: middle;">
+  	<tr ng-repeat="hospital in self.hospitals">
+  		<td>{{hospital.id}}</td>
+  		<td>{{hospital.name}}</td>
+  		<td>{{hospital.level_name}}</td>
+  		<td>{{hospital.city_id}}</td>
+  		<td>{{hospital.province_name}}</td>
+  		<td>{{hospital.pinyin}}</td>
+  		<td>{{hospital.created_at}}</td>
+  		<td><a class="btn btn-default btn-success btn-xs color_box" href="#">编辑</a>
+  		<a class="btn btn-default btn-danger btn-xs color_box" href="#">删除</a></td>
+  	</tr>
+  </tbody>
+</table>
+<div class='pagination'>
+  <uib-pagination style="margin-left: 10px;margin-top: -20px;" first-text="首页" last-text="尾页" previous-text="上一页" next-text="下一页" ng-change="pageChanged()" items-per-page=20 total-items="total_count" ng-model="current_page" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false"></uib-pagination>
+  <div style="float: right;position: relative;top: -20px;">
+    跳转到第<input style="width: 40px;" id="go_page" type="text"></input>页
+    <button type="button" class="btn btn-default" ng-click="setPage()">确定</button>
+  </div>
+</div>
+
+<style type="text/css">
+	.title-panel{
+		height: 100px;
+		margin-left:10px;
+	}
+</style>

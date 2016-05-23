@@ -97,6 +97,27 @@ services.factory('userHttp', ['httpBase', function(httpBase){
                     }
                 });
             }
+        },
+        getHospital: function(params, successDo, errorDo, alwaysDo){
+          "use strict";
+          var self = this;
+          httpBase.get({
+            url: '/api/hospitals/hospitals',
+            params: params,
+            successDo: successDo,
+            errorDo: errorDo,
+            alwaysDo: alwaysDo
+          });
+        },
+        createHospital: function(params, successDo, errorDo, alwaysDo){
+          "use strict";
+          var self = this;
+          httpBase.post({
+            url: '/api/hospitals/new_hospital',
+            params: params,
+            successDo: successDo,
+            errorDo: errorDo
+          });
         }
     }
 }]);
