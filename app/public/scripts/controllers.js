@@ -12,7 +12,7 @@ controllers.controller('loginController', ['$scope', 'userHttp', '$state', funct
 	//});
 
 	if (userHttp.isLogin()){
-		$state.go('hospital');
+		$state.go('hospitals');
 		return ;
 	}else {
 		$scope.isShow = true;
