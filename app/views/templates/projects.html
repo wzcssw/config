@@ -1,1 +1,34 @@
-aaa
+<div class="table-operation">
+    <h3>检查项目/检验项目</h3>
+    <div>
+        <a class="btn btn-default" ng-click="create_project()">新增项目</a>
+    </div>
+</div>
+<table class="table table-bordered table-hover valign main">
+    <thead style="text-align:center;display:table-header-group;vertical-align:middle;">
+    <tr>
+        <th>#</th>
+        <th>医院名称</th>
+        <th>医院等级</th>
+        <th>所在城市</th>
+        <th>所在省份</th>
+        <th>拼音</th>
+        <th>时间</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody style="text-align: center;display: table-row-group;vertical-align: middle;">
+    <tr ng-repeat="project in self.projects">
+        <!--<td>{{hospital.id}}</td>-->
+        <!--<td>{{hospital.name}}</td>-->
+        <!--<td>{{hospital.level_name}}</td>-->
+        <!--<td>{{hospital.city_id}}</td>-->
+        <!--<td>{{hospital.province_name}}</td>-->
+        <!--<td>{{hospital.pinyin}}</td>-->
+        <!--<td>{{hospital.created_at}}</td>-->
+        <td><a class="btn btn-default btn-success btn-xs color_box" href="#">编辑</a>
+            <a class="btn btn-default btn-danger btn-xs color_box" href="#">删除</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
