@@ -1,4 +1,5 @@
 var redis = require("redis");
+var winston = require('../../common').winston;
 
 rdb = redis.createClient();
 
@@ -8,7 +9,7 @@ rdb.select(4);
 //错误监听
 rdb.on("error", function (err) {
     throw(err);
-    console.log("Error: " + err);
+    winston.logger.error(err);
 });
 
 module.exports = rdb;
