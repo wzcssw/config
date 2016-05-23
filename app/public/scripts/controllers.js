@@ -31,7 +31,7 @@ controllers.controller('mainController', ['$scope', 'userHttp', function($scope,
 	}
 }]);
 
-controllers.controller('hospitalController', ['$scope', 'userHttp', '$state', function($scope, userHttp, $state){
+controllers.controller('hospitalsController', ['$scope', 'userHttp', '$state', function($scope, userHttp, $state){
 	"use strict";
 	$scope.self = $scope;
 	$scope.maxSize = 5;

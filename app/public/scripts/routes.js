@@ -12,10 +12,10 @@ routes.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
         url:'/register',
         templateUrl:'templates/register.html',
         controller:'registerController'
-    }).state('hospital', {
-        url:'/hospital',
-        templateUrl:'templates/hospital.html',
-        controller:'hospitalController'
+    }).state('hospitals', {
+        url:'/hospitals',
+        templateUrl:'templates/hospitals.html',
+        controller:'hospitalsController'
     });
     $urlRouterProvider.otherwise('/login');
 }]);

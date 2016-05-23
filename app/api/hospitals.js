@@ -3,7 +3,7 @@ var http = common.http;
 var router = require('koa-router')({
     prefix: '/api/hospitals'
 });
-router.get('/hospitals', function*() {
+router.get('/', function*() {
     "use strict";
     var self = this;
     var hospitals;
