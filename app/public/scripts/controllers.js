@@ -68,3 +68,8 @@ controllers.controller('createHospitalController', ['$scope', '$state', 'userHtt
   'use strict'; 
 }]);
 
+controllers.controller('projectsController', ['$scope', '$state', 'userHttp', function($scope, $state, userHttp){
+	$scope.self = $scope;
+	'use strict';
+}]);
+
