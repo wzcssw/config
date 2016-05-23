@@ -108,6 +108,16 @@ services.factory('userHttp', ['httpBase', function(httpBase){
             errorDo: errorDo,
             alwaysDo: alwaysDo
           });
+        },
+        createHospital: function(params, successDo, errorDo, alwaysDo){
+          "use strict";
+          var self = this;
+          httpBase.post({
+            url: '/api/hospitals/new_hospital',
+            params: params,
+            successDo: successDo,
+            errorDo: errorDo
+          });
         }
     }
 }]);
