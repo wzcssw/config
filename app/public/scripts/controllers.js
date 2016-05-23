@@ -31,18 +31,18 @@ controllers.controller('mainController', ['$scope', 'userHttp', function($scope,
 	}
 }]);
 
-controllers.controller('hospitalsController', ['$scope', 'userHttp', '$state', function($scope, userHttp, $state){
+controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state', function($scope, hospitalHttp, $state){
 	"use strict";
 	$scope.self = $scope;
 	$scope.maxSize = 5;
-	userHttp.getHospital({},function(data){
+	hospitalHttp.getHospital({},function(data){
 	  $scope.hospitals = JSON.parse(data.hospitals);
 	  $scope.current_page = data.current_page;
 	  $scope.total_count = data.total_count; 
 	  console.log($scope.total_count);
 	});
 	$scope.pageChanged = function(){
-    userHttp.getHospital({page: $scope.current_page},function(data){
+		hospitalHttp.getHospital({page: $scope.current_page},function(data){
 		  $scope.current_page = data.current_page;	  
       $scope.hospitals = JSON.parse(data.hospitals);
 		});

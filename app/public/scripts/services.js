@@ -97,27 +97,32 @@ services.factory('userHttp', ['httpBase', function(httpBase){
                     }
                 });
             }
-        },
+        }
+    }
+}]);
+
+services.factory('hospitalHttp', ['httpBase', function(httpBase){
+    return {
         getHospital: function(params, successDo, errorDo, alwaysDo){
-          "use strict";
-          var self = this;
-          httpBase.get({
-            url: '/api/hospitals',
-            params: params,
-            successDo: successDo,
-            errorDo: errorDo,
-            alwaysDo: alwaysDo
-          });
+            "use strict";
+            var self = this;
+            httpBase.get({
+                url: '/api/hospitals',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo,
+                alwaysDo: alwaysDo
+            });
         },
         createHospital: function(params, successDo, errorDo, alwaysDo){
-          "use strict";
-          var self = this;
-          httpBase.post({
-            url: '/api/hospitals/new_hospital',
-            params: params,
-            successDo: successDo,
-            errorDo: errorDo
-          });
+            "use strict";
+            var self = this;
+            httpBase.post({
+                url: '/api/hospitals/new_hospital',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            });
         }
     }
 }]);
