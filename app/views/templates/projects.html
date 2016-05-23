@@ -1,1 +1,37 @@
-aaa
+<div class="table-operation">
+    <h3>检查项目/检验项目</h3>
+    <div>
+        <a class="btn btn-default" ng-click="create_project()">新增项目</a>
+    </div>
+</div>
+<table class="table table-bordered table-hover valign main">
+    <thead style="text-align:center;display:table-header-group;vertical-align:middle;">
+    <tr>
+        <th>#</th>
+        <th>项目名称</th>
+        <th>类别</th>
+        <th>常用</th>
+        <th>备注</th>
+        <th>创建时间</th>
+        <th>操作</th>
+        <th>entity</th>
+    </tr>
+    </thead>
+    <tbody style="text-align: center;display: table-row-group;vertical-align: middle;">
+    <tr ng-repeat="project in projectInfo.projects">
+        <td>{{project.id}}</td>
+        <td>{{project.name}}</td>
+        <td>{{project.category_id}}</td>
+        <td>{{project.favorite}}</td>
+        <td>{{project.remark}}</td>
+        <td>{{project.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+        <td>
+            <a class="btn btn-default btn-success btn-xs color_box" href="#">编辑</a>
+            <a class="btn btn-default btn-danger btn-xs color_box" href="#">删除</a>
+        </td>
+        <td>{{project}}</td>
+    </tr>
+    </tbody>
+</table>
+
+<uib-pagination ng-change="pageChanged()" total-items="projectInfo.total_count" ng-model="projectInfo.current_page" items-per-page=20 max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" rotate="false" first-text="首页" last-text="尾页" previous-text="上一页" next-text="下一页"></uib-pagination>

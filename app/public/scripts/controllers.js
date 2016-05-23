@@ -68,8 +68,21 @@ controllers.controller('createHospitalController', ['$scope', '$state', 'userHtt
     'use strict';
 }]);
 
-controllers.controller('projectsController', ['$scope', '$state', 'userHttp', function($scope, $state, userHttp){
-	$scope.self = $scope;
+controllers.controller('projectsController', ['$scope', 'projectHttp', function($scope, projectHttp){
 	'use strict';
+	$scope.self = $scope;
+
+	$scope.getProjectInfo = function(page){
+		projectHttp.getProjects({page: page},function(data){
+			$scope.projectInfo = data.result;
+			console.log(data.result);
+		});
+	};
+	$scope.getProjectInfo();
+
+	$scope.pageChanged = function(){
+		$scope.getProjectInfo($scope.projectInfo.current_page);
+	}
+
 }]);
 
