@@ -6,9 +6,9 @@
     <div role="search" class="navbar-form pull-right">
         <select class="form-control" ng-model="self.typeChoiceConfig.selected" ng-options="o for o in self.typeChoiceConfig.options"></select>
         <div class="form-group">
-            <input type="text" class="form-control" placeholder="请输入项目名称">
+            <input type="text" ng-model="search" class="form-control" placeholder="请输入项目名称">
         </div>
-        <button type="submit" class="btn btn-default">搜索</button>
+        <button ng-click="searchClick()" class="btn btn-default">搜索</button>
     </div>
 </div>
 <table class="table table-bordered table-hover valign main">

@@ -79,11 +79,18 @@ controllers.controller('projectsController', ['$scope', 'projectHttp', function(
         ],
         selected: '全部'
     };
+    $scope.$watch('typeChoiceConfig.selected', function(newValue){
+        $scope.getProjectInfo();
+    });
+
+    $scope.searchClick = function(){
+        $scope.getProjectInfo();
+    };
 
 	$scope.getProjectInfo = function(page){
-		projectHttp.getProjects({page: page},function(data){
+        page = page || 1;
+		projectHttp.getProjects({page: page, categoryZh: $scope.typeChoiceConfig.selected, q: $scope.search},function(data){
 			$scope.projectInfo = data.result;
-			console.log(data.result);
 		});
 	};
 	$scope.getProjectInfo();
