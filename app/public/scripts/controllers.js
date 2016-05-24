@@ -71,6 +71,14 @@ controllers.controller('createHospitalController', ['$scope', '$state', 'userHtt
 controllers.controller('projectsController', ['$scope', 'projectHttp', function($scope, projectHttp){
 	'use strict';
 	$scope.self = $scope;
+    $scope.typeChoiceConfig = {
+        options: [
+            '全部',
+            '检查',
+            '检验'
+        ],
+        selected: '全部'
+    };
 
 	$scope.getProjectInfo = function(page){
 		projectHttp.getProjects({page: page},function(data){

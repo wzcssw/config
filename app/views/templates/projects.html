@@ -1,7 +1,14 @@
 <div class="table-operation">
     <h3>检查项目/检验项目</h3>
-    <div>
+    <div style="display: inline-block">
         <a class="btn btn-default" ng-click="create_project()">新增项目</a>
+    </div>
+    <div role="search" class="navbar-form pull-right">
+        <select class="form-control" ng-model="self.typeChoiceConfig.selected" ng-options="o for o in self.typeChoiceConfig.options"></select>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="请输入项目名称">
+        </div>
+        <button type="submit" class="btn btn-default">搜索</button>
     </div>
 </div>
 <table class="table table-bordered table-hover valign main">
