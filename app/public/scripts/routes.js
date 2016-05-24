@@ -20,6 +20,10 @@ routes.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
         url:'/projects',
         templateUrl:'templates/projects.html',
         controller:'projectsController'
+    }).state('cities',{
+        url:'/cities',
+        templateUrl:'templates/cities.html',
+        controller:'citiesController'
     });
     $urlRouterProvider.otherwise('/login');
 }]);

@@ -92,3 +92,78 @@ controllers.controller('projectsController', ['$scope', 'projectHttp', function(
 
 }]);
 
+controllers.controller('citiesController', ['$scope', 'citiesHttp', function($scope, citiesHttp){
+	"use strict";
+	$scope.maxSize = 5;
+	$scope.current_page = 1;
+	$scope.dynamicPopover = {
+		templateUrl: 'myPopSelectTemplate.html',
+		title: 'Title'
+	};
+	citiesHttp.getCities({}, function(data){
+		console.log(data);
+		$scope.cities = data.cities;
+		$scope.total_count = data.total_count;
+	});
+	$scope.pageChanged = function(){
+		citiesHttp.getCities({page:$scope.current_page}, function(data){
+			$scope.cities = data.cities;
+		});
+	}
+	$scope.setPage = function(){
+		citiesHttp.getCities({page:$scope.current_page}, function(data){
+			$scope.cities = data.cities;
+		});
+	}
+	$scope.select_change = function(){
+		console.log($scope.placement.selected);
+	}
+	$scope.input_change = function(){
+		console.log(11);
+	}
+	$scope.select_click = function(...values){
+		switch (values[0]){
+			case 'state':
+				$scope.dynamicPopover = {
+					templateUrl: 'myPopSelectTemplate.html',
+					title: '选择状态'
+				};
+				$scope.placement = {
+					options: [
+						'是',
+						'否'
+					],
+					selected: values[1]?'是':'否'
+				}
+				break;
+			case 'go_public_sea_day':
+				$scope.dynamicPopover = {
+					templateUrl: 'myPopInputTemplate.html',
+					title: '设置天数'
+				};
+				$scope.input_select = values[1];
+				break;
+			case 'develop_coefficient':
+				$scope.dynamicPopover = {
+					templateUrl: 'myPopInputTemplate.html',
+					title: '设置系数'
+				};
+				$scope.input_select = values[1];
+				break;
+			case 'maturity':
+				$scope.dynamicPopover = {
+					templateUrl: 'myPopSelectTemplate.html',
+					title: '设置成熟度'
+				};
+				$scope.placement = {
+					options: [
+						'新区',
+						'半成熟区',
+						'成熟区'
+					],
+					selected: values[1]
+				}
+				break;
+		}
+	}
+}]);

@@ -145,3 +145,19 @@ services.factory('projectHttp', ['httpBase', function(httpBase){
         }
     }
 }]);
+
+//citys http
+services.factory('citiesHttp', ['httpBase', function(httpBase){
+    return{
+        getCities: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url:'/api/cities',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alawyDo:alwaysDo
+            });
+        }
+    }
+}]);
