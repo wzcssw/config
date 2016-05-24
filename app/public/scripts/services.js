@@ -127,6 +127,16 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
                 successDo: successDo,
                 errorDo: errorDo
             });
+        },
+        editHospital: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.put({
+                url: '/api/hospitals/edit_hospital',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            });
         }
     }
 }]);

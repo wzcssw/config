@@ -53,7 +53,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
         $('#go_page').val("");
     };
 
-    $scope.open = function (size) {
+    $scope.open_new = function (size) {
 	    var new_hospital = $uibModal.open({
 	      animation: $scope.hospitalEnabled,
 	      templateUrl: 'new_hospital.html',
@@ -65,12 +65,20 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
 	        }
 	      }
 	    });
-
-    // new_hospital.result.then(function (selectedItem) {
-    //   $scope.selected = selectedItem;
-    // }, function () {
-    //   $log.info('Modal dismissed at: ' + new Date());
-    // });
+    };
+    $scope.open_edit = function (size,hospital) {
+    	$scope.items = hospital;
+	    var edit_hospital = $uibModal.open({
+	      animation: $scope.hospitalEnabled,
+	      templateUrl: 'edit_hospital.html',
+	      controller: 'editHospitalController',
+	      size: size,
+	      resolve: {
+	        items: function () {
+	          return $scope.items;
+	        }
+	      }
+	    });
     };
 }]);
 
@@ -78,18 +86,30 @@ controllers.controller('newHospitalController', ['$scope', 'hospitalHttp', '$sta
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
-
   $scope.save = function(hospital){	
   	hospitalHttp.createHospital({hospital: hospital}, function (data) {
-      console.log(data);
       $uibModalInstance.close();
     });
   };
-
   hospitalHttp.getHospital({}, function (data) {
       $scope.levels = data.levels;
       $scope.cities = data.cities;
-      console.log($scope.cities);
+  });
+}]);
+
+controllers.controller('editHospitalController', ['$scope', 'hospitalHttp', '$state', '$uibModalInstance', 'items', function ($scope, hospitalHttp, $state, $uibModalInstance, items) {
+  $scope.hospital = items;
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+  $scope.save = function(hospital){
+  	hospitalHttp.editHospital({hospital: hospital}, function (data) {
+      $uibModalInstance.close();
+    });
+  };
+  hospitalHttp.getHospital({}, function (data) {
+      $scope.levels = data.levels;
+      $scope.cities = data.cities;
   });
 }]);
 
