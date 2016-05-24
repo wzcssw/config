@@ -13,7 +13,8 @@ module.exports = function(params){
 
 function md5Encryption(string){
     "use strict";
-    var md5 = crypto.createHash('md5');
-    md5.update(string);
-    return md5.digest('hex');
+    var Buffer = require("buffer").Buffer;
+    var buf = new Buffer(string);
+    var str = buf.toString("binary");
+    return crypto.createHash("md5").update(str).digest("hex");
 }

@@ -4,4 +4,4 @@ directives.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
 }]);
 directives.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeBar = true;
-}])
+}]);

@@ -2,15 +2,6 @@ var controllers = angular.module('controllers', ['services', 'directives']);
 controllers.controller('loginController', ['$scope', 'userHttp', '$state', function($scope, userHttp, $state){
 	$scope.isShow = false;
 	$scope.self = $scope;
-	//userHttp.getUser(function(user){
-	//	"use strict";
-	//	if (user){
-	//		$state.go('hospital');
-	//	}else {
-	//		$scope.isShow = true;
-	//	}
-	//});
-
 	if (userHttp.isLogin()){
 		$state.go('hospitals');
 		return ;
@@ -105,11 +96,26 @@ controllers.controller('newHospitalController', ['$scope', 'hospitalHttp', '$sta
 controllers.controller('projectsController', ['$scope', 'projectHttp', function($scope, projectHttp){
 	'use strict';
 	$scope.self = $scope;
+    $scope.typeChoiceConfig = {
+        options: [
+            '全部',
+            '检查',
+            '检验'
+        ],
+        selected: '全部'
+    };
+    $scope.$watch('typeChoiceConfig.selected', function(newValue){
+        $scope.getProjectInfo();
+    });
+
+    $scope.searchClick = function(){
+        $scope.getProjectInfo();
+    };
 
 	$scope.getProjectInfo = function(page){
-		projectHttp.getProjects({page: page},function(data){
+        page = page || 1;
+		projectHttp.getProjects({page: page, categoryZh: $scope.typeChoiceConfig.selected, q: $scope.search},function(data){
 			$scope.projectInfo = data.result;
-			console.log(data.result);
 		});
 	};
   $scope.getProjectInfo();
