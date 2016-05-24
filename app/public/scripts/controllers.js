@@ -2,15 +2,6 @@ var controllers = angular.module('controllers', ['services', 'directives']);
 controllers.controller('loginController', ['$scope', 'userHttp', '$state', function($scope, userHttp, $state){
 	$scope.isShow = false;
 	$scope.self = $scope;
-	//userHttp.getUser(function(user){
-	//	"use strict";
-	//	if (user){
-	//		$state.go('hospital');
-	//	}else {
-	//		$scope.isShow = true;
-	//	}
-	//});
-
 	if (userHttp.isLogin()){
 		$state.go('hospitals');
 		return ;
