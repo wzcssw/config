@@ -42,4 +42,20 @@ router.get('/', function*() {
     
 });
 
+router.post('/new_hospital', function *(){
+    "use strict";
+    var self = this;
+    var params = self.request.body;
+    var hospital = params.hospital;
+    console.log(hospital.level);
+    var access = yield http.post('/v1/config_hospital/add', {
+      access_token: self.currentUser.access_token,
+      name: hospital.name,
+      level: hospital.level,
+      city_id: hospital.city_id  
+    });
+    console.log(access);
+    this.body = {success: true};
+});
+
 module.exports = router.routes();

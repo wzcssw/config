@@ -88,9 +88,11 @@ controllers.controller('newHospitalController', ['$scope', 'hospitalHttp', '$sta
     $uibModalInstance.dismiss('cancel');
   };
 
-  $scope.save = function(hospital){
-  	$uibModalInstance.close();
-  	
+  $scope.save = function(hospital){	
+  	hospitalHttp.createHospital({hospital: hospital}, function (data) {
+      console.log(data);
+      $uibModalInstance.close();
+    });
   };
 
   hospitalHttp.getHospital({}, function (data) {
