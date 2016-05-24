@@ -158,6 +158,16 @@ services.factory('citiesHttp', ['httpBase', function(httpBase){
                 errorDo:errorDo,
                 alawyDo:alwaysDo
             });
+        },
+        changeCities: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.put({
+                url:'/api/cities',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alawyDo:alwaysDo
+            });
         }
     }
 }]);

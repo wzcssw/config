@@ -24,7 +24,6 @@ controllers.controller('mainController', ['$scope', 'userHttp', function ($scope
         "use strict";
         userHttp.register({username: $scope.username, password: $scope.password}, function (data) {
             var result = data.result;
-            console.log(data);
         });
     }
 }]);
@@ -37,7 +36,6 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
         $scope.hospitals = data.hospitals;
         $scope.current_page = data.current_page;
         $scope.total_count = data.total_count;
-        console.log($scope.total_count);
     });
     $scope.pageChanged = function () {
         hospitalHttp.getHospital({page: $scope.current_page}, function (data) {
@@ -100,8 +98,12 @@ controllers.controller('citiesController', ['$scope', 'citiesHttp', function($sc
 		templateUrl: 'myPopSelectTemplate.html',
 		title: 'Title'
 	};
+	$scope.city_search = function(){
+		citiesHttp.getCities({q:$scope.search_city_name}, function(data){
+			$scope.cities = data.cities;
+		});
+	}
 	citiesHttp.getCities({}, function(data){
-		console.log(data);
 		$scope.cities = data.cities;
 		$scope.total_count = data.total_count;
 	});
@@ -116,12 +118,65 @@ controllers.controller('citiesController', ['$scope', 'citiesHttp', function($sc
 		});
 	}
 	$scope.select_change = function(){
-		console.log($scope.placement.selected);
+		var params = {};
+		switch ($scope.change_type){
+			case 'state':
+				var state;
+				if($scope.placement.selected == "是"){
+					state = true;
+				}else if($scope.placement.selected == "否"){
+					state = false;
+				}
+				params = {id:$scope.city_id, state:state};
+				break;
+			case 'maturity':
+				var maturity;
+				if($scope.placement.selected == "新区"){
+					maturity = "newarea";
+				}else if($scope.placement.selected == "半成熟区"){
+					maturity = "half";
+				}else if($scope.placement.selected == "成熟区"){
+					maturity = "mature";
+				}
+				params = {id:$scope.city_id, maturity:maturity};
+				break;
+		}
+		citiesHttp.changeCities(params, function(data){
+			if(data.success){
+				if($scope.change_type == "state"){
+					$scope.city_info.state = params.state;
+				}else{
+					$scope.city_info.maturity_zh = $scope.placement.selected;
+				}
+				//$uibTooltipProvider.setTriggers('closeTrigger');
+			}
+		});
 	}
-	$scope.input_change = function(){
-		console.log(11);
+	$scope.input_select = {};
+	$scope.input_click = function(){
+		var params = {};
+		switch ($scope.change_type){
+			case 'go_public_sea_day':
+				params = {id:$scope.city_id, go_public_sea_day:$scope.input_select.value};
+				break;
+			case 'develop_coefficient':
+				params = {id:$scope.city_id, develop_coefficient:$scope.input_select.value};
+				break;
+		}
+		citiesHttp.changeCities(params, function(data){
+			if(data.success){
+				if($scope.change_type == "go_public_sea_day"){
+					$scope.city_info.go_public_sea_day = $scope.input_select.value;
+				}else{
+					$scope.city_info.develop_coefficient = $scope.input_select.value;
+				}
+			}
+		});
 	}
 	$scope.select_click = function(...values){
+		$scope.change_type = values[0];
+		$scope.city_id = values[2];
+		$scope.city_info = values[3];
 		switch (values[0]){
 			case 'state':
 				$scope.dynamicPopover = {
@@ -141,14 +196,14 @@ controllers.controller('citiesController', ['$scope', 'citiesHttp', function($sc
 					templateUrl: 'myPopInputTemplate.html',
 					title: '设置天数'
 				};
-				$scope.input_select = values[1];
+				$scope.input_select.value = values[1];
 				break;
 			case 'develop_coefficient':
 				$scope.dynamicPopover = {
 					templateUrl: 'myPopInputTemplate.html',
 					title: '设置系数'
 				};
-				$scope.input_select = values[1];
+				$scope.input_select.value = values[1];
 				break;
 			case 'maturity':
 				$scope.dynamicPopover = {

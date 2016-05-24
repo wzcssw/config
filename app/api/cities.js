@@ -9,22 +9,30 @@ var router = require('koa-router')({
 
 router.get('/', function*(){
     "use strict";
-    console.log("---------------------");
     var self = this;
-    var page = 1;
+    //var page = 1;
     var params = self.query;
-    if (params.page != null) {
-        page = params.page;
-    }
-    var result = yield http.get('/v1/config_city/list', {
-        fields:'id,name,pinyin,province_id,state,go_public_sea_day,develop_coefficient,maturity',
-        page:page
-    });
+    //if (params.page != null) {
+    //    page = params.page;
+    //}
+    params.fields = 'id,name,pinyin,province_id,state,go_public_sea_day,develop_coefficient,maturity';
+    console.log(params);
+    var result = yield http.get('/v1/config_city/list', params);
     self.body = {
         success:true,
         cities:result.cities,
         total_count: result.total_count,
         current_page: result.current_page
+    }
+});
+
+router.put('/', function*(){
+    "use strict";
+    var self = this;
+    var params = self.request.body;
+    var result = yield http.put('/v1/config_city/update', params);
+    self.body = {
+        success:true
     }
 });
 

@@ -7,6 +7,10 @@
     }
 </style>
 <button class="btn btn-default" type="submit">城市管理</button>
+<div class="form-group form-inline" style="float: right;">
+    <input type="text" class="form-control" placeholder="请输入城市名称" ng-model="search_city_name" />
+    <button type="button" class="btn btn-default" ng-click="city_search()">搜索</button>
+</div>
 <table class="table table-hover table-bordered" style="margin-top: 20px;">
     <tr style="text-align: center">
         <td>城市ID</td>
@@ -20,16 +24,16 @@
         <td ng-bind="l.id"></td>
         <td ng-bind="l.name" style="color:#337ab7;"></td>
         <td>
-            <a ng-style="l.state?{color:'green'}:{}" uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="l.state?'是':'否'" ng-click="select_click('state', l.state)"></a>
+            <a id="aaa" ng-style="l.state?{color:'green'}:{}" uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="l.state?'是':'否'" ng-click="select_click('state', l.state, l.id, l)"></a>
         </td>
         <td>
-            <a uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="l.go_public_sea_day || '点击设置'" ng-click="select_click('go_public_sea_day', l.go_public_sea_day)"></a>
+            <a uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="l.go_public_sea_day || '点击设置'" ng-click="select_click('go_public_sea_day', l.go_public_sea_day, l.id, l)"></a>
         </td>
         <td>
-            <a uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="l.develop_coefficient" ng-click="select_click('develop_coefficient', l.develop_coefficient)"></a>
+            <a uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="l.develop_coefficient" ng-click="select_click('develop_coefficient', l.develop_coefficient, l.id, l)"></a>
         </td>
         <td>
-            <a style="color: green;" uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="l.maturity_zh" ng-click="select_click('maturity', l.maturity_zh)"></a>
+            <a style="color: green;" uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="l.maturity_zh" ng-click="select_click('maturity', l.maturity_zh, l.id, l)"></a>
         </td>
     </tr>
 </table>
@@ -49,7 +53,7 @@
 
 <script type="text/ng-template" id="myPopInputTemplate.html">
     <div class="form-group form-inline">
-        <input type="number" ng-model="input_select" ng-change="input_change()" class="form-control">
-        <button type="button" class="btn btn-success">确定</button>
+        <input type="number" ng-model="input_select.value" class="form-control">
+        <button type="button" class="btn btn-success" ng-click="input_click()">确定</button>
     </div>
 </script>

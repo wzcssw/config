@@ -88,3 +88,10 @@ exports.get = function(url, params){
     return request(url, 'GET', params);
 };
 
+exports.put = function(url, params){
+    "use strict";
+    //var params = params || {
+    //        fields: 'id,name,pinyin,level,city_id,lng,lat,address,province_id'
+    //    };
+    return request(url, 'PUT', params);
+};
