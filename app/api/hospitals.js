@@ -54,7 +54,6 @@ router.post('/new_hospital', function *(){
       level: hospital.level,
       city_id: hospital.city_id  
     });
-    console.log(access);
     this.body = {success: true};
 });
 
