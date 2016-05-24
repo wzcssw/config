@@ -42,12 +42,12 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
     "use strict";
     $scope.self = $scope;
     $scope.maxSize = 5;
-    hospitalHttp.getHospital({}, function (data) {
+    hospitalHttp.getHospital({page: 1}, function (data) {
         $scope.hospitals = data.hospitals;
         $scope.current_page = data.current_page;
         $scope.total_count = data.total_count;
-        console.log($scope.hospitals);
-
+        $scope.levels = data.levels;
+        $scope.cities = data.cities;
     });
     $scope.pageChanged = function () {
         hospitalHttp.getHospital({page: $scope.current_page}, function (data) {
@@ -63,7 +63,6 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
     };
 
     $scope.open = function (size) {
-
 	    var new_hospital = $uibModal.open({
 	      animation: $scope.hospitalEnabled,
 	      templateUrl: 'new_hospital.html',
@@ -85,17 +84,20 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
 }]);
 
 controllers.controller('newHospitalController', ['$scope', 'hospitalHttp', '$state', '$uibModalInstance', function ($scope, hospitalHttp, $state, $uibModalInstance) {
-  $scope.ok = function () {
-    $uibModalInstance.close();
-  };
-
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
 
   $scope.save = function(hospital){
-  	console.log(hospital);
-  }
+  	$uibModalInstance.close();
+  	
+  };
+
+  hospitalHttp.getHospital({}, function (data) {
+      $scope.levels = data.levels;
+      $scope.cities = data.cities;
+      console.log($scope.cities);
+  });
 }]);
 
 controllers.controller('projectsController', ['$scope', 'projectHttp', function($scope, projectHttp){
