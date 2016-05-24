@@ -38,7 +38,7 @@ controllers.controller('mainController', ['$scope', 'userHttp', function ($scope
     }
 }]);
 
-controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state', function ($scope, hospitalHttp, $state) {
+controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state', '$uibModal', '$log', function ($scope, hospitalHttp, $state, $uibModal, $log) {
     "use strict";
     $scope.self = $scope;
     $scope.maxSize = 5;
@@ -46,7 +46,8 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
         $scope.hospitals = data.hospitals;
         $scope.current_page = data.current_page;
         $scope.total_count = data.total_count;
-        console.log($scope.total_count);
+        console.log($scope.hospitals);
+
     });
     $scope.pageChanged = function () {
         hospitalHttp.getHospital({page: $scope.current_page}, function (data) {
@@ -61,11 +62,40 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
         $('#go_page').val("");
     };
 
+    $scope.open = function (size) {
+
+	    var new_hospital = $uibModal.open({
+	      animation: $scope.hospitalEnabled,
+	      templateUrl: 'new_hospital.html',
+	      controller: 'newHospitalController',
+	      size: size,
+	      resolve: {
+	        items: function () {
+	          return $scope.items;
+	        }
+	      }
+	    });
+
+    // new_hospital.result.then(function (selectedItem) {
+    //   $scope.selected = selectedItem;
+    // }, function () {
+    //   $log.info('Modal dismissed at: ' + new Date());
+    // });
+    };
 }]);
 
-controllers.controller('createHospitalController', ['$scope', '$state', 'userHttp', function ($scope, $state, userHttp) {
-    $scope.self = $scope;
-    'use strict';
+controllers.controller('newHospitalController', ['$scope', 'hospitalHttp', '$state', '$uibModalInstance', function ($scope, hospitalHttp, $state, $uibModalInstance) {
+  $scope.ok = function () {
+    $uibModalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+  $scope.save = function(hospital){
+  	console.log(hospital);
+  }
 }]);
 
 controllers.controller('projectsController', ['$scope', 'projectHttp', function($scope, projectHttp){
@@ -78,7 +108,7 @@ controllers.controller('projectsController', ['$scope', 'projectHttp', function(
 			console.log(data.result);
 		});
 	};
-	$scope.getProjectInfo();
+  $scope.getProjectInfo();
 
 	$scope.pageChanged = function(){
 		$scope.getProjectInfo($scope.projectInfo.current_page);

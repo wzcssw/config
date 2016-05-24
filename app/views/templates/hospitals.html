@@ -1,25 +1,22 @@
 <div class="table-operation">
 	<h3>医院字典</h3>
 	<div>
-	  <a class="btn btn-default" ng-click="create_hospital()">新增医院</a>
+	  <button type="button" class="btn btn-default" ng-click="open('lg')">新增医院</button>
 	  <a href="#" class="btn btn-default">导出</a>
 	</div>
 </div>
-<table class="table table-bordered table-hover valign main">
-  <thead style="text-align:center;display:table-header-group;vertical-align:middle;">
-  	<tr>
-  	  <th>#</th>
-  	  <th>医院名称</th>
-  	  <th>医院等级</th>
-  	  <th>所在城市</th>
-  	  <th>所在省份</th>
-  	  <th>拼音</th>
-  	  <th>时间</th>
-  	  <th>操作</th>
+<table class="table table-bordered table-hover">
+  	<tr style="text-align: center">
+  	  <td>#</td>
+  	  <td>医院名称</td>
+  	  <td>医院等级</td>
+  	  <td>所在城市</td>
+  	  <td>所在省份</td>
+  	  <td>拼音</td>
+  	  <td>时间</td>
+  	  <td>操作</td>
   	</tr>
-  </thead>
-  <tbody style="text-align: center;display: table-row-group;vertical-align: middle;">
-  	<tr ng-repeat="hospital in self.hospitals">
+  	<tr ng-repeat="hospital in self.hospitals" style="text-align: center;">
   		<td>{{hospital.id}}</td>
   		<td>{{hospital.name}}</td>
   		<td>{{hospital.level_name}}</td>
@@ -39,3 +36,41 @@
     <button type="button" class="btn btn-default" ng-click="setPage()">确定</button>
   </div>
 </div>
+
+<script type="text/ng-template" id="new_hospital.html">
+        <div class="modal-header">
+            <h3 class="modal-title">新增医院</h3>
+        </div>
+        <div class="modal-body">
+            <form name="hos_form" style="width: 30%;" ng-submit="new_hospital()">
+              <div class="form-group">
+                <label for="hos_name">医院名称</label>
+                <input type="text" ng-model="hospital.name" class="form-control" id="hos_name">
+              </div>
+              <div class="form-group">
+                <label for="hos_level">医院等级</label>
+                <select ng-model="hospital.level" class="form-control" id="hos_level">
+                  <option>三级甲等</option>
+                  <option>三级乙等</option>
+                  <option>二级甲等</option>
+                  <option>二级乙等</option>
+                  <option>其他</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="hos_city">所在城市</label>
+                <select ng-model="hospital.city" class="form-control" id="hos_city">
+                  <option>北京</option>
+                  <option>上海</option>
+                  <option>天津</option>
+                  <option>广州</option>
+                </select>
+              </div>
+              <button ng-click="save(hospital)"class="btn btn-default">确定</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">确认</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+        </div>
+    </script>
