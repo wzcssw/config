@@ -78,7 +78,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
 	      }
 	    });
 	    new_hospital.result.then(function(){
-
+        $scope.pageChanged();
       });
     };
     //打开编辑框
@@ -100,7 +100,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
 	      }
 	    });
 	    edit_hospital.result.then(function(){
-
+        $scope.pageChanged();
       });
     };
 }]);

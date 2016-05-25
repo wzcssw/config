@@ -22,7 +22,7 @@ router.get('/', function*() {
     hospitals: result.hospitals,
     total_count: result.total_count,
     current_page: result.current_page
-  }  
+  } 
 });
 
 //添加医院
