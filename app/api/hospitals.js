@@ -3,6 +3,7 @@ var http = common.http;
 var router = require('koa-router')({
     prefix: '/api/hospitals'
 });
+//获取医院列表
 router.get('/', function*() {
     "use strict";
     var self = this;
@@ -41,7 +42,7 @@ router.get('/', function*() {
     };
     
 });
-
+//添加医院
 router.post('/new_hospital', function *(){
     "use strict";
     var self = this;
@@ -56,17 +57,18 @@ router.post('/new_hospital', function *(){
     console.log("==========="+access);
     this.body = {success: true};
 });
-
+//更新医院
 router.put('/edit_hospital', function *(){
     "use strict";
     var self = this;
     var hospital = self.request.body.hospital;
+    console.log(hospital);
     var access = yield http.put('/v1/config_hospital/update', {
-      access_token: self.currentUser.access_token,
-      hospital_id: hospital.id,
-      name: hospital.name,
-      level: hospital.level,
-      city_id: hospital.city_id  
+      access_token:self.currentUser.access_token,
+      hospital_id:hospital.id,
+      name:hospital.name,
+      level:hospital.level,
+      city_id:hospital.city_id  
     });
     this.body = {success: true};
 });

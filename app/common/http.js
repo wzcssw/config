@@ -88,3 +88,8 @@ exports.get = function(url, params){
     return request(url, 'GET', params);
 };
 
+exports.put = function(url, params){
+    "use strict";
+    return request(url, 'PUT', params);
+};
+

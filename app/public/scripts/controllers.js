@@ -44,6 +44,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
         hospitalHttp.getHospital({page: $scope.current_page}, function (data) {
             $scope.current_page = data.current_page;
             $scope.hospitals = data.hospitals;
+            $scope.$apply();
         });
     };
 
@@ -79,7 +80,12 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
 	        }
 	      }
 	    });
+	    edit_hospital.result.then(function(){
+          console.log($scope.hospitals);
+        });
     };
+
+
 }]);
 
 controllers.controller('newHospitalController', ['$scope', 'hospitalHttp', '$state', '$uibModalInstance', function ($scope, hospitalHttp, $state, $uibModalInstance) {
