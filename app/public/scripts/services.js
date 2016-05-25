@@ -137,6 +137,16 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
                 successDo: successDo,
                 errorDo: errorDo
             });
+        },
+        getCityAndLevel: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.get({
+                url: '/api/hospitals/levels_cities',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo 
+            })
         }
     }
 }]);

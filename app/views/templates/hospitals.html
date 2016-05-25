@@ -24,8 +24,8 @@
   		<td>{{hospital.province_name}}</td>
   		<td>{{hospital.pinyin}}</td>
   		<td>{{hospital.created_at}}</td>
-  		<td><a class="btn btn-default btn-success btn-xs" href="#" ng-click="open_edit('lg',hospital)">编辑</a>
-  		<a class="btn btn-default btn-danger btn-xs" href="#">删除</a></td>
+  		<td><a class="btn btn-default btn-success btn-xs" ng-click="open_edit('lg',hospital)">编辑</a>
+  		<a class="btn btn-default btn-danger btn-xs">删除</a></td>
   	</tr>
   </tbody>
 </table>
@@ -70,7 +70,7 @@
       <h3 class="modal-title">编辑医院</h3>
   </div>
   <div class="modal-body">
-      <form name="hos_form" ng-submit="new_hospital()">
+      <form name="hos_form" ng-submit="edit_hospital()">
         <div class="form-group" style="width: 30%;">
           <label for="hos_name">医院名称</label>
           <input type="text" ng-model="hospital.name" class="form-control" id="hos_name">
