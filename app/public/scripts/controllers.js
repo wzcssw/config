@@ -43,12 +43,6 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
     hospitalHttp.getCityAndLevel({}, function(data){
         $scope.levels = data.levels;
         $scope.cities = data.cities;
-        // var i = 0;
-        // for(var l in $scope.levels){
-        // 	$scope.levels[i] = $scope.levels[l];
-        // 	delete $scope.levels[l];
-        // 	i++;
-        // };
     })
     $scope.pageChanged = function () {
         hospitalHttp.getHospital({page: $scope.current_page,q: $scope.q,city_id: $scope.city_id}, function (data) {
@@ -56,13 +50,11 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
             $scope.hospitals = data.hospitals;
         });
     };
-
     $scope.setPage = function () {
       $scope.current_page = $('#go_page').val();
       $scope.pageChanged();
       $('#go_page').val("");
     };
-
     $scope.search = function(){
     	hospitalHttp.getHospital({q: $scope.q, city_id: $scope.city_id}, function (data) {
         $scope.hospitals = data.hospitals;

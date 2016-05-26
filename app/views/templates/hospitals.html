@@ -6,6 +6,7 @@
     <button style="float: right;width: 5%;" ng-click="search()" class="btn btn-default">搜索</button>
     <input style="width: 13%;float: right;margin-left: 5px;margin-right: 5px;" type="text" ng-model="q" class="form-control" id="hos_q" placeholder="名称 、拼音">
     <select style="width: 5%;float: right;" ng-change="search()" ng-model="city_id" class="form-control">
+      <option value="">全部</option>
       <option ng-repeat="city in cities" value={{city.id}}>{{city.name}}</option>
     </select>
 	</div>
