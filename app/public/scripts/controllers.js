@@ -33,6 +33,8 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
     "use strict";
     $scope.self = $scope;
     $scope.maxSize = 5;
+    $scope.city_id = "";
+    $scope.q = "";
     hospitalHttp.getHospital({}, function (data) {
         $scope.hospitals = data.hospitals;
         $scope.current_page = data.current_page;
@@ -49,17 +51,25 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
         // };
     })
     $scope.pageChanged = function () {
-        hospitalHttp.getHospital({page: $scope.current_page}, function (data) {
+        hospitalHttp.getHospital({page: $scope.current_page,q: $scope.q,city_id: $scope.city_id}, function (data) {
             $scope.current_page = data.current_page;
             $scope.hospitals = data.hospitals;
         });
     };
 
     $scope.setPage = function () {
-        $scope.current_page = $('#go_page').val();
-        $scope.pageChanged();
-        $('#go_page').val("");
+      $scope.current_page = $('#go_page').val();
+      $scope.pageChanged();
+      $('#go_page').val("");
     };
+
+    $scope.search = function(){
+    	hospitalHttp.getHospital({q: $scope.q, city_id: $scope.city_id}, function (data) {
+        $scope.hospitals = data.hospitals;
+        $scope.current_page = data.current_page;
+        $scope.total_count = data.total_count;
+      });
+    }
     //打开新建框
     $scope.open_new = function (size) {
     	$scope.items = {
