@@ -35,6 +35,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
     $scope.maxSize = 5;
     $scope.city_id = "";
     $scope.q = "";
+    
     hospitalHttp.getHospital({}, function (data) {
         $scope.hospitals = data.hospitals;
         $scope.current_page = data.current_page;
