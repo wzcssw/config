@@ -31,6 +31,17 @@
       path : "/var/www/production",
       "post-deploy" : "npm install && pm2 startOrRestart ecosystem.json --env production"
     },
+    staging : {
+      user : "tongxin",
+      host : "101.201.210.99",
+      ref  : "origin/master",
+      repo : "http://git.tongxinyiliao.com/works/txconfig.git",
+      path : "/var/www/staging",
+      "post-deploy" : "npm install && pm2 startOrRestart ecosystem.json --env staging",
+      env  : {
+        NODE_ENV: "staging"
+      }
+    },
     dev : {
       user : "node",
       host : "212.83.163.1",
