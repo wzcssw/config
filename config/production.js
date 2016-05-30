@@ -4,7 +4,7 @@ module.exports = {
         level: 'verbose'
     },
     api: {
-        host: 'https://api.txzs.org',
+        host: 'api.txzs.org',
         token: "2BbasqQg75g",
         key: 's0JLjZ'
     }
