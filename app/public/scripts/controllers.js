@@ -88,6 +88,10 @@ controllers.controller('projectsController', ['$scope', 'projectHttp', function(
 		$scope.getProjectInfo($scope.projectInfo.current_page);
 	}
 
+	$scope.set_content = function (_id) {
+		$scope.select_id = _id;
+	}
+	$scope.set_content(1);
 }]);
 
 controllers.controller('citiesController', ['$scope', 'citiesHttp', function($scope, citiesHttp){

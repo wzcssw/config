@@ -1,44 +1,63 @@
-<div class="table-operation">
-    <h3>检查项目/检验项目</h3>
-    <div style="display: inline-block">
-        <a class="btn btn-default" ng-click="create_project()">新增项目</a>
-    </div>
-    <div role="search" class="navbar-form pull-right">
-        <select class="form-control" ng-model="self.typeChoiceConfig.selected" ng-options="o for o in self.typeChoiceConfig.options"></select>
-        <div class="form-group">
-            <input type="text" ng-model="search" class="form-control" placeholder="请输入项目名称">
-        </div>
-        <button ng-click="searchClick()" class="btn btn-default">搜索</button>
-    </div>
-</div>
-<table class="table table-bordered table-hover valign main">
-    <thead style="text-align:center;display:table-header-group;vertical-align:middle;">
-    <tr>
-        <th>#</th>
-        <th>项目名称</th>
-        <th>类别</th>
-        <th>常用</th>
-        <th>备注</th>
-        <th>创建时间</th>
-        <th>操作</th>
-        <th>entity</th>
-    </tr>
-    </thead>
-    <tbody style="text-align: center;display: table-row-group;vertical-align: middle;">
-    <tr ng-repeat="project in projectInfo.projects">
-        <td>{{project.id}}</td>
-        <td>{{project.name}}</td>
-        <td>{{project.category_id}}</td>
-        <td>{{project.favorite}}</td>
-        <td>{{project.remark}}</td>
-        <td>{{project.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-        <td>
-            <a class="btn btn-default btn-success btn-xs color_box" href="#">编辑</a>
-            <a class="btn btn-default btn-danger btn-xs color_box" href="#">删除</a>
-        </td>
-        <td>{{project}}</td>
-    </tr>
+      <style>
+        .label-default{
+          background-color:#C0C0C0;
+        }
+      </style>
+      <div class="table-operation">
+          <h3>检查项目/检验项目</h3>
+          <div style="display: inline-block">
+              <a class="btn btn-default" ng-click="create_project()">新增项目</a>
+          </div>
+          <div role="search" class="navbar-form pull-right">
+              <select class="form-control" ng-model="self.typeChoiceConfig.selected" ng-options="o for o in self.typeChoiceConfig.options"></select>
+              <div class="form-group">
+                  <input type="text" ng-model="search" class="form-control" placeholder="请输入项目名称">
+              </div>
+              <button ng-click="searchClick()" class="btn btn-default">搜索</button>
+          </div>
+      </div>
+
+      <div class="col-md-12" >
+      	<div class="panel panel-default" style="padding:4px 20px;background-color:#f6f6f6;">
+          		<div style="display:block;padding-bottom:5px;">
+          			<h4>项目名称</h4>
+                <div ng-repeat="project in projectInfo.projects" style="display:inline;padding-bottom:5px;">
+                  <a ng-class='{"label label-default" : select_id == project.id}' role="button" ng-click="set_content(project.id)" style='color:#43474A;font-size:15px;margin-left:18px;'>{{project.name}}[{{project.category}}]</a>
+                </div>
+              </div>
+      	</div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="panel panel-default" style="padding:4px 20px;">
+          <div ng-repeat="project in projectInfo.projects" style="display:inline;padding-bottom:5px;">
+            <div ng-show="select_id == project.id">
+              <div ng-repeat="c in project.city_hospitals">
+                <h4>{{c.city[1]}}</h4>
+                <span ng-repeat="h in c.hospital">
+                  {{h[1]}} &nbsp;
+                </span>
+                <hr/>
+              </div>
+            </div>
+          </div>
+      	</div>
+      </div>
+
+      <div class="col-md-8" >
+        <div class="panel panel-default" style="padding:4px 20px;">
+          <div ng-repeat="project in projectInfo.projects" style="display:inline;padding-bottom:5px;">
+            <div ng-show="select_id == project.id">
+              <div ng-repeat="b in project.body_modes">
+                <h4>{{b.body[1]}}</h4>
+                <span ng-repeat="m in b.body_mode">
+                  {{m[1]}} &nbsp;
+                </span>
+                <hr/>
+              </div>
+            </div>
+          </div>
+      	</div>
+      </div>
     </tbody>
 </table>
-
-<uib-pagination ng-change="pageChanged()" total-items="projectInfo.total_count" ng-model="projectInfo.current_page" items-per-page=20 max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" rotate="false" first-text="首页" last-text="尾页" previous-text="上一页" next-text="下一页"></uib-pagination>
