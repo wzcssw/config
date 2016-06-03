@@ -1,25 +1,29 @@
 <div class="table-operation">
 	<h3>医院字典</h3>
 	<div>
-	  <a class="btn btn-default" ng-click="create_hospital()">新增医院</a>
-	  <a href="#" class="btn btn-default">导出</a>
+	  <button type="button" class="btn btn-default" ng-click="open_new('lg')">新增医院</button>
+	  <button type="button" class="btn btn-default">导出</button>
+    <button style="float: right;width: 5%;" ng-click="search()" class="btn btn-default">搜索</button>
+    <input style="width: 13%;float: right;margin-left: 5px;margin-right: 5px;" type="text" ng-model="q" class="form-control" id="hos_q" placeholder="名称 、拼音">
+    <select style="width: 6%;float: right;" ng-change="search()" ng-model="city_id" class="form-control">
+      <option value="">全部</option>
+      <option ng-repeat="city in cities" value={{city.id}}>{{city.name}}</option>
+    </select>
 	</div>
+   
 </div>
-<table class="table table-bordered table-hover valign main">
-  <thead style="text-align:center;display:table-header-group;vertical-align:middle;">
-  	<tr>
-  	  <th>#</th>
-  	  <th>医院名称</th>
-  	  <th>医院等级</th>
-  	  <th>所在城市</th>
-  	  <th>所在省份</th>
-  	  <th>拼音</th>
-  	  <th>时间</th>
-  	  <th>操作</th>
+<table class="table table-bordered table-hover">
+  	<tr style="text-align: center">
+  	  <td>#</td>
+  	  <td>医院名称</td>
+  	  <td>医院等级</td>
+  	  <td>所在城市</td>
+  	  <td>所在省份</td>
+  	  <td>拼音</td>
+  	  <td>时间</td>
+  	  <td>操作</td>
   	</tr>
-  </thead>
-  <tbody style="text-align: center;display: table-row-group;vertical-align: middle;">
-  	<tr ng-repeat="hospital in self.hospitals">
+  	<tr ng-repeat="hospital in self.hospitals" style="text-align: center;">
   		<td>{{hospital.id}}</td>
   		<td>{{hospital.name}}</td>
   		<td>{{hospital.level_name}}</td>
@@ -27,8 +31,8 @@
   		<td>{{hospital.province_name}}</td>
   		<td>{{hospital.pinyin}}</td>
   		<td>{{hospital.created_at}}</td>
-  		<td><a class="btn btn-default btn-success btn-xs color_box" href="#">编辑</a>
-  		<a class="btn btn-default btn-danger btn-xs color_box" href="#">删除</a></td>
+  		<td><a class="btn btn-default btn-success btn-xs" ng-click="open_edit('lg',hospital)">编辑</a>
+  		<a class="btn btn-default btn-danger btn-xs">删除</a></td>
   	</tr>
   </tbody>
 </table>
@@ -39,3 +43,46 @@
     <button type="button" class="btn btn-default" ng-click="setPage()">确定</button>
   </div>
 </div>
+<<<<<<< HEAD
+=======
+
+<script type="text/ng-template" id="new_hospital.html">
+  <div class="modal-header">
+      <h3 class="modal-title">新增医院</h3>
+  </div>
+  <div class="modal-body">
+    <label for="hos_name">医院名称</label>
+    <input style="width: 30%;" type="text" ng-model="hospital.name" class="form-control" id="hos_name">
+    <label for="hos_level">医院等级</label>
+    <select style="width: 30%;" ng-model="hospital.level" class="form-control" id="hos_level">
+      <option ng-repeat="level in levels" value={{$index}}>{{level}}</option>
+    </select>
+    <label for="hos_city">所在城市</label>
+    <select style="width: 30%;" ng-model="hospital.city_id" class="form-control" id="hos_city">
+      <option ng-repeat="city in cities" value={{city.id}}>{{city.name}}</option>
+    </select>
+    <button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    <button style="float: left;margin-top: 10px;" ng-click="save(hospital)"class="btn btn-primary">确定</button>              
+  </div>        
+</script>
+
+<script type="text/ng-template" id="edit_hospital.html">
+  <div class="modal-header">
+      <h3 class="modal-title">编辑医院</h3>
+  </div>
+  <div class="modal-body">
+    <label for="hos_name">医院名称</label>
+    <input style="width: 30%;" type="text" ng-model="hospital.name" class="form-control" id="hos_name">
+    <label for="hos_level">医院等级</label>
+    <select style="width: 30%;" ng-model="hospital.level" class="form-control" id="hos_level">
+      <option ng-repeat="level in levels" value={{$index}}>{{level}}</option>
+    </select>
+    <label for="hos_city">所在城市</label>
+    <select style="width: 30%;" ng-model="hospital.city_id" class="form-control">
+      <option ng-repeat="city in cities" value={{city.id}}>{{city.name}}</option>
+    </select>
+    <button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    <button style="float: left;margin-top: 10px;" ng-click="save(hospital)"class="btn btn-primary">确定</button>              
+  </div>        
+</script>
+>>>>>>> hd@hospital_cruid
