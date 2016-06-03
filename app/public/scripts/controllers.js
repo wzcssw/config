@@ -14,7 +14,9 @@ controllers.controller('loginController', ['$scope', 'userHttp', '$state', funct
         userHttp.login({username: $scope.username, password: $scope.password}, function (data) {
             userHttp.user = data.user;
             location.href = '/';
-        });
+        }, function(){
+			alert('验证错误');
+		});
     };
 }]);
 
