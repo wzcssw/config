@@ -16,6 +16,10 @@ routes.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
         url:'/hospitals',
         templateUrl:'templates/hospitals.html',
         controller:'hospitalsController'
+    }).state('new_hospital', {
+        url:'/new_hospital',
+        templateUrl:'templates/new_hospital.html',
+        controller:'newHospitalController'
     }).state('projects', {
         url:'/projects',
         templateUrl:'templates/projects.html',

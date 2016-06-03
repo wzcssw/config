@@ -28,33 +28,118 @@ controllers.controller('mainController', ['$scope', 'userHttp', function ($scope
     }
 }]);
 
-controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state', function ($scope, hospitalHttp, $state) {
+controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state', '$uibModal', '$log', function ($scope, hospitalHttp, $state, $uibModal, $log) {
     "use strict";
     $scope.self = $scope;
     $scope.maxSize = 5;
+    $scope.city_id = "";
+    $scope.q = "";
+    
     hospitalHttp.getHospital({}, function (data) {
         $scope.hospitals = data.hospitals;
         $scope.current_page = data.current_page;
         $scope.total_count = data.total_count;
     });
+    hospitalHttp.getCityAndLevel({}, function(data){
+        $scope.levels = data.levels;
+        $scope.cities = data.cities;
+    })
     $scope.pageChanged = function () {
-        hospitalHttp.getHospital({page: $scope.current_page}, function (data) {
+        hospitalHttp.getHospital({page: $scope.current_page,q: $scope.q,city_id: $scope.city_id}, function (data) {
             $scope.current_page = data.current_page;
             $scope.hospitals = data.hospitals;
         });
     };
-
     $scope.setPage = function () {
-        $scope.current_page = $('#go_page').val();
-        $scope.pageChanged();
-        $('#go_page').val("");
+      $scope.current_page = $('#go_page').val();
+      $scope.pageChanged();
+      $('#go_page').val("");
     };
-
+    $scope.search = function(){
+    	hospitalHttp.getHospital({q: $scope.q, city_id: $scope.city_id}, function (data) {
+        $scope.hospitals = data.hospitals;
+        $scope.current_page = data.current_page;
+        $scope.total_count = data.total_count;
+      });
+    }
+    //打开新建框
+    $scope.open_new = function (size) {
+    	$scope.items = {
+    		levels: $scope.levels,
+    		cities: $scope.cities
+    	};
+	    var new_hospital = $uibModal.open({
+	      animation: $scope.hospitalEnabled,
+	      templateUrl: 'new_hospital.html',
+	      controller: 'newHospitalController',
+	      size: size,
+	      resolve: {
+	        items: function () {
+	          return $scope.items;
+	        }
+	      }
+	    });
+	    new_hospital.result.then(function(){
+        $scope.pageChanged();
+      });
+    };
+    //打开编辑框
+    $scope.open_edit = function (size,hospital) {
+    	$scope.items = {
+    		hospital: hospital,
+    		levels: $scope.levels,
+    		cities: $scope.cities
+    	};
+	    var edit_hospital = $uibModal.open({
+	      animation: $scope.hospitalEnabled,
+	      templateUrl: 'edit_hospital.html',
+	      controller: 'editHospitalController',
+	      size: size,
+	      resolve: {
+	        items: function () {
+	          return $scope.items;
+	        }
+	      }
+	    });
+	    edit_hospital.result.then(function(){
+        $scope.pageChanged();
+      });
+    };
 }]);
 
-controllers.controller('createHospitalController', ['$scope', '$state', 'userHttp', function ($scope, $state, userHttp) {
-    $scope.self = $scope;
-    'use strict';
+controllers.controller('newHospitalController', ['$scope', 'hospitalHttp', '$state', '$uibModalInstance', 'items', function ($scope, hospitalHttp, $state, $uibModalInstance, items) {
+  $scope.cities = items.cities;
+  $scope.levels = items.levels;
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+  $scope.save = function(hospital){	
+  	hospitalHttp.createHospital({hospital: hospital}, function (data) {
+      $uibModalInstance.close();
+    });
+  };
+}]);
+
+controllers.controller('editHospitalController', ['$scope', 'hospitalHttp', '$state', '$uibModalInstance', 'items', function ($scope, hospitalHttp, $state, $uibModalInstance, items) {
+  $scope.hospital = items.hospital;
+  $scope.cities = items.cities;
+  $scope.levels = items.levels;
+  $scope.hospital.city_id += "";
+  var i = 0;
+  for(var l in $scope.levels){
+  	if(l==$scope.hospital.level){
+      $scope.hospital.level = i+"";
+  	}
+  	i++;
+  };
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+  $scope.save = function(hospital){
+  	hospitalHttp.editHospital({hospital: hospital}, function (data) {
+      $uibModalInstance.close();
+    });
+  };
 }]);
 
 controllers.controller('projectsController', ['$scope', 'projectHttp', function($scope, projectHttp){
@@ -82,7 +167,7 @@ controllers.controller('projectsController', ['$scope', 'projectHttp', function(
 			$scope.projectInfo = data.result;
 		});
 	};
-	$scope.getProjectInfo();
+  $scope.getProjectInfo();
 
 	$scope.pageChanged = function(){
 		$scope.getProjectInfo($scope.projectInfo.current_page);

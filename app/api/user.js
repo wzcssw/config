@@ -19,7 +19,7 @@ router.post('/login', function *(){
         access_token: access.access_token
     });
     var userInfo = info.data;
-
+    console.log(self.currentUser);
     var customInfo = {
         access_token: access.access_token,
         id: userInfo.id,
