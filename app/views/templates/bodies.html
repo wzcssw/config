@@ -7,8 +7,7 @@
     <input style="width: 13%;float: right;margin-left: 5px;margin-right: 5px;" type="text" ng-model="q" class="form-control" id="hos_q" placeholder="名称 、拼音">
     <select style="width: 6%;float: right;" ng-change="search()" ng-model="category_id" class="form-control">
       <option value="">全部</option>
-      <option value=1>检查</option>
-      <option value=2>检验</option>
+      <option ng-repeat="category in categories" value={{category.id}}>{{category.name}}</option>
     </select>
 	</div>
 

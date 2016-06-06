@@ -204,6 +204,15 @@ services.factory('bodiesHttp', ['httpBase', function(httpBase){
                 errorDo:errorDo,
                 alawyDo:alwaysDo
             });
+        },
+        getCategory: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url: '/api/categories',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            })
         }
     }
 }]);

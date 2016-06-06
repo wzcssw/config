@@ -325,8 +325,11 @@ controllers.controller('bodiesController', ['$scope', 'bodiesHttp', '$state', '$
 			$scope.current_page = data.current_page;
 			$scope.total_count = data.total_count;
 	});
+	bodiesHttp.getCategory({}, function (data) {
+			$scope.categories = data.categories;
+	});
 	$scope.pageChanged = function () {
-			bodiesHttp.getBody({page: $scope.current_page}, function (data) {
+			bodiesHttp.getBody({page: $scope.current_page,q: $scope.q, category_id: $scope.category_id}, function (data) {
 					$scope.current_page = data.current_page;
 					$scope.bodies = data.bodies;
 			});
