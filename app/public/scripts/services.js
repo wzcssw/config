@@ -145,7 +145,7 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
                 url: '/api/hospitals/levels_cities',
                 params: params,
                 successDo: successDo,
-                errorDo: errorDo 
+                errorDo: errorDo
             })
         }
     }
@@ -183,6 +183,22 @@ services.factory('citiesHttp', ['httpBase', function(httpBase){
             "use strict";
             httpBase.put({
                 url:'/api/cities',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alawyDo:alwaysDo
+            });
+        }
+    }
+}]);
+
+//bodies http
+services.factory('bodiesHttp', ['httpBase', function(httpBase){
+    return{
+        getBody: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url:'/api/bodies',
                 params:params,
                 successDo:successDo,
                 errorDo:errorDo,

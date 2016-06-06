@@ -36,7 +36,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
     $scope.maxSize = 5;
     $scope.city_id = "";
     $scope.q = "";
-    
+
     hospitalHttp.getHospital({}, function (data) {
         $scope.hospitals = data.hospitals;
         $scope.current_page = data.current_page;
@@ -115,7 +115,7 @@ controllers.controller('newHospitalController', ['$scope', 'hospitalHttp', '$sta
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
-  $scope.save = function(hospital){	
+  $scope.save = function(hospital){
   	hospitalHttp.createHospital({hospital: hospital}, function (data) {
       $uibModalInstance.close();
     });
@@ -311,5 +311,36 @@ controllers.controller('citiesController', ['$scope', 'citiesHttp', function($sc
 				}
 				break;
 		}
+	}
+}]);
+
+controllers.controller('bodiesController', ['$scope', 'bodiesHttp', '$state', '$uibModal', function ($scope, bodiesHttp, $state, $uibModal) {
+	"use strict";
+	$scope.self = $scope;
+	$scope.maxSize = 5;
+	$scope.q = "";
+
+	bodiesHttp.getBody({}, function (data) {
+			$scope.bodies = data.bodies;
+			$scope.current_page = data.current_page;
+			$scope.total_count = data.total_count;
+	});
+	$scope.pageChanged = function () {
+			bodiesHttp.getBody({page: $scope.current_page}, function (data) {
+					$scope.current_page = data.current_page;
+					$scope.bodies = data.bodies;
+			});
+	};
+	$scope.setPage = function () {
+		$scope.current_page = $('#go_page').val();
+		$scope.pageChanged();
+		$('#go_page').val("");
+	};
+	$scope.search = function(){
+		bodiesHttp.getBody({q: $scope.q, category_id: $scope.category_id}, function (data) {
+			$scope.bodies = data.bodies;
+			$scope.current_page = data.current_page;
+			$scope.total_count = data.total_count;
+		});
 	}
 }]);
