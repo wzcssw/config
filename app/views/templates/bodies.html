@@ -1,7 +1,7 @@
 <div class="table-operation">
 	<h3>检查类别/检验类别</h3>
 	<div>
-	  <button type="button" class="btn btn-default">新增检查类别/检验类别列表</button>
+	  <button type="button" class="btn btn-default" ng-click="open_new('sm')">新增检查类别/检验类别列表</button>
 	  <button type="button" class="btn btn-default">导出</button>
     <button style="float: right;width: 5%;" ng-click="search()" class="btn btn-default">搜索</button>
     <input style="width: 13%;float: right;margin-left: 5px;margin-right: 5px;" type="text" ng-model="q" class="form-control" id="hos_q" placeholder="名称 、拼音">
@@ -39,3 +39,19 @@
     <button type="button" class="btn btn-default" ng-click="setPage()">确定</button>
   </div>
 </div>
+
+<script type="text/ng-template" id="new_bodies.html">
+  <div class="modal-header">
+      <h3 class="modal-title">新增类别</h3>
+  </div>
+  <div class="modal-body">
+    <label for="hos_name">类别名称</label>
+    <input type="text" ng-model="body.name" class="form-control" id="hos_name">
+    <label for="hos_level">项目类别</label>
+    <select ng-model="body.category" class="form-control" id="hos_category">
+      <option ng-repeat="category in categories" value={{category.id}}>{{category.name}}</option>
+    </select>
+    <button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    <button style="float: left;margin-top: 10px;" ng-click="save(body)"class="btn btn-primary">确定</button>
+  </div>
+</script>

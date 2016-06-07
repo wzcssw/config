@@ -45,7 +45,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
     hospitalHttp.getCityAndLevel({}, function(data){
         $scope.levels = data.levels;
         $scope.cities = data.cities;
-    })
+    });
     $scope.pageChanged = function () {
         hospitalHttp.getHospital({page: $scope.current_page,q: $scope.q,city_id: $scope.city_id}, function (data) {
             $scope.current_page = data.current_page;
@@ -345,5 +345,38 @@ controllers.controller('bodiesController', ['$scope', 'bodiesHttp', '$state', '$
 			$scope.current_page = data.current_page;
 			$scope.total_count = data.total_count;
 		});
-	}
+	};
+
+	//打开新建框
+	$scope.open_new = function (size) {
+		$scope.items = {
+			categories: $scope.categories
+		};
+		var new_hospital = $uibModal.open({
+			animation: $scope.hospitalEnabled,
+			templateUrl: 'new_bodies.html',
+			controller: 'newBodiesController',
+			size: size,
+			resolve: {
+				items: function () {
+					return $scope.items;
+				}
+			}
+		});
+		new_hospital.result.then(function(){
+			$scope.pageChanged();
+		});
+	};
+}]);
+
+controllers.controller('newBodiesController', ['$scope', 'bodiesHttp', '$state', '$uibModalInstance', 'items', function ($scope, bodiesHttp, $state, $uibModalInstance, items) {
+	$scope.categories = items.categories;
+	$scope.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
+	$scope.save = function(body){
+		bodiesHttp.createBody({body: body}, function (data) {
+			$uibModalInstance.close();
+		});
+	};
 }]);

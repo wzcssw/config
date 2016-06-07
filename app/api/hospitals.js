@@ -24,13 +24,13 @@ router.get('/', function*() {
   page: page,
   q: q,
   city_id: city_id
-  }); 
+  });
   self.body = {
     success: true,
     hospitals: result.hospitals,
     total_count: result.total_count,
     current_page: result.current_page,
-  } 
+  }
 });
 
 //添加医院
@@ -43,7 +43,7 @@ router.post('/new_hospital', function *(){
     access_token: self.currentUser.access_token,
     name: hospital.name,
     level: hospital.level,
-    city_id: hospital.city_id  
+    city_id: hospital.city_id
   });
   this.body = {success: true};
 });
@@ -58,7 +58,7 @@ router.put('/edit_hospital', function *(){
     hospital_id:hospital.id,
     name:hospital.name,
     level:hospital.level,
-    city_id:hospital.city_id  
+    city_id:hospital.city_id
   });
   this.body = {success: true};
 });
@@ -83,7 +83,7 @@ router.get('/levels_cities', function*() {
     success: true,
     levels: JSON.parse(level_result.hospital_level),
     cities: city_arr
-  };     
+  };
 });
 
 module.exports = router.routes();

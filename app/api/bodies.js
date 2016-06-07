@@ -22,4 +22,18 @@ router.get('/', function*(){
     }
 });
 
+router.post('/new_body', function*(){
+    "use strict";
+    var self = this;
+    var params = self.request.body;
+    var body = params.body;
+    var access = yield http.post('/v1/body/add', {
+      access_token: self.currentUser.access_token,
+      name: body.name,
+      category: body.category
+    });
+    console.log(access.body);
+    this.body = {success: true};
+});
+
 module.exports = router.routes();

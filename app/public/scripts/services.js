@@ -213,6 +213,15 @@ services.factory('bodiesHttp', ['httpBase', function(httpBase){
                 successDo: successDo,
                 errorDo: errorDo
             })
+        },
+        createBody: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.post({
+                url: '/api/bodies/new_body',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            })
         }
     }
 }]);
