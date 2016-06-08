@@ -32,7 +32,6 @@ router.post('/new_body', function*(){
       name: body.name,
       category: body.category
     });
-    console.log(access.body);
     this.body = {success: true};
 });
 
