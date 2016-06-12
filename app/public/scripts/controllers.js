@@ -346,6 +346,11 @@ controllers.controller('bodiesController', ['$scope', 'bodiesHttp', '$state', '$
 			$scope.total_count = data.total_count;
 		});
 	};
+	$scope.delete = function(_id){
+		bodiesHttp.deleteBody({id: _id}, function (data) {
+			$scope.pageChanged();
+		});
+	};
 
 	//打开新建框
 	$scope.open_new = function (size) {

@@ -28,7 +28,7 @@
   		<td>{{body.category}}</td>
   		<td>{{body.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
   		<td><a class="btn btn-default btn-success btn-xs">编辑</a>
-  		<a class="btn btn-default btn-danger btn-xs">删除</a></td>
+  		<a class="btn btn-default btn-danger btn-xs" ng-click="delete(body.id)" confirm="你确定要删除该类别吗？">删除</a></td>
   	</tr>
   </tbody>
 </table>

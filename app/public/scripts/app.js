@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ui.bootstrap', 'routes', 'controllers', 'filters']);
+var app = angular.module('myApp', ['ui.bootstrap', 'routes', 'controllers', 'filters','angular-confirm']);
 app.run(['$rootScope', '$location', '$state', 'userHttp', function($rootScope, $location, $state, userHttp){
     $rootScope.logout = function(){
         "use strict";

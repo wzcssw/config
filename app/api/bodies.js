@@ -35,4 +35,15 @@ router.post('/new_body', function*(){
     this.body = {success: true};
 });
 
+router.get('/delete', function*(){
+    "use strict";
+    var self = this;
+    var params = self.query;
+    var access = yield http.delete('/v1/body/delete', {
+      access_token: self.currentUser.access_token,
+      id: params.id,
+    });
+    this.body = {success: true};
+});
+
 module.exports = router.routes();
