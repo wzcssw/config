@@ -65,7 +65,7 @@ router.put('/edit_hospital', function *(){
   this.body = {success: true};
 });
 
-//获取等级和城市列表
+//获取属性列表
 router.get('/options_attr', function*() {
   "use strict";
   var self = this;
@@ -75,6 +75,11 @@ router.get('/options_attr', function*() {
   var level_result = yield http.get('/v1/config_hospital/hospital_level_list', {
   });
   var nature_result = yield http.get('/v1/config_hospital/hospital_nature_list', {
+  });
+  var project_result = yield http.get('/v1/project/project_list', {
+  fields: 'id,name'
+  });
+  var device_state_result = yield http.get('/v1/config_hospital/device_state_list', {
   });
   // var arr = city_result.cities;
   // var city_arr = [];
@@ -87,8 +92,23 @@ router.get('/options_attr', function*() {
     success: true,
     levels: JSON.parse(level_result.hospital_level),
     cities: city_result.cities,
-    natures: JSON.parse(nature_result.hospital_nature)
+    natures: JSON.parse(nature_result.hospital_nature),
+    projects: project_result.projects,
+    device_states: JSON.parse(device_state_result.device_state) 
   };     
 });
+
+router.get('/get_hospital_device', function*(){
+  "use strict";
+  var self = this;
+  var hospital_id = this.query.hospital_id;
+  var dic_hospital_device = yield http.get('/v1/config_hospital/get_hospital_device', {
+    hospital_id: hospital_id
+  });
+  self.body = {
+    success: true,
+    dic_hospital_device: dic_hospital_device
+  };
+})
 
 module.exports = router.routes();

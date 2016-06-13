@@ -91,18 +91,46 @@
     <select style="width: 30%;" ng-model="hospital.city_id" class="form-control">
       <option ng-repeat="city in cities" value={{city.id}}>{{city.name}}</option>
     </select>
-    <button style="margin: 10px;" class="btn btn-primary" type="button" ng-click="create()">新增</button>
-    <button style="float: left;margin-top: 10px;" ng-click="save(hospital)"class="btn btn-success">保存</button>              
+    <button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    <button style="float: left;margin-top: 10px;" ng-click="save(hospital)" class="btn btn-primary">保存</button>              
   </div>        
 </script>
 
 <script type="text/ng-template" id="device_hospital.html">
   <div class="modal-header">
-      <h3 class="modal-title">{{hospital.name}}设备</h3>
+      <h3 class="modal-title">{{hospital.name}}设备情况列表</h3>
       <button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
-      <button style="float: left;margin-top: 10px;" ng-click="save(hospital)"class="btn btn-primary">确定</button>
+      <button style="float: left;margin-top: 10px;" ng-click="save(hospital);" class="btn btn-primary">确定</button>
   </div>
-  <div class="modal-body">         
+  <div class="modal-body" align="center">
+    <div class="row" style="width: 100%;">
+      <table class="table table-bordered table-bordered table-hover table-condensed">
+        <thead>
+        <tr>
+          <th style="text-align:center;">检查项目</th>
+          <th style="text-align:center;">检查设备情况</th>
+          <th style="text-align:center;">操作</th>
+        </tr>
+        </thead>
+        <tbody id="project_device_tbody">
+          <tr>
+            <td>
+              <select class="form-control" id="hos_project">
+              <option ng-repeat="project in projects" value={{project.id}}>{{project.name}}</option>
+              </select>
+            </td>
+            <td>
+              <select class="form-control" id="hos_device_state">
+              <option ng-repeat="device_state in device_states" value={{$index}}>{{device_state}}</option>
+              </select>
+            </td>
+            <td style="text-align:center;">
+              <button class="btn btn-danger btn-sm" ng-click="cancel()">删除</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>         
   </div>        
 </script>
 

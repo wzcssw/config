@@ -152,7 +152,7 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
             "use strict";
             var self = this;
             httpBase.get({
-                url: '/api/hospitals/hospital_device',
+                url: '/api/hospitals/get_hospital_device',
                 params: params,
                 successDo: successDo,
                 errorDo: errorDo
