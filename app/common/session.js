@@ -4,7 +4,9 @@ var config = {};
 var getUserByUid = function (uid, cb){
     "use strict";
     rdb.hgetall('session:user:' + uid, function(err, user){
-        user.uid = uid;
+        if (user){
+            user.uid = uid;
+        }
         cb(err, user);
     });
 };
