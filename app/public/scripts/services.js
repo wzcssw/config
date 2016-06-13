@@ -145,7 +145,7 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
                 url: '/api/hospitals/options_attr',
                 params: params,
                 successDo: successDo,
-                errorDo: errorDo 
+                errorDo: errorDo
             })
         },
         getHospitalDevice: function(params, successDo, errorDo, alwaysDo){
@@ -198,6 +198,49 @@ services.factory('citiesHttp', ['httpBase', function(httpBase){
                 errorDo:errorDo,
                 alawyDo:alwaysDo
             });
+        }
+    }
+}]);
+
+//bodies http
+services.factory('bodiesHttp', ['httpBase', function(httpBase){
+    return{
+        getBody: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url:'/api/bodies',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alawyDo:alwaysDo
+            });
+        },
+        getCategory: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url: '/api/categories',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            })
+        },
+        createBody: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.post({
+                url: '/api/bodies/new_body',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            })
+        },
+        deleteBody: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url: '/api/bodies/delete',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            })
         }
     }
 }]);

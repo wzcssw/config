@@ -24,13 +24,13 @@ router.get('/', function*() {
   page: page,
   q: q,
   city_id: city_id
-  }); 
+  });
   self.body = {
     success: true,
     hospitals: result.hospitals,
     total_count: result.total_count,
     current_page: result.current_page,
-  } 
+  }
 });
 
 //添加医院

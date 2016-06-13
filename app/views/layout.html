@@ -20,6 +20,7 @@
             <li ng-class="{ active: isActive('/hospitals')}"><a href="/#/hospitals">医院列表</a></li>
             <li ng-class="{ active: isActive('/projects')}"><a href="/#/projects">检查项目/检验项目</a></li>
             <li ng-class="{ active: isActive('/cities')}"><a href="/#/cities">城市管理</a></li>
+            <li ng-class="{ active: isActive('/bodies')}"><a href="/#/bodies">检查类别/检验类别</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right hidden-xs" style="margin-right: 15px">
             <li class="dropdown">
@@ -45,11 +46,14 @@
                     <li><a href="#/hospital">医院字典</a></li>
                     <li><a href="#/cities">城市管理</a></li>
                     <li><a href="#/projects">检查项目/检验项目</a></li>
+                    <li><a href="#/bodies">检查类别/检验类别</a></li>
                 </ul>
             </li>
         </ul>
     </nav>
 <% } %>
-<%- body %>
+<div class="container-fluid">
+  <%- body %>
+</div>
 </body>
 </html>
