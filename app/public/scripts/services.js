@@ -270,3 +270,38 @@ services.factory('operationlogsHttp', ['httpBase', function(httpBase){
         }
     }
 }]);
+
+//categories Http
+services.factory('categoriesHttp', ['httpBase', function(httpBase){
+    return{
+        getCategories: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url: '/api/categories',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alawyDo:alwaysDo
+            });
+        },
+        createCategory: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.post({
+                url: '/api/categories/new_category',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alawyDo:alwaysDo
+            });
+        },
+        deleteCategory: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url: '/api/categories/delete',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            })
+        }
+    }
+}]);

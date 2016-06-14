@@ -1,0 +1,47 @@
+<div class="table-operation">
+	<h3>项目类别</h3>
+	<div>
+	  <button type="button" class="btn btn-default" ng-click="open_new('sm')">新增项目类别</button>
+	</div>
+
+</div>
+<table class="table table-bordered table-hover">
+  	<tr style="text-align: center;background-color:#f6f6f6;">
+  	  <td>#</td>
+  	  <td>项目类别名称</td>
+      <td>project名称</td>
+  	  <td>body名称</td>
+      <td>bodyMode名称</td>
+  	  <td>是否开启</td>
+  	  <td>操作</td>
+  	</tr>
+  	<tr ng-repeat="category in self.categories" style="text-align: center;">
+  		<td>{{category.id}}</td>
+  		<td>{{category.name}}</td>
+  		<td>{{category.project_name}}</td>
+      <td>{{category.body_name}}</td>
+  		<td>{{category.body_mode_name}}</td>
+  		<td>{{category.flag ? '是':'否'}}</td>
+  		<td><a class="btn btn-default btn-success btn-xs">编辑</a>
+  		<a class="btn btn-default btn-danger btn-xs"  ng-click="delete(category.id)" confirm="你确定要删除该类别吗？">删除</a></td>
+  	</tr>
+  </tbody>
+</table>
+
+<script type="text/ng-template" id="new_categories.html">
+  <div class="modal-header">
+      <h3 class="modal-title">新增类别</h3>
+  </div>
+  <div class="modal-body">
+    <label for="hos_name">名称</label>
+    <input type="text" ng-model="category.name" class="form-control">
+    <label for="hos_level">project名称</label>
+    <input type="text" ng-model="category.project_name" class="form-control">
+    <label for="hos_level">body名称</label>
+    <input type="text" ng-model="category.body_name" class="form-control">
+    <label for="hos_level">bodyMode名称</label>
+    <input type="text" ng-model="category.body_mode_name" class="form-control">
+    <button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    <button style="float: left;margin-top: 10px;" ng-click="save(category)"class="btn btn-primary">确定</button>
+  </div>
+</script>

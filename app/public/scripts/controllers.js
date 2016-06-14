@@ -85,7 +85,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
 				  $scope.cancel = function () {
 				    $uibModalInstance.dismiss('cancel');
 				  };
-				  $scope.save = function(hospital){	
+				  $scope.save = function(hospital){
 				  	hospitalHttp.createHospital({hospital: hospital}, function (data) {
 				      $uibModalInstance.close();
 				    });
@@ -153,12 +153,12 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
         $scope.pageChanged();
       });
     };
-    
+
     $scope.open_device = function (size,hospital) {
     	$scope.items = {
     		hospital: hospital,
     		projects: $scope.projects,
-    		device_states: $scope.device_states 
+    		device_states: $scope.device_states
     	};
 	    var device_hospital = $uibModal.open({
 	      animation: $scope.hospitalEnabled,
@@ -493,4 +493,48 @@ controllers.controller('operationlogsController', ['$scope', 'operationlogsHttp'
 			$scope.operation_logs = data.result.operation_logs;
 		});
 	}
+}]);
+
+controllers.controller('categoriesController', ['$scope', 'categoriesHttp','$uibModal', function($scope, categoriesHttp,$uibModal){
+	"use strict";
+	$scope.self = $scope;
+
+	categoriesHttp.getCategories({}, function(data){
+		$scope.categories = data.categories;
+	});
+
+	$scope.delete = function(_id){
+		categoriesHttp.deleteCategory({id: _id}, function (data) {
+			categoriesHttp.getCategories({}, function(data){
+				$scope.categories = data.categories;
+			});
+		});
+	};
+
+	//打开新建框
+	$scope.open_new = function (size) {
+			var new_category = $uibModal.open({
+				// animation: $scope.hospitalEnabled,
+				templateUrl: 'new_categories.html',
+				controller: 'newCategoriesController',
+				size: size
+			});
+			new_category.result.then(function(){
+						categoriesHttp.getCategories({}, function(data){
+							$scope.categories = data.categories;
+						});
+		      });
+		};
+	}
+]);
+controllers.controller('newCategoriesController', ['$scope', 'categoriesHttp', '$state', '$uibModalInstance', function ($scope, categoriesHttp, $state, $uibModalInstance) {
+	$scope.category = {};
+	$scope.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
+	$scope.save = function(category){
+		categoriesHttp.createCategory({category: $scope.category}, function (data) {
+			$uibModalInstance.close();
+		});
+	};
 }]);
