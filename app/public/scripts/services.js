@@ -138,11 +138,21 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
                 errorDo: errorDo
             });
         },
-        getCityAndLevel: function(params, successDo, errorDo, alwaysDo){
+        getOptionAttr: function(params, successDo, errorDo, alwaysDo){
             "use strict";
             var self = this;
             httpBase.get({
-                url: '/api/hospitals/levels_cities',
+                url: '/api/hospitals/options_attr',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            })
+        },
+        getHospitalDevice: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.get({
+                url: '/api/hospitals/get_hospital_device',
                 params: params,
                 successDo: successDo,
                 errorDo: errorDo
