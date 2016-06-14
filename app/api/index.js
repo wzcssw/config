@@ -6,6 +6,7 @@ function JoinedApi(app){
     app.use(require('./cities.js'));
     app.use(require('./bodies.js'));
     app.use(require('./categories.js'));
+    app.use(require('./operation_logs.js'));
 }
 
 module.exports = JoinedApi;

@@ -234,3 +234,29 @@ services.factory('bodiesHttp', ['httpBase', function(httpBase){
         }
     }
 }]);
+
+//operationlogs http
+services.factory('operationlogsHttp', ['httpBase', function(httpBase){
+    return{
+        getOperationlogs: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url:'/api/operation_logs',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alawyDo:alwaysDo
+            });
+        },
+        getOperationlogtypes: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url:'/api/operation_logs/types',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alawyDo:alwaysDo
+            });
+        }
+    }
+}]);

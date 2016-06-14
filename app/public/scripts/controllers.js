@@ -385,3 +385,53 @@ controllers.controller('newBodiesController', ['$scope', 'bodiesHttp', '$state',
 		});
 	};
 }]);
+
+controllers.controller('operationlogsController', ['$scope', 'operationlogsHttp', function($scope, operationlogsHttp){
+	"use strict";
+	$scope.self = $scope;
+	$scope.maxSize = 5;
+	$scope.current_page = 1;
+
+	operationlogsHttp.getOperationlogs({}, function(data){
+		$scope.operation_logs = data.result.operation_logs;
+		$scope.total_count = data.result.total_count;
+		$scope.current_page = data.result.current_page;
+	});
+
+	operationlogsHttp.getOperationlogtypes({}, function(data){
+		$scope.operation_log_types = data.result.operation_log_types;
+	});
+
+	$scope.search = function(){
+		operationlogsHttp.getOperationlogs({operation_log_type_id: $scope.operation_log_type,user_realname: $scope.user_realname, keyword: $scope.keyword,start_time: $scope.start_time,end_time: $scope.end_time}, function (data) {
+			$scope.operation_logs = data.result.operation_logs;
+			$scope.total_count = data.result.total_count;
+			$scope.current_page = data.result.current_page;
+		});
+	}
+
+	$scope.refresh = function(){
+		$scope.operation_log_type = '';
+		$scope.user_realname = "";
+		$scope.keyword = "";
+		$scope.start_time = "";
+		$scope.end_time = "";
+		operationlogsHttp.getOperationlogs({}, function(data){
+			$scope.operation_logs = data.result.operation_logs;
+			$scope.total_count = data.result.total_count;
+			$scope.current_page = data.result.current_page;
+		});
+	}
+
+	$scope.pageChanged = function(){
+		operationlogsHttp.getOperationlogs({page:$scope.current_page}, function(data){
+			$scope.operation_logs = data.result.operation_logs;
+		});
+	}
+
+	$scope.setPage = function(){
+		operationlogsHttp.getOperationlogs({page:$scope.current_page}, function(data){
+			$scope.operation_logs = data.result.operation_logs;
+		});
+	}
+}]);
