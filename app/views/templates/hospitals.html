@@ -100,7 +100,8 @@
   <div class="modal-header">
       <h3 class="modal-title">{{hospital.name}}设备情况列表</h3>
       <button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
-      <button style="float: left;margin-top: 10px;" ng-click="save(hospital);" class="btn btn-primary">确定</button>
+      <button style="float: left;margin: 10px;" class="btn btn-success" type="button" ng-click="add_device_row()">新增</button>
+      <button style="float: left;margin-top: 10px;" ng-click="save();" class="btn btn-primary">保存</button>
   </div>
   <div class="modal-body" align="center">
     <div class="row" style="width: 100%;">
@@ -113,7 +114,22 @@
         </tr>
         </thead>
         <tbody id="project_device_tbody">
-          <tr>
+          <tr ng-repeat="device_item in dic_hospital_device track by $index">
+            <td>
+              <select ng-model="dic_hospital_device[$index].id" class="form-control">
+                <option ng-repeat="project in projects" value={{project.id}}>{{project.name}}</option>
+              </select>
+            </td>
+            <td>
+              <select ng-model="dic_hospital_device[$index].device_state" class="form-control" id="hos_device_state">
+                <option ng-repeat="device_state in device_states" value={{$index}}>{{device_state}}</option>
+              </select>
+            </td>
+            <td style="text-align:center;">
+              <button class="btn btn-danger btn-sm" ng-click="delete_row($index)">删除</button>
+            </td>
+          </tr>
+          <!-- <tr>
             <td>
               <select class="form-control" id="hos_project">
               <option ng-repeat="project in projects" value={{project.id}}>{{project.name}}</option>
@@ -127,13 +143,11 @@
             <td style="text-align:center;">
               <button class="btn btn-danger btn-sm" ng-click="cancel()">删除</button>
             </td>
-          </tr>
+          </tr> -->
         </tbody>
       </table>
     </div>         
   </div>        
-    <button style="float: left;margin-top: 10px;" ng-click="save(hospital)"class="btn btn-primary">确定</button>
-  </div>
 </script>
 
 

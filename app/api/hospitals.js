@@ -97,7 +97,7 @@ router.get('/options_attr', function*() {
     device_states: JSON.parse(device_state_result.device_state) 
   };     
 });
-
+//获取医院设备信息
 router.get('/get_hospital_device', function*(){
   "use strict";
   var self = this;
@@ -109,6 +109,19 @@ router.get('/get_hospital_device', function*(){
     success: true,
     dic_hospital_device: dic_hospital_device
   };
-})
+});
+
+//保存医院设备信息
+router.post('/save_hospital_device', function*(){
+  "use strict";
+  var self = this;
+  var params = self.request.body;
+  var access = yield http.post('/v1/config_hospital/save_hospital_device', {
+    access_token: self.currentUser.access_token,
+    hospital_id: params.hospital_id,
+    dic_hospital_device: JSON.stringify(params.dic_hospital_device)
+  });
+  this.body = {success: true};
+});
 
 module.exports = router.routes();

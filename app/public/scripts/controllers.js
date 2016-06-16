@@ -164,18 +164,37 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
 	      animation: $scope.hospitalEnabled,
 	      templateUrl: 'device_hospital.html',
 	      controller: function($scope, $uibModalInstance, items){
-	      	      $scope.hospital = items.hospital;
-	      	      hospitalHttp.getHospitalDevice({hospital_id: hospital.id}, function(data){
-                    $scope.dic_hospital_device = data.dic_hospital_device;
-	      	      });
-	      	      $scope.projects = items.projects;
-	      	      $scope.device_states = items.device_states;
-				  $scope.create = function () {
+  	      $scope.hospital = items.hospital;
+  	      hospitalHttp.getHospitalDevice({hospital_id: hospital.id}, function(data){
+              $scope.dic_hospital_device = data.dic_hospital_device.dic_hospital_device;
+              angular.forEach($scope.dic_hospital_device,function(object,index){
+                object.id+='';
+                object.device_state+='';
+              });
+  	      });
+  	      $scope.projects = items.projects;
+  	      $scope.device_states = items.device_states;
+				  $scope.cancel = function () {
 				    $uibModalInstance.dismiss('cancel');
 				  };
-				  $scope.save = function(hospital){
+				  $scope.save = function(){
+				  	console.log($scope.dic_hospital_device);
+				  	hospitalHttp.saveHospitalDevice({hospital_id: $scope.hospital.id, dic_hospital_device: $scope.dic_hospital_device}, function(data){
+              console.log(data);
+				  	})
 				  	$uibModalInstance.dismiss('cancel');
 				  };
+				  $scope.add_device_row = function(){
+            $scope.dic_hospital_device.push({
+            	id: "",
+	  	      	name: "",
+	  	      	device_state: ""
+            });
+				  };
+				  $scope.delete_row = function(tr_num){
+				  	$scope.dic_hospital_device.splice(tr_num, 1);
+				  	// console.log($scope.dic_hospital_device);
+				  }
 	      },
 	      size: size,
 	      resolve: {
