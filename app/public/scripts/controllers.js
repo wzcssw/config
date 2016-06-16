@@ -85,7 +85,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
 				  $scope.cancel = function () {
 				    $uibModalInstance.dismiss('cancel');
 				  };
-				  $scope.save = function(hospital){	
+				  $scope.save = function(hospital){
 				  	hospitalHttp.createHospital({hospital: hospital}, function (data) {
 				      $uibModalInstance.close();
 				    });
@@ -153,12 +153,12 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
         $scope.pageChanged();
       });
     };
-    
+
     $scope.open_device = function (size,hospital) {
     	$scope.items = {
     		hospital: hospital,
     		projects: $scope.projects,
-    		device_states: $scope.device_states 
+    		device_states: $scope.device_states
     	};
 	    var device_hospital = $uibModal.open({
 	      animation: $scope.hospitalEnabled,
@@ -459,6 +459,100 @@ controllers.controller('newBodiesController', ['$scope', 'bodiesHttp', '$state',
 	};
 	$scope.save = function(body){
 		bodiesHttp.createBody({body: body}, function (data) {
+			$uibModalInstance.close();
+		});
+	};
+}]);
+
+controllers.controller('operationlogsController', ['$scope', 'operationlogsHttp', function($scope, operationlogsHttp){
+	"use strict";
+	$scope.self = $scope;
+	$scope.maxSize = 5;
+	$scope.current_page = 1;
+
+	operationlogsHttp.getOperationlogs({}, function(data){
+		$scope.operation_logs = data.result.operation_logs;
+		$scope.total_count = data.result.total_count;
+		$scope.current_page = data.result.current_page;
+	});
+
+	operationlogsHttp.getOperationlogtypes({}, function(data){
+		$scope.operation_log_types = data.result.operation_log_types;
+	});
+
+	$scope.search = function(){
+		operationlogsHttp.getOperationlogs({operation_log_type_id: $scope.operation_log_type,user_realname: $scope.user_realname, keyword: $scope.keyword,start_time: $scope.start_time,end_time: $scope.end_time}, function (data) {
+			$scope.operation_logs = data.result.operation_logs;
+			$scope.total_count = data.result.total_count;
+			$scope.current_page = data.result.current_page;
+		});
+	}
+
+	$scope.refresh = function(){
+		$scope.operation_log_type = '';
+		$scope.user_realname = "";
+		$scope.keyword = "";
+		$scope.start_time = "";
+		$scope.end_time = "";
+		operationlogsHttp.getOperationlogs({}, function(data){
+			$scope.operation_logs = data.result.operation_logs;
+			$scope.total_count = data.result.total_count;
+			$scope.current_page = data.result.current_page;
+		});
+	}
+
+	$scope.pageChanged = function(){
+		operationlogsHttp.getOperationlogs({page:$scope.current_page}, function(data){
+			$scope.operation_logs = data.result.operation_logs;
+		});
+	}
+
+	$scope.setPage = function(){
+		operationlogsHttp.getOperationlogs({page:$scope.current_page}, function(data){
+			$scope.operation_logs = data.result.operation_logs;
+		});
+	}
+}]);
+
+controllers.controller('categoriesController', ['$scope', 'categoriesHttp','$uibModal', function($scope, categoriesHttp,$uibModal){
+	"use strict";
+	$scope.self = $scope;
+
+	categoriesHttp.getCategories({}, function(data){
+		$scope.categories = data.categories;
+	});
+
+	$scope.delete = function(_id){
+		categoriesHttp.deleteCategory({id: _id}, function (data) {
+			categoriesHttp.getCategories({}, function(data){
+				$scope.categories = data.categories;
+			});
+		});
+	};
+
+	//打开新建框
+	$scope.open_new = function (size) {
+			var new_category = $uibModal.open({
+				// animation: $scope.hospitalEnabled,
+				templateUrl: 'new_categories.html',
+				controller: 'newCategoriesController',
+				size: size
+			});
+			new_category.result.then(function(){
+						categoriesHttp.getCategories({}, function(data){
+							$scope.categories = data.categories;
+						});
+		      });
+		};
+	}
+]);
+controllers.controller('newCategoriesController', ['$scope', 'categoriesHttp', '$state', '$uibModalInstance', function ($scope, categoriesHttp, $state, $uibModalInstance) {
+	$scope.category = {};
+	$scope.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
+	$scope.save = function(category){
+		categoriesHttp.createCategory({category: $scope.category}, function (data) {
 			$uibModalInstance.close();
 		});
 	};

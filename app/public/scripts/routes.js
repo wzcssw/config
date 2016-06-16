@@ -32,6 +32,14 @@ routes.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
         url:'/bodies',
         templateUrl:'templates/bodies.html',
         controller:'bodiesController'
+    }).state('categories',{
+        url:'/categories',
+        templateUrl:'templates/categories.html',
+        controller:'categoriesController'
+    }).state('operation_logs',{
+        url:'/operation_logs',
+        templateUrl:'templates/operation_logs.html',
+        controller:'operationlogsController'
     });
     $urlRouterProvider.otherwise('/login');
 }]);

@@ -7,19 +7,40 @@ var router = require('koa-router')({
 router.get('/', function*(){
     "use strict";
     var self = this;
-    var page = 1;
     var params = self.query;
-    if (params.page != null) {
-       page = params.page;
-    }
+
     params.fields = 'id,name,created_at,body_name,body_mode_name,project_name,flag';
     var result = yield http.get('/v1/category/list', params);
     self.body = {
         success:true,
         categories:result.categories,
-        total_count: result.total_count,
-        current_page: result.current_page
     }
+});
+
+router.post('/new_category', function*(){
+    "use strict";
+    var self = this;
+    var params = self.request.body;
+    var category = params.category;
+    var access = yield http.post('/v1/category/add', {
+      access_token: self.currentUser.access_token,
+      name: category.name,
+      body_name: category.body_name,
+      project_name: category.project_name,
+      body_mode_name: category.body_mode_name
+    });
+    this.body = {success: true};
+});
+
+router.get('/delete', function*(){
+    "use strict";
+    var self = this;
+    var params = self.query;
+    var access = yield http.delete('/v1/category/delete', {
+      access_token: self.currentUser.access_token,
+      id: params.id,
+    });
+    this.body = {success: true};
 });
 
 module.exports = router.routes();
