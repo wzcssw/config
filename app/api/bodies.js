@@ -30,7 +30,21 @@ router.post('/new_body', function*(){
     var access = yield http.post('/v1/body/add', {
       access_token: self.currentUser.access_token,
       name: body.name,
-      category: body.category
+      category_id: body.category_id
+    });
+    this.body = {success: true};
+});
+
+router.post('/update_body', function*(){
+    "use strict";
+    var self = this;
+    var params = self.request.body;
+    var body = params.body;
+    var access = yield http.put('/v1/body/update', {
+      access_token: self.currentUser.access_token,
+      id: body.id,
+      name: body.name,
+      category_id: body.category_id
     });
     this.body = {success: true};
 });

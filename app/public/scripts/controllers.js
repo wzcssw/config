@@ -429,6 +429,25 @@ controllers.controller('bodiesController', ['$scope', 'bodiesHttp', '$state', '$
 			$scope.pageChanged();
 		});
 	};
+	$scope.update = function(_body){
+		$scope.items = {
+			categories: $scope.categories,
+			body: _body
+		};
+		var body_modal = $uibModal.open({
+			templateUrl: 'update_bodies.html',
+			controller: 'updateBodyController',
+			size: 'sm',
+			resolve: {
+				items: function () {
+					return $scope.items;
+				}
+			}
+		});
+		body_modal.result.then(function(){
+			$scope.pageChanged();
+		});
+	};
 
 	//打开新建框
 	$scope.open_new = function (size) {
@@ -459,6 +478,21 @@ controllers.controller('newBodiesController', ['$scope', 'bodiesHttp', '$state',
 	};
 	$scope.save = function(body){
 		bodiesHttp.createBody({body: body}, function (data) {
+			$uibModalInstance.close();
+		});
+	};
+}]);
+
+controllers.controller('updateBodyController', ['$scope', 'bodiesHttp', '$state', '$uibModalInstance', 'items', function ($scope, bodiesHttp, $state, $uibModalInstance, items) {
+	$scope.categories = items.categories;
+	items.body.category_id = items.body.category_id + "";
+	$scope.body = items.body;
+	$scope.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
+	$scope.save = function(_body){
+		console.log(_body);
+		bodiesHttp.updateBody({body: _body}, function (data) {
 			$uibModalInstance.close();
 		});
 	};

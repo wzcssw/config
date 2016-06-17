@@ -243,6 +243,15 @@ services.factory('bodiesHttp', ['httpBase', function(httpBase){
                 errorDo: errorDo
             })
         },
+        updateBody: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.post({
+                url: '/api/bodies/update_body',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            })
+        },
         deleteBody: function(params, successDo, errorDo, alwaysDo){
             "use strict";
             httpBase.get({

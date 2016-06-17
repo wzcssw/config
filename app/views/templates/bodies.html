@@ -27,7 +27,7 @@
   		<td>{{body.projects[0]}}</td>
   		<td>{{body.category}}</td>
   		<td>{{body.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-  		<td><a class="btn btn-default btn-success btn-xs">编辑</a>
+  		<td><a class="btn btn-default btn-success btn-xs" ng-click="update(body)">编辑</a>
   		<a class="btn btn-default btn-danger btn-xs" ng-click="delete(body.id)" confirm="你确定要删除该类别吗？">删除</a></td>
   	</tr>
   </tbody>
@@ -48,7 +48,23 @@
     <label for="hos_name">类别名称</label>
     <input type="text" ng-model="body.name" class="form-control" id="hos_name">
     <label for="hos_level">项目类别</label>
-    <select ng-model="body.category" class="form-control" id="hos_category">
+    <select ng-model="body.category_id" class="form-control" id="hos_category">
+      <option ng-repeat="category in categories" value={{category.id}}>{{category.name}}</option>
+    </select>
+    <button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    <button style="float: left;margin-top: 10px;" ng-click="save(body)"class="btn btn-primary">确定</button>
+  </div>
+</script>
+
+<script type="text/ng-template" id="update_bodies.html">
+  <div class="modal-header">
+      <h3 class="modal-title">更新类别</h3>
+  </div>
+  <div class="modal-body">
+    <label>类别名称</label>
+    <input type="text" ng-model="body.name" class="form-control">
+    <label>项目类别</label>
+    <select ng-model="body.category_id" class="form-control">
       <option ng-repeat="category in categories" value={{category.id}}>{{category.name}}</option>
     </select>
     <button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
