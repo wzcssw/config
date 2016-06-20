@@ -60,4 +60,17 @@ router.get('/delete', function*(){
     this.body = {success: true};
 });
 
+router.post('/add_project', function*(){
+    "use strict";
+    var self = this;
+    var params = self.request.body;
+    var access = yield http.post('/v1/body/add_project', {
+      access_token: self.currentUser.access_token,
+      body_id: params.body_id,
+      project_ids: JSON.stringify(params.project_ids)
+    });
+    console.log(access);
+    this.body = {success: true};
+});
+
 module.exports = router.routes();

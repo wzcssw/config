@@ -424,11 +424,38 @@ controllers.controller('bodiesController', ['$scope', 'bodiesHttp', '$state', '$
 			$scope.total_count = data.total_count;
 		});
 	};
+
+	$scope.arrayToString = function(arr){
+	    return arr.join(", ");
+	};
+
 	$scope.delete = function(_id){
 		bodiesHttp.deleteBody({id: _id}, function (data) {
 			$scope.pageChanged();
 		});
 	};
+
+	$scope.add_project = function(body){
+		$scope.items = {
+			body_id: body.id,
+			category_id: body.category_id,
+			project_zh: body.projects
+		};
+		var projects_modal = $uibModal.open({
+			templateUrl: 'add_project.html',
+			controller: 'addProjectToBodyController',
+			size: 'lg',
+			resolve: {
+				items: function () {
+					return $scope.items;
+				}
+			}
+		});
+		projects_modal.result.then(function(){
+			$scope.pageChanged();
+		});
+	};
+
 	$scope.update = function(_body){
 		$scope.items = {
 			categories: $scope.categories,
@@ -483,6 +510,37 @@ controllers.controller('newBodiesController', ['$scope', 'bodiesHttp', '$state',
 	};
 }]);
 
+controllers.controller('addProjectToBodyController', ['$scope', 'bodiesHttp','projectHttp', '$state', '$uibModalInstance', 'items', function ($scope, bodiesHttp, projectHttp, $state, $uibModalInstance, items) {
+	$scope.items = items;
+	projectHttp.getProjects({category_id: items.category_id},function(data){
+		$scope.projects = data.result.projects;
+	});
+	$scope.contains = function(arr, obj,_this) {
+	    var i = arr.length;
+	    while (i--) {
+	        if (arr[i] === obj) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+	$scope.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
+	$scope.save = function(){
+		project_ids = [];
+		angular.forEach($scope.projects, function(object,index){
+			if(object.isChecked){
+				project_ids.push(object.id)
+			}
+		});
+		bodiesHttp.addProjectToBody({body_id:items.body_id,project_ids:project_ids},function (data) {
+		  $uibModalInstance.dismiss('cancel');
+			$state.reload();
+		});
+	};
+}]);
+
 controllers.controller('updateBodyController', ['$scope', 'bodiesHttp', '$state', '$uibModalInstance', 'items', function ($scope, bodiesHttp, $state, $uibModalInstance, items) {
 	$scope.categories = items.categories;
 	items.body.category_id = items.body.category_id + "";
@@ -491,7 +549,6 @@ controllers.controller('updateBodyController', ['$scope', 'bodiesHttp', '$state'
 		$uibModalInstance.dismiss('cancel');
 	};
 	$scope.save = function(_body){
-		console.log(_body);
 		bodiesHttp.updateBody({body: _body}, function (data) {
 			$uibModalInstance.close();
 		});

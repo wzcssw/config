@@ -260,6 +260,15 @@ services.factory('bodiesHttp', ['httpBase', function(httpBase){
                 successDo: successDo,
                 errorDo: errorDo
             })
+        },
+        addProjectToBody: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.post({
+                url: '/api/bodies/add_project',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            })
         }
     }
 }]);
