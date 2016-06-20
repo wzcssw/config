@@ -621,6 +621,33 @@ controllers.controller('categoriesController', ['$scope', 'categoriesHttp','$uib
 		});
 	};
 
+	$scope.select_flag = function (category) {
+		//  select_click
+		$scope.dynamicPopover = {
+			templateUrl: 'myPopSelectTemplate.html',
+			title: '是否开启'
+		};
+		$scope.placement = {
+			options: [
+				'是',
+				'否'
+			],
+			selected: category.flag?'是':'否'
+		}
+		$scope.category = category;
+	}
+
+	$scope.flag_change = function () {
+		var category = $scope.category;
+		if($scope.placement.selected == "是"){
+			category.flag = true;
+		}else if($scope.placement.selected == "否"){
+			category.flag  = false;
+		}
+		categoriesHttp.updateCategory({category:category}, function(data){
+		});
+	}
+
 	//打开新建框
 	$scope.open_new = function (size) {
 			var new_category = $uibModal.open({
@@ -635,8 +662,26 @@ controllers.controller('categoriesController', ['$scope', 'categoriesHttp','$uib
 						});
 		      });
 		};
+	$scope.update = function (category) {
+			var new_category = $uibModal.open({
+				templateUrl: 'update_categories.html',
+				controller: 'updateCategoriesController',
+				size: 'sm',
+				resolve: {
+					items: function () {
+						return category;
+					}
+				}
+			});
+			new_category.result.then(function(){
+						categoriesHttp.getCategories({}, function(data){
+							$scope.categories = data.categories;
+						});
+		      });
+		};
 	}
 ]);
+
 controllers.controller('newCategoriesController', ['$scope', 'categoriesHttp', '$state', '$uibModalInstance', function ($scope, categoriesHttp, $state, $uibModalInstance) {
 	$scope.category = {};
 	$scope.cancel = function () {
@@ -644,6 +689,18 @@ controllers.controller('newCategoriesController', ['$scope', 'categoriesHttp', '
 	};
 	$scope.save = function(category){
 		categoriesHttp.createCategory({category: $scope.category}, function (data) {
+			$uibModalInstance.close();
+		});
+	};
+}]);
+
+controllers.controller('updateCategoriesController', ['$scope', 'categoriesHttp', '$state', '$uibModalInstance','items', function ($scope, categoriesHttp, $state, $uibModalInstance,items) {
+	$scope.category = items;
+	$scope.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
+	$scope.save = function(category){
+		categoriesHttp.updateCategory({category: $scope.category}, function (data) {
 			$uibModalInstance.close();
 		});
 	};

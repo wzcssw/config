@@ -24,7 +24,7 @@
         <td ng-bind="l.id"></td>
         <td ng-bind="l.name" style="color:#337ab7;"></td>
         <td>
-            <a id="aaa" ng-style="l.state?{color:'green'}:{}" uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="l.state?'是':'否'" ng-click="select_click('state', l.state, l.id, l)"></a>
+            <a id="aaa" ng-style="l.state?{color:'green'}:{}"  ng-bind="l.state?'是':'否'" ng-click="select_click('state', l.state, l.id, l)"></a>
         </td>
         <td>
             <a uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="l.go_public_sea_day || '点击设置'" ng-click="select_click('go_public_sea_day', l.go_public_sea_day, l.id, l)"></a>

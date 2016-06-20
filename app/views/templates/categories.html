@@ -1,3 +1,11 @@
+<style>
+    a{
+        padding: 2px 10px;
+    }
+    a:hover{
+        cursor: pointer;
+    }
+</style>
 <div class="table-operation">
 	<h3>项目类别</h3>
 	<div>
@@ -21,9 +29,13 @@
   		<td>{{category.project_name}}</td>
       <td>{{category.body_name}}</td>
   		<td>{{category.body_mode_name}}</td>
-  		<td>{{category.flag ? '是':'否'}}</td>
-  		<td><a class="btn btn-default btn-success btn-xs">编辑</a>
-  		<a class="btn btn-default btn-danger btn-xs"  ng-click="delete(category.id)" confirm="你确定要删除该类别吗？">删除</a></td>
+  		<td>
+				  <a ng-style="l.state?{color:'green'}:{}" uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="category.flag?'是':'否'" ng-click="select_flag(category)"></a>
+			</td>
+  		<td>
+				<a class="btn btn-default btn-success btn-xs" ng-click="update(category)">编辑</a>
+  			<a class="btn btn-default btn-danger btn-xs"  ng-click="delete(category.id)" confirm="你确定要删除该类别吗？">删除</a>
+			</td>
   	</tr>
   </tbody>
 </table>
@@ -44,4 +56,28 @@
     <button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
     <button style="float: left;margin-top: 10px;" ng-click="save(category)"class="btn btn-primary">确定</button>
   </div>
+</script>
+
+<script type="text/ng-template" id="update_categories.html">
+  <div class="modal-header">
+      <h3 class="modal-title">更新类别</h3>
+  </div>
+  <div class="modal-body">
+    <label for="hos_name">名称</label>
+    <input type="text" ng-model="category.name" class="form-control">
+    <label for="hos_level">project名称</label>
+    <input type="text" ng-model="category.project_name" class="form-control">
+    <label for="hos_level">body名称</label>
+    <input type="text" ng-model="category.body_name" class="form-control">
+    <label for="hos_level">bodyMode名称</label>
+    <input type="text" ng-model="category.body_mode_name" class="form-control">
+    <button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    <button style="float: left;margin-top: 10px;" ng-click="save(category)"class="btn btn-primary">确定</button>
+  </div>
+</script>
+
+<script type="text/ng-template" id="myPopSelectTemplate.html">
+    <div class="form-group">
+        <select class="form-control" ng-model="placement.selected" ng-change="flag_change()" ng-options="o as o for o in placement.options"></select>
+    </div>
 </script>

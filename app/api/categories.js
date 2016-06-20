@@ -43,4 +43,21 @@ router.get('/delete', function*(){
     this.body = {success: true};
 });
 
+router.post('/update', function*(){
+    "use strict";
+    var self = this;
+    var params = self.request.body;
+    var category = params.category;
+    var access = yield http.put('/v1/category/update', {
+      access_token: self.currentUser.access_token,
+      id: category.id,
+      name: category.name,
+      body_name: category.body_name,
+      project_name: category.project_name,
+      body_mode_name: category.body_mode_name,
+      flag: category.flag
+    });
+    this.body = {success: true};
+});
+
 module.exports = router.routes();

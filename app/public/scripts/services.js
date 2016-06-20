@@ -330,6 +330,15 @@ services.factory('categoriesHttp', ['httpBase', function(httpBase){
                 successDo: successDo,
                 errorDo: errorDo
             })
+        },
+        updateCategory: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.post({
+                url: '/api/categories/update',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            })
         }
     }
 }]);
