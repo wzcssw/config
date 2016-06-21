@@ -293,7 +293,7 @@ services.factory('operationlogsHttp', ['httpBase', function(httpBase){
                 params:params,
                 successDo:successDo,
                 errorDo:errorDo,
-                alawyDo:alwaysDo
+                alwaysDo:alwaysDo
             });
         }
     }
@@ -339,6 +339,44 @@ services.factory('categoriesHttp', ['httpBase', function(httpBase){
                 successDo: successDo,
                 errorDo: errorDo
             })
+        }
+    }
+}]);
+
+services.factory('bodyModesHttp', ['httpBase', function(httpBase){
+    return{
+        getBodyModes: function(params, successDo, errorDo, alwaysDo){
+          "use strict";
+          var self = this;
+          httpBase.get({
+            url: '/api/body_modes',
+            params:params,
+            successDo:successDo,
+            errorDo:errorDo,
+            alwaysDo:alwaysDo
+          })
+        },
+        editBodyModes: function(params, successDo, errorDo, alwaysDo){
+          "use strict";
+          var self = this;
+          httpBase.put({
+            url: 'api/body_modes/edit_body_mode',
+            params:params,
+            successDo:successDo,
+            errorDo:errorDo,
+            alwaysDo:alwaysDo
+          })
+        },
+        editRank: function(params, successDo, errorDo, alwaysDo){
+          "use strict";
+          var self = this;
+          httpBase.put({
+            url: 'api/body_modes/edit_rank',
+            params:params,
+            successDo:successDo,
+            errorDo:errorDo,
+            alwaysDo:alwaysDo
+          })
         }
     }
 }]);
