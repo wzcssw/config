@@ -31,19 +31,19 @@ controllers.controller('mainController', ['$scope', 'userHttp', function ($scope
     }
 }]);
 
-controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state', '$log', '$uibModal', function ($scope, hospitalHttp, $state, $log, $uibModal) {
+controllers.controller('dicHospitalsController', ['$scope', 'dic_hospitalHttp', '$state', '$log', '$uibModal', function ($scope, dic_hospitalHttp, $state, $log, $uibModal) {
     "use strict";
     $scope.self = $scope;
     $scope.maxSize = 5;
     $scope.city_id = "";
     $scope.q = "";
     $scope.hospitalEnabled = true;
-    hospitalHttp.getHospital({}, function (data) {
+    dic_hospitalHttp.getHospital({}, function (data) {
         $scope.hospitals = data.hospitals;
         $scope.current_page = data.current_page;
         $scope.total_count = data.total_count;
     });
-    hospitalHttp.getOptionAttr({}, function(data){
+    dic_hospitalHttp.getOptionAttr({}, function(data){
         $scope.levels = data.levels;
         $scope.cities = data.cities;
         $scope.natures = data.natures;
@@ -51,7 +51,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
         $scope.device_states = data.device_states;
     });
     $scope.pageChanged = function () {
-        hospitalHttp.getHospital({page: $scope.current_page,q: $scope.q,city_id: $scope.city_id}, function (data) {
+        dic_hospitalHttp.getHospital({page: $scope.current_page,q: $scope.q,city_id: $scope.city_id}, function (data) {
             $scope.current_page = data.current_page;
             $scope.hospitals = data.hospitals;
         });
@@ -62,7 +62,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
       $('#go_page').val("");
     };
     $scope.search = function(){
-    	hospitalHttp.getHospital({q: $scope.q, city_id: $scope.city_id}, function (data) {
+    	dic_hospitalHttp.getHospital({q: $scope.q, city_id: $scope.city_id}, function (data) {
         $scope.hospitals = data.hospitals;
         $scope.current_page = data.current_page;
         $scope.total_count = data.total_count;
@@ -86,7 +86,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
 				    $uibModalInstance.dismiss('cancel');
 				  };
 				  $scope.save = function(hospital){
-				  	hospitalHttp.createHospital({hospital: hospital}, function (data) {
+				  	dic_hospitalHttp.createHospital({hospital: hospital}, function (data) {
 				      $uibModalInstance.close();
 				    });
 				  };
@@ -137,7 +137,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
 				    $uibModalInstance.dismiss('cancel');
 				  };
 				  $scope.save = function(hospital){
-				  	hospitalHttp.editHospital({hospital: hospital}, function (data) {
+				  	dic_hospitalHttp.editHospital({hospital: hospital}, function (data) {
 				      $uibModalInstance.close();
 				    });
 				  };
@@ -165,7 +165,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
 	      templateUrl: 'device_hospital.html',
 	      controller: function($scope, $uibModalInstance, items){
   	      $scope.hospital = items.hospital;
-  	      hospitalHttp.getHospitalDevice({hospital_id: hospital.id}, function(data){
+  	      dic_hospitalHttp.getHospitalDevice({hospital_id: hospital.id}, function(data){
               $scope.dic_hospital_device = data.dic_hospital_device.dic_hospital_device;
               angular.forEach($scope.dic_hospital_device,function(object,index){
                 object.id+='';
@@ -179,7 +179,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
 				  };
 				  $scope.save = function(){
 				  	console.log($scope.dic_hospital_device);
-				  	hospitalHttp.saveHospitalDevice({hospital_id: $scope.hospital.id, dic_hospital_device: $scope.dic_hospital_device}, function(data){
+				  	dic_hospitalHttp.saveHospitalDevice({hospital_id: $scope.hospital.id, dic_hospital_device: $scope.dic_hospital_device}, function(data){
               console.log(data);
 				  	})
 				  	$uibModalInstance.dismiss('cancel');
@@ -788,4 +788,39 @@ controllers.controller('bodyModesController', ['$scope', 'bodyModesHttp', 'categ
           $scope.pageChanged();
         });
     }
+}]);
+
+
+
+controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state', '$log', '$uibModal', function ($scope, hospitalHttp, $state, $log, $uibModal) {
+    "use strict";
+    $scope.self = $scope;
+    $scope.maxSize = 5;
+    $scope.city_id = "";
+    $scope.q = "";
+    $scope.hospitalEnabled = true;
+    hospitalHttp.getHospital({}, function (data) {
+        $scope.hospitals = data.hospitals;
+        $scope.current_page = data.current_page;
+        $scope.total_count = data.total_count;
+    });
+    $scope.pageChanged = function () {
+        hospitalHttp.getHospital({page: $scope.current_page,q: $scope.q,city_id: $scope.city_id}, function (data) {
+            $scope.current_page = data.current_page;
+            $scope.hospitals = data.hospitals;
+        });
+    };
+    $scope.setPage = function () {
+      $scope.current_page = $('#go_page').val();
+      $scope.pageChanged();
+      $('#go_page').val("");
+    };
+    $scope.search = function(){
+    	hospitalHttp.getHospital({q: $scope.q, city_id: $scope.city_id}, function (data) {
+        $scope.hospitals = data.hospitals;
+        $scope.current_page = data.current_page;
+        $scope.total_count = data.total_count;
+      });
+    }
+
 }]);

@@ -105,13 +105,13 @@ services.factory('userHttp', ['httpBase', function(httpBase){
     }
 }]);
 
-services.factory('hospitalHttp', ['httpBase', function(httpBase){
+services.factory('dic_hospitalHttp', ['httpBase', function(httpBase){
     return {
         getHospital: function(params, successDo, errorDo, alwaysDo){
             "use strict";
             var self = this;
             httpBase.get({
-                url: '/api/hospitals',
+                url: '/api/dic_hospitals',
                 params: params,
                 successDo: successDo,
                 errorDo: errorDo,
@@ -122,7 +122,7 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
             "use strict";
             var self = this;
             httpBase.post({
-                url: '/api/hospitals/new_hospital',
+                url: '/api/dic_hospitals/new_hospital',
                 params: params,
                 successDo: successDo,
                 errorDo: errorDo
@@ -132,7 +132,7 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
             "use strict";
             var self = this;
             httpBase.put({
-                url: '/api/hospitals/edit_hospital',
+                url: '/api/dic_hospitals/edit_hospital',
                 params: params,
                 successDo: successDo,
                 errorDo: errorDo
@@ -142,7 +142,7 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
             "use strict";
             var self = this;
             httpBase.get({
-                url: '/api/hospitals/options_attr',
+                url: '/api/dic_hospitals/options_attr',
                 params: params,
                 successDo: successDo,
                 errorDo: errorDo
@@ -152,7 +152,7 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
             "use strict";
             var self = this;
             httpBase.get({
-                url: '/api/hospitals/get_hospital_device',
+                url: '/api/dic_hospitals/get_hospital_device',
                 params: params,
                 successDo: successDo,
                 errorDo: errorDo
@@ -162,7 +162,7 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
             "use strict";
             var self = this;
             httpBase.post({
-                url: '/api/hospitals/save_hospital_device',
+                url: '/api/dic_hospitals/save_hospital_device',
                 params: params,
                 successDo: successDo,
                 errorDo: errorDo
@@ -377,6 +377,22 @@ services.factory('bodyModesHttp', ['httpBase', function(httpBase){
             errorDo:errorDo,
             alwaysDo:alwaysDo
           })
+        }
+    }
+}]);
+
+services.factory('hospitalHttp', ['httpBase', function(httpBase){
+    return{
+        getHospital: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.get({
+                url: '/api/hospitals',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo,
+                alwaysDo: alwaysDo
+            });
         }
     }
 }]);

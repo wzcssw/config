@@ -12,10 +12,10 @@ routes.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
         url:'/register',
         templateUrl:'templates/register.html',
         controller:'registerController'
-    }).state('hospitals', {
-        url:'/hospitals',
-        templateUrl:'templates/hospitals.html',
-        controller:'hospitalsController'
+    }).state('dic_hospitals', {
+        url:'/dic_hospitals',
+        templateUrl:'templates/dic_hospitals.html',
+        controller:'dicHospitalsController'
     }).state('new_hospital', {
         url:'/new_hospital',
         templateUrl:'templates/new_hospital.html',
@@ -44,6 +44,10 @@ routes.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
         url:'/body_modes',
         templateUrl:'templates/body_modes.html',
         controller:'bodyModesController'
+    }).state('hospitals',{
+        url:'/hospitals',
+        templateUrl:'templates/hospitals.html',
+        controller:'hospitalsController'
     });
     $urlRouterProvider.otherwise('/login');
 }]);
