@@ -691,6 +691,7 @@ controllers.controller('updateCategoriesController', ['$scope', 'categoriesHttp'
 			$uibModalInstance.close();
 		});
 	};
+}]);
 
 controllers.controller('bodyModesController', ['$scope', 'bodyModesHttp', 'categoriesHttp', '$uibModal', function($scope, bodyModesHttp, categoriesHttp, $uibModal){
 	"use strict";
