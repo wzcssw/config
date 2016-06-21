@@ -25,7 +25,7 @@
 	<div>
     <button style="float: right;width: 5%;" ng-click="search()" class="btn btn-default">搜索</button>
     <input style="width: 14%;float: right;margin-left: 5px;margin-right: 5px;" type="text" ng-model="q" class="form-control" id="hos_q" placeholder="请输入检查部位/检验组合">
-    <select style="width: 6%;float: right;" ng-change="search()" ng-model="category_id" class="form-control">
+    <select style="width: 4%;float: right;" ng-change="search()" ng-model="category_id" class="form-control">
       <option value="">全部</option>
       <option ng-repeat="category in categories" value={{category.id}}>{{category.name}}</option>
     </select>
@@ -45,8 +45,8 @@
   </tr>
   <tr ng-repeat="body_mode in body_modes">
     <td>{{body_mode.id}}</td>
-    <td><a ng-click="open_rank('lg',body_mode)">{{body_mode.rank||body_mode.id}}</td>
-    <td><a ng-click="open_edit('lg',body_mode)">{{body_mode.name}}</a></td>
+    <td><button type="button" class="btn btn-link btn-xs" ng-click="open_rank('lg',body_mode)">{{body_mode.rank||body_mode.id}}</button></td>
+    <td><button style="font-size:14px;" type="button" class="btn btn-link btn-xs" ng-click="open_edit('lg',body_mode)">{{body_mode.name}}</button></td>
     <td>【{{body_mode.project}}】{{body_mode.body}}</td>
     <td>{{body_mode.remark}}</td>
     <td width="20%;">{{body_mode.details}}</td>
