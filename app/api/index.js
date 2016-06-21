@@ -7,6 +7,7 @@ function JoinedApi(app){
     app.use(require('./bodies.js'));
     app.use(require('./categories.js'));
     app.use(require('./operation_logs.js'));
+    app.use(require('./body_modes.js'));
 }
 
 module.exports = JoinedApi;

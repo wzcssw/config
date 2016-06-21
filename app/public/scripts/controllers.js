@@ -209,19 +209,6 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
     };
 }]);
 
-controllers.controller('newHospitalController', ['$scope', 'hospitalHttp', '$state', '$uibModalInstance', 'items', function ($scope, hospitalHttp, $state, $uibModalInstance, items) {
-  $scope.cities = items.cities;
-  $scope.levels = items.levels;
-  $scope.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
-  };
-  $scope.save = function(hospital){
-  	hospitalHttp.createHospital({hospital: hospital}, function (data) {
-      $uibModalInstance.close();
-    });
-  };
-}]);
-
 controllers.controller('projectsController', ['$scope', 'projectHttp', function($scope, projectHttp){
 	'use strict';
 	$scope.self = $scope;
@@ -556,4 +543,101 @@ controllers.controller('newCategoriesController', ['$scope', 'categoriesHttp', '
 			$uibModalInstance.close();
 		});
 	};
+}]);
+
+controllers.controller('bodyModesController', ['$scope', 'bodyModesHttp', 'categoriesHttp', '$uibModal', function($scope, bodyModesHttp, categoriesHttp, $uibModal){
+	"use strict";
+	$scope.self = $scope;
+	$scope.maxSize = 5;
+	$scope.category_id = '';
+	$scope.q = '';
+	bodyModesHttp.getBodyModes({}, function(data){
+      $scope.body_modes = data.body_modes;
+      $scope.total_count = data.total_count;
+      $scope.current_page = data.current_page;
+	});
+
+	categoriesHttp.getCategories({}, function(data){
+      $scope.categories = data.categories;
+	})
+
+	$scope.pageChanged = function(){
+		bodyModesHttp.getBodyModes({page:$scope.current_page}, function(data){
+			$scope.body_modes = data.body_modes;
+		});
+	}
+
+	$scope.setPage = function(){
+	  $scope.current_page = $('#go_page').val();
+      $scope.pageChanged();
+      $('#go_page').val("");
+	}
+
+	$scope.search = function(){
+    	bodyModesHttp.getBodyModes({q: $scope.q, category_id: $scope.category_id}, function (data) {
+        $scope.body_modes = data.body_modes;
+        $scope.current_page = data.current_page;
+        $scope.total_count = data.total_count;
+      });
+    }
+
+    $scope.open_edit = function(size,body_mode){
+        $scope.items = {
+        	body_mode: body_mode
+        }
+        var edit_body_mode = $uibModal.open({
+          animation: true,
+          templateUrl: 'edit_body_mode.html',
+          controller: function($scope, $uibModalInstance, items){
+            $scope.body_mode = items.body_mode;
+            $scope.cancel = function () {
+            	$uibModalInstance.dismiss('cancel');
+		    };
+		    $scope.save = function(body_mode){
+			  	bodyModesHttp.editBodyModes({body_mode: body_mode}, function (data) {
+			      $uibModalInstance.close();
+			    });
+		    };
+          },
+          size:size,
+          resolve:{
+            items: function(){
+            	return $scope.items;
+            }
+          }
+        });
+        edit_body_mode.result.then(function(){
+          $scope.pageChanged();
+        });
+    }
+
+    $scope.open_rank = function(size,body_mode){
+        $scope.items = {
+        	body_mode: body_mode
+        }
+        var edit_rank = $uibModal.open({
+          animation: true,
+          templateUrl: 'edit_rank.html',
+          controller: function($scope, $uibModalInstance, items){
+            $scope.body_mode = items.body_mode;
+            $scope.cancel = function () {
+            	$uibModalInstance.dismiss('cancel');
+		    };
+		    $scope.save = function(body_mode){
+			  	bodyModesHttp.editRank({body_mode: body_mode}, function (data) {
+			      $uibModalInstance.close();
+			    });
+		    };
+          },
+          size:size,
+          resolve:{
+            items: function(){
+            	return $scope.items;
+            }
+          }
+        });
+        edit_rank.result.then(function(){
+          $scope.pageChanged();
+        });
+    }
 }]);
