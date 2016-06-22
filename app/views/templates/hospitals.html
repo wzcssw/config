@@ -14,12 +14,20 @@
 </div>
 <table class="table table-bordered table-hover">
   	<tr style="text-align: center">
-  	  <td>医院id</td>
+  	  <td>#</td>
   	  <td>医院名称</td>
+  	  <td>城市</td>
+  	  <td>分流医院</td>
+  	  <td>详情</td>
   	</tr>
   	<tr ng-repeat="hospital in self.hospitals" style="text-align: center;">
   		<td>{{hospital.id}}</td>
   		<td>{{hospital.name}}</td>
+  		<td>{{hospital.city_zh}}</td>
+  		<td>{{hospital.bridgings.join(", ")}}</td>
+  		<td>
+				<a class="btn btn-info btn-xs color_box" ng-click="open_detail(hospital)">详情</a>
+			</td>
   	</tr>
   </tbody>
 </table>
@@ -30,3 +38,37 @@
     <button type="button" class="btn btn-default" ng-click="setPage()">确定</button>
   </div>
 </div>
+
+
+<!-- map dialog -->
+<script type="text/ng-template" id="hospital_detail.html">
+  <div class="modal-header"  align="center">
+      <h4 class="modal-title">{{hospital.name}}</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+			<div class="col-md-4">
+				<label for="hos_address">地址</label>
+		    <input type="text" ng-model="hospital.address" class="form-control" id='hos_address'>
+		    <label for="hos_lnglat">坐标</label>
+		    <input type="text" ng-model="lnglat" class="form-control"  id='hos_lnglat'>
+		    <label for="hos_bus_line">行车路线</label>
+		    <input type="text" ng-model="hospital.bus_line" class="form-control"  id='hos_bus_line'>
+		    <label for="created_at">创建时间</label>
+		    <input type="text" value="{{hospital.created_at | date:'yyyy-MM-dd HH:mm:ss'}}" class="form-control"  id='hos_created_at' disabled>
+				<label for="hos_remark">备注</label>
+		    <input type="text" ng-model="hospital.remark" class="form-control"  id='hos_remark'>
+		    <label for="hos_intro">介绍</label>
+		    <textarea rows=4 class="form-control"  id='hos_intro'>{{hospital.intro}}</textarea>
+				<div>
+					<button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+		    	<button style="float: left;margin-top: 10px;" ng-click="save(body)"class="btn btn-primary">确定</button>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<img ng-src="{{map_src}}" alt='map'/>
+			</div>
+    </div>
+
+  </div>
+</script>

@@ -412,10 +412,6 @@ controllers.controller('bodiesController', ['$scope', 'bodiesHttp', '$state', '$
 		});
 	};
 
-	$scope.arrayToString = function(arr){
-	    return arr.join(", ");
-	};
-
 	$scope.delete = function(_id){
 		bodiesHttp.deleteBody({id: _id}, function (data) {
 			$scope.pageChanged();
@@ -770,12 +766,12 @@ controllers.controller('bodyModesController', ['$scope', 'bodyModesHttp', 'categ
             $scope.body_mode = items.body_mode;
             $scope.cancel = function () {
             	$uibModalInstance.dismiss('cancel');
-		    };
-		    $scope.save = function(body_mode){
-			  	bodyModesHttp.editRank({body_mode: body_mode}, function (data) {
-			      $uibModalInstance.close();
-			    });
-		    };
+		    		};
+				    $scope.save = function(body_mode){
+					  	bodyModesHttp.editRank({body_mode: body_mode}, function (data) {
+					      $uibModalInstance.close();
+					    });
+				    };
           },
           size:size,
           resolve:{
@@ -822,5 +818,34 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
         $scope.total_count = data.total_count;
       });
     }
+    $scope.open_detail = function(hospital){
+			$scope.render = true;
+			var new_modal = $uibModal.open({
+				templateUrl: 'hospital_detail.html',
+				controller: 'hospitalDetailController',
+				size: 'lg',
+				resolve: {
+					items: function () {
+						return hospital;
+					}
+				}
+			});
+    }
+}]);
 
+controllers.controller('hospitalDetailController', ['$scope', 'categoriesHttp', '$state', '$uibModalInstance','items', function ($scope, categoriesHttp, $state, $uibModalInstance,items) {
+	$scope.hospital = items;
+	$scope.category = {};
+	$scope.lnglat = items.lng + "," + items.lat;
+	$scope.$watch('lnglat', function(newValue, oldValue) {
+			var strs = newValue.split(",");
+			$scope.hospital.lng = strs[0];
+			$scope.hospital.lat = strs[1];
+		},true);
+	$scope.map_src = "http://restapi.amap.com/v3/staticmap?markers=mid,0xFF0000,A:"+items.lng+","+items.lat+"&key=9c9644d7b9d2f53e6d77449129f411cd&zoom=17&size=570*448";
+	$scope.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
+	$scope.save = function(category){
+	};
 }]);

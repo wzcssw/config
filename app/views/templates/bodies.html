@@ -42,7 +42,7 @@
   	<tr ng-repeat="body in self.bodies" style="text-align: center;">
   		<td>{{body.id}}</td>
   		<td>{{body.name}}</td>
-  		<td>{{arrayToString(body.projects)}}</td>
+  		<td>{{body.projects.join(",")}}</td>
   		<td>{{body.category}}</td>
   		<td>{{body.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
   		<td>
