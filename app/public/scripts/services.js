@@ -138,14 +138,34 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
                 errorDo: errorDo
             });
         },
-        getCityAndLevel: function(params, successDo, errorDo, alwaysDo){
+        getOptionAttr: function(params, successDo, errorDo, alwaysDo){
             "use strict";
             var self = this;
             httpBase.get({
-                url: '/api/hospitals/levels_cities',
+                url: '/api/hospitals/options_attr',
                 params: params,
                 successDo: successDo,
-                errorDo: errorDo 
+                errorDo: errorDo
+            })
+        },
+        getHospitalDevice: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.get({
+                url: '/api/hospitals/get_hospital_device',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            })
+        },
+        saveHospitalDevice: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.post({
+                url: '/api/hospitals/save_hospital_device',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
             })
         }
     }
@@ -188,6 +208,175 @@ services.factory('citiesHttp', ['httpBase', function(httpBase){
                 errorDo:errorDo,
                 alawyDo:alwaysDo
             });
+        }
+    }
+}]);
+
+//bodies http
+services.factory('bodiesHttp', ['httpBase', function(httpBase){
+    return{
+        getBody: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url:'/api/bodies',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alawyDo:alwaysDo
+            });
+        },
+        getCategory: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url: '/api/categories',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            })
+        },
+        createBody: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.post({
+                url: '/api/bodies/new_body',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            })
+        },
+        updateBody: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.post({
+                url: '/api/bodies/update_body',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            })
+        },
+        deleteBody: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url: '/api/bodies/delete',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            })
+        },
+        addProjectToBody: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.post({
+                url: '/api/bodies/add_project',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            })
+        }
+    }
+}]);
+
+//operationlogs http
+services.factory('operationlogsHttp', ['httpBase', function(httpBase){
+    return{
+        getOperationlogs: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url:'/api/operation_logs',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alawyDo:alwaysDo
+            });
+        },
+        getOperationlogtypes: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url:'/api/operation_logs/types',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            });
+        }
+    }
+}]);
+
+//categories Http
+services.factory('categoriesHttp', ['httpBase', function(httpBase){
+    return{
+        getCategories: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url: '/api/categories',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alawyDo:alwaysDo
+            });
+        },
+        createCategory: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.post({
+                url: '/api/categories/new_category',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alawyDo:alwaysDo
+            });
+        },
+        deleteCategory: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url: '/api/categories/delete',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            })
+        },
+        updateCategory: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.post({
+                url: '/api/categories/update',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            })
+        }
+    }
+}]);
+
+services.factory('bodyModesHttp', ['httpBase', function(httpBase){
+    return{
+        getBodyModes: function(params, successDo, errorDo, alwaysDo){
+          "use strict";
+          var self = this;
+          httpBase.get({
+            url: '/api/body_modes',
+            params:params,
+            successDo:successDo,
+            errorDo:errorDo,
+            alwaysDo:alwaysDo
+          })
+        },
+        editBodyModes: function(params, successDo, errorDo, alwaysDo){
+          "use strict";
+          var self = this;
+          httpBase.put({
+            url: 'api/body_modes/edit_body_mode',
+            params:params,
+            successDo:successDo,
+            errorDo:errorDo,
+            alwaysDo:alwaysDo
+          })
+        },
+        editRank: function(params, successDo, errorDo, alwaysDo){
+          "use strict";
+          var self = this;
+          httpBase.put({
+            url: 'api/body_modes/edit_rank',
+            params:params,
+            successDo:successDo,
+            errorDo:errorDo,
+            alwaysDo:alwaysDo
+          })
         }
     }
 }]);

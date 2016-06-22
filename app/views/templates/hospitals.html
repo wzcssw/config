@@ -10,13 +10,15 @@
       <option ng-repeat="city in cities" value={{city.id}}>{{city.name}}</option>
     </select>
 	</div>
-   
+
 </div>
 <table class="table table-bordered table-hover">
   	<tr style="text-align: center">
-  	  <td>#</td>
+  	  <td>医院id</td>
   	  <td>医院名称</td>
+      <td>医院设备</td>
   	  <td>医院等级</td>
+      <td>医院性质</td>
   	  <td>所在城市</td>
   	  <td>所在省份</td>
   	  <td>拼音</td>
@@ -26,13 +28,15 @@
   	<tr ng-repeat="hospital in self.hospitals" style="text-align: center;">
   		<td>{{hospital.id}}</td>
   		<td>{{hospital.name}}</td>
+      <td><a class="btn btn-default btn-success btn-sm" ng-click="open_device('lg', hospital)">设备信息</a></td>
   		<td>{{hospital.level_name}}</td>
+      <td>{{hospital.nature_name}}</td>
   		<td>{{hospital.city_id}}</td>
   		<td>{{hospital.province_name}}</td>
   		<td>{{hospital.pinyin}}</td>
   		<td>{{hospital.created_at}}</td>
   		<td><a class="btn btn-default btn-success btn-xs" ng-click="open_edit('lg',hospital)">编辑</a>
-  		<a class="btn btn-default btn-danger btn-xs">删除</a></td>
+  		<a class="btn btn-default btn-danger btn-xs" ng-click="open_delete('lg')">删除</a></td>
   	</tr>
   </tbody>
 </table>
@@ -51,17 +55,21 @@
   <div class="modal-body">
     <label for="hos_name">医院名称</label>
     <input style="width: 30%;" type="text" ng-model="hospital.name" class="form-control" id="hos_name">
-    <label for="hos_level">医院等级</label>
+    <label for="hos_level" style="margin-top:10px;">医院等级</label>
     <select style="width: 30%;" ng-model="hospital.level" class="form-control" id="hos_level">
       <option ng-repeat="level in levels" value={{$index}}>{{level}}</option>
     </select>
-    <label for="hos_city">所在城市</label>
+    <label for="hos_nature" style="margin-top:10px;">医院性质</label>
+    <select style="width: 30%;" ng-model="hospital.nature" class="form-control" id="hos_nature">
+      <option ng-repeat="nature in natures" value={{$index}}>{{nature}}</option>
+    </select>
+    <label for="hos_city" style="margin-top:10px;">所在城市</label>
     <select style="width: 30%;" ng-model="hospital.city_id" class="form-control" id="hos_city">
       <option ng-repeat="city in cities" value={{city.id}}>{{city.name}}</option>
     </select>
     <button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
-    <button style="float: left;margin-top: 10px;" ng-click="save(hospital)"class="btn btn-primary">确定</button>              
-  </div>        
+    <button style="float: left;margin-top: 10px;" ng-click="save(hospital)"class="btn btn-primary">确定</button>
+  </div>
 </script>
 
 <script type="text/ng-template" id="edit_hospital.html">
@@ -71,15 +79,60 @@
   <div class="modal-body">
     <label for="hos_name">医院名称</label>
     <input style="width: 30%;" type="text" ng-model="hospital.name" class="form-control" id="hos_name">
-    <label for="hos_level">医院等级</label>
+    <label for="hos_level" style="margin-top:10px;">医院等级</label>
     <select style="width: 30%;" ng-model="hospital.level" class="form-control" id="hos_level">
       <option ng-repeat="level in levels" value={{$index}}>{{level}}</option>
     </select>
-    <label for="hos_city">所在城市</label>
+    <label for="hos_nature" style="margin-top:10px;">医院性质</label>
+    <select style="width: 30%;" ng-model="hospital.nature" class="form-control" id="hos_nature">
+      <option ng-repeat="nature in natures" value={{$index}}>{{nature}}</option>
+    </select>
+    <label for="hos_city" style="margin-top:10px;">所在城市</label>
     <select style="width: 30%;" ng-model="hospital.city_id" class="form-control">
       <option ng-repeat="city in cities" value={{city.id}}>{{city.name}}</option>
     </select>
     <button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
-    <button style="float: left;margin-top: 10px;" ng-click="save(hospital)"class="btn btn-primary">确定</button>              
+    <button style="float: left;margin-top: 10px;" ng-click="save(hospital)" class="btn btn-primary">保存</button>              
   </div>        
 </script>
+
+<script type="text/ng-template" id="device_hospital.html">
+  <div class="modal-header">
+      <h3 class="modal-title">{{hospital.name}}设备情况列表</h3>
+      <button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+      <button style="float: left;margin: 10px;" class="btn btn-success" type="button" ng-click="add_device_row()">新增</button>
+      <button style="float: left;margin-top: 10px;" ng-click="save();" class="btn btn-primary">保存</button>
+  </div>
+  <div class="modal-body" align="center">
+    <div class="row" style="width: 100%;">
+      <table class="table table-bordered table-bordered table-hover table-condensed">
+        <thead>
+        <tr>
+          <th style="text-align:center;">检查项目</th>
+          <th style="text-align:center;">检查设备情况</th>
+          <th style="text-align:center;">操作</th>
+        </tr>
+        </thead>
+        <tbody id="project_device_tbody">
+          <tr ng-repeat="device_item in dic_hospital_device track by $index">
+            <td>
+              <select ng-model="dic_hospital_device[$index].id" class="form-control">
+                <option ng-repeat="project in projects" value={{project.id}}>{{project.name}}</option>
+              </select>
+            </td>
+            <td>
+              <select ng-model="dic_hospital_device[$index].device_state" class="form-control" id="hos_device_state">
+                <option ng-repeat="device_state in device_states" value={{$index}}>{{device_state}}</option>
+              </select>
+            </td>
+            <td style="text-align:center;">
+              <button class="btn btn-danger btn-sm" ng-click="delete_row($index)"  confirm="你确定要删除该类别吗？">删除</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>         
+  </div>        
+</script>
+
+

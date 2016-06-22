@@ -28,6 +28,22 @@ routes.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
         url:'/cities',
         templateUrl:'templates/cities.html',
         controller:'citiesController'
+    }).state('bodies',{
+        url:'/bodies',
+        templateUrl:'templates/bodies.html',
+        controller:'bodiesController'
+    }).state('categories',{
+        url:'/categories',
+        templateUrl:'templates/categories.html',
+        controller:'categoriesController'
+    }).state('operation_logs',{
+        url:'/operation_logs',
+        templateUrl:'templates/operation_logs.html',
+        controller:'operationlogsController'
+    }).state('body_modes',{
+        url:'/body_modes',
+        templateUrl:'templates/body_modes.html',
+        controller:'bodyModesController'
     });
     $urlRouterProvider.otherwise('/login');
 }]);

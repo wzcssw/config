@@ -1,0 +1,91 @@
+<style type="text/css">
+  table tbody
+  {
+    text-align:center;
+    padding-top: 10px;
+  }
+  .valign tbody tr
+  {
+    height: 20px;
+  }
+  .valign tbody tr td
+  {
+    padding: 0px;
+    vertical-align: middle;
+    height: 50px;
+  }
+  table tr th
+  {
+    text-align: center;
+  }
+</style>
+
+<div class="table-operation">
+	<h3>检查部位/检验组合</h3>
+	<div>
+    <button style="float: right;width: 5%;" ng-click="search()" class="btn btn-default">搜索</button>
+    <input style="width: 14%;float: right;margin-left: 5px;margin-right: 5px;" type="text" ng-model="q" class="form-control" id="hos_q" placeholder="请输入检查部位/检验组合">
+    <select style="width: 6%;float: right;" ng-change="search()" ng-model="category_id" class="form-control">
+      <option value="">全部</option>
+      <option ng-repeat="category in categories" value={{category.id}}>{{category.name}}</option>
+    </select>
+	</div>
+</div>
+
+<table class="table table-bordered table-condensed table-hover valign" style="text-align:center;margin:10px;margin-top:50px;">
+  <tr>
+    <td>#</td>
+    <td>排序</td>
+    <td>检查部位/检验组合名称</td>
+    <td>检查类别/检验类别</td>
+    <td>备注</td>
+    <td>详情</td>
+    <td>创建时间</td>
+    <td>操作</td>
+  </tr>
+  <tr ng-repeat="body_mode in body_modes">
+    <td>{{body_mode.id}}</td>
+    <td><button type="button" class="btn btn-link btn-xs" ng-click="open_rank('lg',body_mode)">{{body_mode.rank||body_mode.id}}</button></td>
+    <td><button style="font-size:14px;" type="button" class="btn btn-link btn-xs" ng-click="open_edit('lg',body_mode)">{{body_mode.name}}</button></td>
+    <td>【{{body_mode.project}}】{{body_mode.body}}</td>
+    <td>{{body_mode.remark}}</td>
+    <td width="20%;">{{body_mode.details}}</td>
+    <td>{{body_mode.created_at | date:'yyyy-MM-dd hh:mm'}}</td>
+    <td><a class="btn btn-default btn-danger btn-xs" ng-click="open_delete('lg')">删除</a></td>
+  </tr>
+
+</table>
+<div class='pagination'>
+  <uib-pagination style="margin-left: 10px;margin-top: -20px;" first-text="首页" last-text="尾页" previous-text="上一页" next-text="下一页" ng-change="pageChanged()" items-per-page=20 total-items="total_count" ng-model="current_page" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false"></uib-pagination>
+  <div style="float: right;position: relative;top: -20px;">
+    跳转到第<input style="width: 40px;" id="go_page" type="text"></input>页
+    <button type="button" class="btn btn-default" ng-click="setPage()">确定</button>
+  </div>
+</div>
+
+<script type="text/ng-template" id="edit_body_mode.html">
+  <div class="modal-header" align="center">
+      <h3 class="modal-title">编辑检查部位/检验组合</h3>
+  </div>
+  <div class="modal-body" align="center">
+    <label for="mb_name">部位名称</label>
+    <input style="width: 30%;" type="text" ng-model="body_mode.name" class="form-control" id="mb_name">
+    <label for="mb_details">详情</label>
+    <textarea id="mb_details" class="form-control" rows="5" style="width: 30%;" ng-model="body_mode.details"></textarea>
+    <label for="mb_remark">备注</label>
+    <input style="width: 30%;" type="text" ng-model="body_mode.remark" class="form-control" id="mb_remark">
+    <button style="margin-top: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    <button style="margin-top: 10px;" ng-click="save(body_mode)" class="btn btn-primary">保存</button>                  
+  </div>        
+</script>
+
+<script type="text/ng-template" id="edit_rank.html">
+  <div class="modal-header" align="center">
+      <h3 class="modal-title">设置检查部位顺序</h3>
+  </div>
+  <div class="modal-body" align="center">
+    <input style="width: 30%;" type="text" ng-model="body_mode.rank" class="form-control" id="mb_rank">
+    <button style="margin-top: 30px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    <button style="margin-top: 30px;" ng-click="save(body_mode)" class="btn btn-primary">保存</button>                  
+  </div>        
+</script>
