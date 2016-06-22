@@ -821,6 +821,45 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
         $scope.current_page = data.current_page;
         $scope.total_count = data.total_count;
       });
+    };
+    $scope.open_hospital_project = function(size,id){
+    	$scope.items = {
+        	hospital_id: id
+        }
+        var hospital_project = $uibModal.open({
+          animation: true,
+          templateUrl: 'hospital_project.html',
+          controller: function($scope, $uibModalInstance, items){
+            $scope.getHospitalProject = function(){
+          	  hospitalHttp.getHospitalProjects({hospital_id: items.hospital_id}, function (data) {
+		        $scope.projects = data.projects;
+	          });
+            };	
+		    $scope.cancel = function () {
+	          $uibModalInstance.dismiss('cancel');
+			};
+			$scope.change_status = function(project){
+              hospitalHttp.editHospitalProjects({id:project.id,status: project.status, field: 'status'}, function(data){
+                $scope.getHospitalProject();
+              })
+			};
+			$scope.change_mbf = function(project){
+              hospitalHttp.editHospitalProjects({id:project.id,mbf: project.mbf, field: 'mbf'}, function(data){
+			    $scope.getHospitalProject();
+			  });
+			};
+			$scope.getHospitalProject();
+          },
+          size:size,
+          resolve:{
+            items: function(){
+            	return $scope.items;
+            }
+          }
+        });
+        hospital_project.result.then(function(){
+          $scope.pageChanged();
+        });
     }
 
 }]);

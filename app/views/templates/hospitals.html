@@ -16,10 +16,12 @@
   	<tr style="text-align: center">
   	  <td>医院id</td>
   	  <td>医院名称</td>
+      <td>检查项目/检验项目</td>
   	</tr>
   	<tr ng-repeat="hospital in self.hospitals" style="text-align: center;">
   		<td>{{hospital.id}}</td>
   		<td>{{hospital.name}}</td>
+      <td><button type="button" class="btn btn-default" ng-click="open_hospital_project('lg',hospital.id)">查看详情</button></td>
   	</tr>
   </tbody>
 </table>
@@ -30,3 +32,24 @@
     <button type="button" class="btn btn-default" ng-click="setPage()">确定</button>
   </div>
 </div>
+
+<script type="text/ng-template" id="hospital_project.html">
+  <div class="modal-header">
+      <h3 class="modal-title">医院开展项目情况</h3>
+  </div>
+  <div class="modal-body">
+    <table class="table table-bordered table-hover">
+      <tr style="text-align: center">
+      <td>项目名称</td>
+      <td>状态</td>
+      <td>医保情况</td>
+    </tr>
+    <tr ng-repeat="project in projects" style="text-align: center;">
+      <td>{{project.project}}</td>
+      <td><button style="font-size: 14px;" type="button" class="btn btn-link btn-xs" ng-click="change_status(project)">{{project.status_zh || "正常"}}</button></td>
+      <td><button style="font-size: 14px;" type="button" class="btn btn-link btn-xs" ng-click="change_mbf(project)">{{project.mbf_zh || "无医保"}}</button></td>
+    </tr>
+    </table>
+    <button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">关闭</button>
+  </div>
+</script>
