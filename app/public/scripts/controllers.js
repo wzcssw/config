@@ -834,16 +834,59 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
 		    $scope.cancel = function () {
 	          $uibModalInstance.dismiss('cancel');
 			};
-			$scope.change_status = function(project){
-              hospitalHttp.editHospitalProjects({id:project.id,status: project.status, field: 'status'}, function(data){
+			$scope.change_status = function(project,field){
+			  if(field=='mbf'){
+			  	if(project.mbf){
+                  project.mbf=false;
+			    }else{
+			  	  project.mbf=true;
+			    };
+			  };		  
+			  if(field=='status'){
+			  	if(project.status!='busy'){
+              	  project.status = 'busy';
+                }else{
+              	  project.status = 'default';
+                };
+			  };    
+			  hospitalHttp.editHospitalProjects({project: project}, function(data){
                 $scope.getHospitalProject();
-              })
-			};
-			$scope.change_mbf = function(project){
-              hospitalHttp.editHospitalProjects({id:project.id,mbf: project.mbf, field: 'mbf'}, function(data){
-			    $scope.getHospitalProject();
-			  });
-			};
+		  	  })
+			}
+			//打开编辑框
+			$scope.open_edit = function(size,project,field,field_ch){
+              $scope.items = {
+              	project: project,
+              	field: field,
+              	field_ch: field_ch
+              }
+              var edit_hospital_project = $uibModal.open({
+              	animation: true,
+                templateUrl: 'edit_hospital_project.html',
+                controller: function($scope, $uibModalInstance, items){
+                  $scope.project = items.project;
+                  $scope.field = items.field;
+                  $scope.field_ch = items.field_ch;
+                  $scope.cancel = function () {
+			        $uibModalInstance.close();
+				  };
+				  $scope.edit_project = function(project){
+				  	hospitalHttp.editHospitalProjects({project: project}, function(data){
+                       $uibModalInstance.close();
+				  	})
+				  };
+                },
+                size: size,
+                resolve:{
+                	items: function(){
+                		return $scope.items;
+                	}
+                }
+              });
+              edit_hospital_project.result.then(function(){
+		        $scope.getHospitalProject();
+		      });
+			}
 			$scope.getHospitalProject();
           },
           size:size,

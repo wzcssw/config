@@ -80,16 +80,38 @@
   <div class="modal-body">
     <table class="table table-bordered table-hover">
       <tr style="text-align: center">
-      <td>项目名称</td>
+      <td>检查项目名称</td>
+      <td>窗口电话</td>
+      <td>短信填充信息</td>
+      <td>项目就诊流程</td>
+      <td>就检注意事项</td>
       <td>状态</td>
       <td>医保情况</td>
     </tr>
     <tr ng-repeat="project in projects" style="text-align: center;">
-      <td>{{project.project}}</td>
-      <td><button style="font-size: 14px;" type="button" class="btn btn-link btn-xs" ng-click="change_status(project)">{{project.status_zh || "正常"}}</button></td>
-      <td><button style="font-size: 14px;" type="button" class="btn btn-link btn-xs" ng-click="change_mbf(project)">{{project.mbf_zh || "无医保"}}</button></td>
+      <td style="line-height:150px;">{{project.project}}</td>
+      <td style="line-height:150px;"><button style="font-size: 14px;" type="button" class="btn btn-link btn-xs" ng-click="open_edit('md',project,'windows_phone','窗口电话')">{{project.windows_phone||"编辑窗口电话"}}</button></td>
+      <td style="line-height:150px;"><button style="font-size: 14px;" type="button" class="btn btn-link btn-xs" ng-click="open_edit('md',project,'app_make_sms','短信填充信息')">{{project.app_make_sms||"编辑短信填充信息"}}</button></td>
+      <td width="30%;"><a href=""><li style="text-align:left;margin-left:10px;" ng-repeat="workflow in project.inspection_workflows">{{workflow.step+': '+workflow.step_description}}</li><span style="line-height:150px;" ng-if="project.inspection_workflows==''">编辑就诊流程</span></td>
+      <td style="line-height:150px;"><button style="font-size: 14px;" type="button" class="btn btn-link btn-xs" ng-click="open_edit('md',project,'inspection_notes','就检注意事项')">{{project.inspection_notes||"编辑就检注意事项"}}</button></td>
+      <td style="line-height:150px;"><button style="font-size: 14px;" type="button" class="btn btn-link btn-xs" ng-click="change_status(project,'status')">{{project.status_zh || "正常"}}</button></td>
+      <td style="line-height:150px;"><button style="font-size: 14px;" type="button" class="btn btn-link btn-xs" ng-click="change_status(project,'mbf')">{{project.mbf_zh || "无医保"}}</button></td>
     </tr>
     </table>
     <button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">关闭</button>
+  </div>
+</script>
+
+
+<script type="text/ng-template" id="edit_hospital_project.html">
+  <div class="modal-header" align="center">
+      <h3 class="modal-title">编辑{{field_ch}}</h3>
+  </div>
+  <div class="modal-body" align="center">
+    <label>{{field_ch}}</label>
+    <input ng-if="field=='windows_phone'" style="width:50%;" type="text" ng-model="project[field]" class="form-control" id='hos_address'>
+    <textarea style="width:50%;" class="form-control" ng-if="field!='windows_phone'" ng-model="project[field]"></textarea>
+    <button style="margin-top: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    <button style="margin-top: 10px;" ng-click="edit_project(project)" class="btn btn-primary">保存</button>  
   </div>
 </script>
