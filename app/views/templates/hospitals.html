@@ -1,3 +1,11 @@
+<style>
+    a{
+        padding: 2px 10px;
+    }
+    a:hover{
+        cursor: pointer;
+    }
+</style>
 <div class="table-operation">
 	<h3>医院列表</h3>
 	<div>
@@ -28,6 +36,7 @@
   		<td>{{hospital.bridgings.join(", ")}}</td>
   		<td>
 				<a class="btn btn-info btn-xs color_box" ng-click="open_detail(hospital)">详情</a>
+				<a class="btn btn-success btn-xs color_box" ng-click="open_assistant(hospital)">合作人员</a>
 			</td>
       <td><button type="button" class="btn btn-default" ng-click="open_hospital_project('lg',hospital.id)">查看详情</button></td>
   	</tr>
@@ -71,6 +80,73 @@
 			</div>
     </div>
   </div>
+</script>
+
+<script type="text/ng-template" id="assistants_detail.html">
+  <div class="modal-header"  align="center">
+      <h4 class="modal-title">{{hospital.name}}-合作人员</h4>
+  </div>
+  <div class="modal-body">
+			<table class="table table-bordered table-hover">
+				<tr>
+					<th>#</th>
+					<th>姓名</th>
+					<th>手机</th>
+					<th>地址</th>
+					<th>是否接收短信</th>
+					<th>创建时间</th>
+					<th>备注</th>
+					<th>操作</th>
+				</tr>
+        <tr ng-show="hospital.hospital_assistants.length==0">
+          <td colspan="8">(没有相关合作人员记录)</td>
+        </tr>
+				<tr ng-repeat="assistant in hospital.hospital_assistants" style="text-align: center;">
+					<td>{{assistant.id}}</td>
+					<td>
+						<a uib-popover-template="dynamicPopover.templateUrl" ng-style="{color:'black'}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="assistant.name || '点击设置'" ng-click="select_click('name', assistant)"></a>
+					</td>
+					<td>
+            <a uib-popover-template="dynamicPopover.templateUrl" ng-style="{color:'black'}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="assistant.phone || '点击设置'" ng-click="select_click('phone', assistant)"></a>
+          </td>
+					<td>
+            <a uib-popover-template="dynamicPopover.templateUrl" ng-style="{color:'black'}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="assistant.address || '点击设置'" ng-click="select_click('address', assistant)"></a>
+          </td>
+					<td>
+            <a uib-popover-template="dynamicPopover.templateUrl" ng-style="assistant.state=='issend'?{color:'green'}:{}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="assistant.state=='issend'?'是':'否' " ng-click="select_click('state', assistant)"></a>
+					</td>
+					<td ng-style="{color:'black'}" >{{assistant.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+					<td>
+            <a uib-popover-template="dynamicPopover.templateUrl" ng-style="{color:'black'}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="assistant.remark || '点击设置'" ng-click="select_click('remark', assistant)"></a>
+          </td>
+					<td>
+					  <a class="btn btn-danger btn-xs color_box" ng-click="delete_click(assistant)" ng-show="assistant.id" confirm="你确定要移除该合作人员吗？">删除</a>
+					  <a class="btn btn-success btn-xs color_box" ng-show="!assistant.id" ng-click="add_click(assistant,hospital.id)">添加</a>
+					</td>
+				</tr>
+			</table>
+			<div>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+				<button class="btn btn-success" ng-click="add_assistant_row()">新增</button>
+			</div>
+    </div>
+  </div>
+</script>
+
+<script type="text/ng-template" id="myPopInputTemplate.html">
+    <div class="form-group form-inline">
+        <input type="text" ng-model="modal_template.value" class="form-control">
+        <button type="button" class="btn btn-success" ng-click="input_click()">确定</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="myPopSelectTemplate.html">
+    <div class="form-group">
+        <select class="form-control" ng-model="modal_template.selected" ng-change="select_change()">
+          <option value="issend">是</option>
+          <option value="isnotsend">否</option>
+        </select>
+    </div>
 </script>
 
 <script type="text/ng-template" id="hospital_project.html">

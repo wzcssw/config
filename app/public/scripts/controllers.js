@@ -830,7 +830,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
           	  hospitalHttp.getHospitalProjects({hospital_id: items.hospital_id}, function (data) {
 		        $scope.projects = data.projects;
 	          });
-            };	
+            };
 		    $scope.cancel = function () {
 	          $uibModalInstance.dismiss('cancel');
 			};
@@ -858,7 +858,6 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
         });
     }
     $scope.open_detail = function(hospital){
-			$scope.render = true;
 			var new_modal = $uibModal.open({
 				templateUrl: 'hospital_detail.html',
 				controller: 'hospitalDetailController',
@@ -870,9 +869,23 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
 				}
 			});
     }
+
+    $scope.open_assistant = function(hospital){
+			var new_modal = $uibModal.open({
+				templateUrl: 'assistants_detail.html',
+				controller: 'assistantsDetailController',
+				size: 'lg',
+				resolve: {
+					items: function () {
+						return hospital;
+					}
+				}
+			});
+    }
+
 }]);
 
-controllers.controller('hospitalDetailController', ['$scope', 'categoriesHttp', '$state', '$uibModalInstance','items', function ($scope, categoriesHttp, $state, $uibModalInstance,items) {
+controllers.controller('hospitalDetailController', ['$scope', '$state', '$uibModalInstance','items', function ($scope, $state, $uibModalInstance,items) {
 	$scope.hospital = items;
 	$scope.category = {};
 	$scope.lnglat = items.lng + "," + items.lat;
@@ -886,5 +899,99 @@ controllers.controller('hospitalDetailController', ['$scope', 'categoriesHttp', 
 		$uibModalInstance.dismiss('cancel');
 	};
 	$scope.save = function(category){
+	};
+}]);
+
+controllers.controller('assistantsDetailController', ['$scope', 'hospitalHttp', '$state', '$uibModalInstance','items', function ($scope, hospitalHttp, $state, $uibModalInstance,items) {
+	$scope.hospital = items;
+	$scope.add_assistant_row = function(){
+		$scope.hospital.hospital_assistants.push({
+			id: "",
+			name: ""
+		});
+	};
+	$scope.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+		$state.reload();
+	};
+	$scope.save = function(category){
+	};
+
+	$scope.delete_click = function (assistant) {
+		hospitalHttp.deleteHospitalAssistants({id: assistant.id}, function (data) {
+			$state.reload();
+			$uibModalInstance.dismiss('cancel');
+		});
+	};
+
+	$scope.add_click = function (assistant,hospital_id) {
+		assistant.hospital_id = hospital_id;
+		hospitalHttp.addHospitalAssistants({assistant: assistant}, function (data) {
+			$state.reload();
+			$uibModalInstance.dismiss('cancel');
+		});
+	};
+	$scope.select_click = function (state,assistant) {
+		$scope.modal_template = {};
+		switch (state) {
+			case 'name':
+				$scope.dynamicPopover = {
+					templateUrl: 'myPopInputTemplate.html',
+					title: '人员姓名'
+				};
+				$scope.input_click = function () {
+					assistant.name = $scope.modal_template.value;
+					hospitalHttp.editHospitalAssistants({hospital_assistant: assistant}, function (data) {
+		      });
+				};
+			break;
+			case 'phone':
+				$scope.dynamicPopover = {
+					templateUrl: 'myPopInputTemplate.html',
+					title: '手机号码'
+				};
+				$scope.input_click = function () {
+					assistant.phone = $scope.modal_template.value;
+					hospitalHttp.editHospitalAssistants({hospital_assistant: assistant}, function (data) {
+		      });
+				};
+			break;
+			case 'address':
+				$scope.dynamicPopover = {
+					templateUrl: 'myPopInputTemplate.html',
+					title: '地址'
+				};
+				$scope.input_click = function () {
+					assistant.address = $scope.modal_template.value;
+					hospitalHttp.editHospitalAssistants({hospital_assistant: assistant}, function (data) {
+		      });
+				};
+			break;
+			case 'state':
+				$scope.dynamicPopover = {
+					templateUrl: 'myPopSelectTemplate.html',
+					title: '是否接收短信'
+				};
+				$scope.select_change = function () {
+					assistant.state = $scope.modal_template.selected;
+					hospitalHttp.editHospitalAssistants({hospital_assistant: assistant}, function (data) {
+		      });
+				};
+			break;
+			case 'remark':
+				$scope.dynamicPopover = {
+					templateUrl: 'myPopInputTemplate.html',
+					title: '备注'
+				};
+				$scope.input_click = function () {
+					assistant.remark = $scope.modal_template.value;
+					hospitalHttp.editHospitalAssistants({hospital_assistant: assistant}, function (data) {
+
+		      });
+				};
+			break;
+			default:
+			break;
+		}
 	};
 }]);

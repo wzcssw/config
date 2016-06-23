@@ -19,12 +19,11 @@ router.get('/', function*() {
     city_id = params.city_id;
   };
   var result = yield http.get('/v1/hospital/list', {
-  fields: 'id,name,remark,created_at,address,bus_line,flag,mbf,intro,map_image,location,lng,lat,city_id,dic_hospital_id,is_opened_system,name_code,email,should_send_email',
-  page: page,
-  q: q,
-  city_id: city_id
+    fields: 'id,name,remark,created_at,address,bus_line,flag,mbf,intro,map_image,location,lng,lat,city_id,dic_hospital_id,is_opened_system,name_code,email,should_send_email',
+    page: page,
+    q: q,
+    city_id: city_id
   });
-  console.log(result);
   self.body = {
     success: true,
     hospitals: result.hospitals,
@@ -71,6 +70,62 @@ router.put('/edit_hospital_projects', function*(){
     })
     this.body = {success: true};
   }
+})
+
+router.put('/edit_hospital_assistants', function*(){
+  "use strict";
+  var self = this;
+  var params = self.request.body;
+  var hospital_assistant = params.hospital_assistant;
+  var access = yield http.put('/v1/hospital/edit_hospital_assistants', {
+    access_token: self.currentUser.access_token,
+    id: hospital_assistant.id,
+    name: hospital_assistant.name,
+    phone: hospital_assistant.phone,
+    address: hospital_assistant.address,
+    state: hospital_assistant.state,
+    remark: hospital_assistant.remark
+  });
+  this.body = {success: true};
+})
+
+router.get('/delete_hospital_assistants', function*(){
+  "use strict";
+  var self = this;
+  var params = self.query;
+  var result = yield http.delete('/v1/hospital/delete_hospital_assistants', {
+    id: params.id
+  });
+  self.body = {
+    success: true,
+    projects: result.hospital_projects
+  }
+})
+
+router.post('/add_hospital_assistants', function*(){
+  "use strict";
+  var self = this;
+  var params = self.request.body;
+  var assistant = params.assistant;
+  if(assistant.state==null){
+    assistant.state = "isnotsend";
+  }
+  if(assistant.remark==null){
+    assistant.remark = "";
+  }
+  if(assistant.address==null){
+    assistant.address = "";
+  }
+  var access = yield http.post('/v1/hospital/add_hospital_assistants', {
+    access_token: self.currentUser.access_token,
+    hospital_id: assistant.hospital_id,
+    name: assistant.name,
+    phone: assistant.phone,
+    address: assistant.address,
+    state: assistant.state,
+    remark: assistant.remark
+  });
+  this.body = {success: true};
 })
 
 module.exports = router.routes();

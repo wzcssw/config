@@ -415,6 +415,41 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
                 errorDo:errorDo,
                 alwaysDo:alwaysDo
             })
+        },
+        editHospitalAssistants: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            if(params.hospital_assistant.id){
+              httpBase.put({
+                  url: 'api/hospitals/edit_hospital_assistants',
+                  params:params,
+                  successDo:successDo,
+                  errorDo:errorDo,
+                  alwaysDo:alwaysDo
+              });
+            }
+        },
+        deleteHospitalAssistants: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.get({
+                url: 'api/hospitals/delete_hospital_assistants',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
+        },
+        addHospitalAssistants: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.post({
+                url: 'api/hospitals/add_hospital_assistants',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
         }
     }
 }]);
