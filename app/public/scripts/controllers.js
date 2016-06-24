@@ -885,7 +885,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
 
 }]);
 
-controllers.controller('hospitalDetailController', ['$scope', '$state', '$uibModalInstance','items', function ($scope, $state, $uibModalInstance,items) {
+controllers.controller('hospitalDetailController', ['hospitalHttp','$scope', '$state', '$uibModalInstance','items', function (hospitalHttp,$scope, $state, $uibModalInstance,items) {
 	$scope.hospital = items;
 	$scope.category = {};
 	$scope.lnglat = items.lng + "," + items.lat;
@@ -894,11 +894,15 @@ controllers.controller('hospitalDetailController', ['$scope', '$state', '$uibMod
 			$scope.hospital.lng = strs[0];
 			$scope.hospital.lat = strs[1];
 		},true);
-	$scope.map_src = "http://restapi.amap.com/v3/staticmap?markers=mid,0xFF0000,A:"+items.lng+","+items.lat+"&key=9c9644d7b9d2f53e6d77449129f411cd&zoom=17&size=570*448";
+	$scope.map_src = "http://restapi.amap.com/v3/staticmap?markers=mid,0xFF0000,A:"+items.lng+","+items.lat+"&key=9c9644d7b9d2f53e6d77449129f411cd&zoom=17&size=570*492";
 	$scope.cancel = function () {
 		$uibModalInstance.dismiss('cancel');
 	};
-	$scope.save = function(category){
+	$scope.save = function(hospital){
+		hospitalHttp.editHospital({hospital: hospital}, function (data) {
+			$state.reload();
+			$uibModalInstance.dismiss('cancel');
+		});
 	};
 }]);
 

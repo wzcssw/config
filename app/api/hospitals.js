@@ -32,6 +32,34 @@ router.get('/', function*() {
   }
 });
 
+router.put('/edit_hospital', function*() {
+  "use strict";
+  var self = this;
+  var params = self.request.body;
+  var hospital = params.hospital;
+  var access = yield http.put('/v1/hospital/update', {
+    access_token: self.currentUser.access_token,
+    id: hospital.id,
+    name: hospital.name,
+    remark: hospital.remark,
+    address: hospital.address,
+    bus_line: hospital.bus_line,
+    flag: hospital.flag,
+    mbf: hospital.mbf,
+    intro: hospital.intro,
+    map_image: hospital.map_image,
+    location: hospital.location,
+    lng: hospital.lng,
+    lat: hospital.lat,
+    city_id: hospital.city_id,
+    dic_hospital_id: hospital.dic_hospital_id,
+    name_code: hospital.name_code,
+    email: hospital.email,
+    should_send_email: hospital.should_send_email
+  });
+  this.body = {success: true};
+});
+
 router.get('/get_hospital_projects', function*(){
   "use strict";
   var self = this;

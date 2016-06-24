@@ -21,7 +21,7 @@
 
 </div>
 <table class="table table-bordered table-hover">
-  	<tr style="text-align: center">
+  	<tr style="text-align: center;background-color:#f6f6f6;">
   	  <td>#</td>
   	  <td>医院名称</td>
   	  <td>城市</td>
@@ -65,14 +65,23 @@
 		    <label for="hos_bus_line">行车路线</label>
 		    <input type="text" ng-model="hospital.bus_line" class="form-control"  id='hos_bus_line'>
 		    <label for="created_at">创建时间</label>
-		    <input type="text" value="{{hospital.created_at | date:'yyyy-MM-dd HH:mm:ss'}}" class="form-control"  id='hos_created_at' disabled>
+		    <input type="text" value="{{hospital.created_at | date:'yyyy-MM-dd'}}" class="form-control"  id='hos_created_at' disabled>
 				<label for="hos_remark">备注</label>
 		    <input type="text" ng-model="hospital.remark" class="form-control"  id='hos_remark'>
+        <label for="hos_email">电子邮箱</label>
+        <div>
+          <div class="input-group">
+            <span class="input-group-addon">
+              <input type="checkbox" aria-label="电子邮箱" ng-model="hospital.should_send_email" />开启
+            </span>
+            <textarea rows=1 class="form-control" id='hos_email' ng-model="hospital.email" placeholder="多个邮箱请用','分隔"></textarea>
+          </div>
+        </div>
 		    <label for="hos_intro">介绍</label>
-		    <textarea rows=4 class="form-control"  id='hos_intro'>{{hospital.intro}}</textarea>
+		    <textarea rows=3 class="form-control"  id='hos_intro' ng-model="hospital.intro"></textarea>
 				<div>
 					<button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
-		    	<button style="float: left;margin-top: 10px;" ng-click="save(body)"class="btn btn-primary">确定</button>
+		    	<button style="float: left;margin-top: 10px;" ng-click="save(hospital)"class="btn btn-primary">确定</button>
 				</div>
 			</div>
 			<div class="col-md-8">
@@ -115,7 +124,7 @@
 					<td>
             <a uib-popover-template="dynamicPopover.templateUrl" ng-style="assistant.state=='issend'?{color:'green'}:{}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="assistant.state=='issend'?'是':'否' " ng-click="select_click('state', assistant)"></a>
 					</td>
-					<td ng-style="{color:'black'}" >{{assistant.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+					<td ng-style="{color:'black'}" >{{assistant.created_at | date:'yyyy-MM-dd'}}</td>
 					<td>
             <a uib-popover-template="dynamicPopover.templateUrl" ng-style="{color:'black'}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="assistant.remark || '点击设置'" ng-click="select_click('remark', assistant)"></a>
           </td>
