@@ -60,6 +60,18 @@ router.put('/edit_hospital', function*() {
   this.body = {success: true};
 });
 
+router.post('/add_hospital_projects', function*() {
+  "use strict";
+  var self = this;
+  var params = self.request.body;
+  var access = yield http.post('/v1/hospital/add_hospital_projects', {
+    access_token: self.currentUser.access_token,
+    hospital_id: params.hospital_id,
+    project_ids: JSON.stringify(params.project_ids)
+  });
+  this.body = {success: true};
+});
+
 router.get('/get_hospital_projects', function*(){
   "use strict";
   var self = this;

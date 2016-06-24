@@ -178,9 +178,7 @@ controllers.controller('dicHospitalsController', ['$scope', 'dic_hospitalHttp', 
 				    $uibModalInstance.dismiss('cancel');
 				  };
 				  $scope.save = function(){
-				  	console.log($scope.dic_hospital_device);
 				  	dic_hospitalHttp.saveHospitalDevice({hospital_id: $scope.hospital.id, dic_hospital_device: $scope.dic_hospital_device}, function(data){
-              console.log(data);
 				  	})
 				  	$uibModalInstance.dismiss('cancel');
 				  };
@@ -193,7 +191,6 @@ controllers.controller('dicHospitalsController', ['$scope', 'dic_hospitalHttp', 
 				  };
 				  $scope.delete_row = function(tr_num){
 				  	$scope.dic_hospital_device.splice(tr_num, 1);
-				  	// console.log($scope.dic_hospital_device);
 				  }
 	      },
 	      size: size,
@@ -788,7 +785,7 @@ controllers.controller('bodyModesController', ['$scope', 'bodyModesHttp', 'categ
 
 
 
-controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state', '$log', '$uibModal', function ($scope, hospitalHttp, $state, $log, $uibModal) {
+controllers.controller('hospitalsController', ['$scope', 'hospitalHttp','projectHttp', '$state', '$log', '$uibModal', function ($scope, hospitalHttp,projectHttp, $state, $log, $uibModal) {
 	"use strict";
 	$scope.self = $scope;
 	$scope.maxSize = 5;
@@ -819,40 +816,63 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
 		});
 	};
 	$scope.open_hospital_project = function(size,id){
-		$scope.items = {
-				hospital_id: id
+			$scope.items = {
+					hospital_id: id
 			}
 			var hospital_project = $uibModal.open({
 				animation: true,
 				templateUrl: 'hospital_project.html',
-				controller: function($scope, $uibModalInstance, items){
+				controller: function($scope, $uibModalInstance, items,projectHttp,hospitalHttp){
+
+					$scope.add_project =  function () { //纳入项目
+						$scope.items = {
+							hospital_id: id
+							// category_id: body.category_id,
+							// project_zh: body.projects
+						};
+						var projects_modal = $uibModal.open({
+							templateUrl: 'add_project.html',
+							controller: 'addProjectToHospitalController',
+							size: 'lg',
+							resolve: {
+								items: function () {
+									return $scope.items;
+								}
+							}
+						});
+						projects_modal.result.then(function(){
+							console.log(245);
+							$scope.getHospitalProject();
+						});
+					}
+
 					$scope.getHospitalProject = function(){
 						hospitalHttp.getHospitalProjects({hospital_id: items.hospital_id}, function (data) {
-					$scope.projects = data.projects;
-					});
+								$scope.projects = data.projects;
+						});
 					};
-			$scope.cancel = function () {
-					$uibModalInstance.dismiss('cancel');
-		};
-		$scope.change_status = function(project,field){
-			if(field=='mbf'){
-				if(project.mbf){
-								project.mbf=false;
-				}else{
-					project.mbf=true;
-				};
-			};
-			if(field=='status'){
-				if(project.status!='busy'){
-								project.status = 'busy';
+					$scope.cancel = function () {
+								$uibModalInstance.dismiss('cancel');
+					};
+					$scope.change_status = function(project,field){
+						if(field=='mbf'){
+							if(project.mbf){
+											project.mbf=false;
 							}else{
-								project.status = 'default';
+								project.mbf=true;
 							};
-			};
-			hospitalHttp.editHospitalProjects({project: project}, function(data){
-							$scope.getHospitalProject();
-				})
-		}
+						};
+						if(field=='status'){
+							if(project.status!='busy'){
+											project.status = 'busy';
+										}else{
+											project.status = 'default';
+										};
+						};
+						hospitalHttp.editHospitalProjects({project: project}, function(data){
+										$scope.getHospitalProject();
+							})
+					}
 		$scope.getHospitalProject();
 		//打开编辑框
 		$scope.open_edit = function(size,project,field,field_ch){
@@ -969,6 +989,44 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
 			});
     }
 
+}]);
+
+controllers.controller('addProjectToHospitalController', ['$scope','projectHttp','hospitalHttp', '$state', '$uibModalInstance', 'items', function ($scope, projectHttp,hospitalHttp, $state, $uibModalInstance, items) {
+	$scope.items = items;
+	hospitalHttp.getHospitalProjects({hospital_id:items.hospital_id},function(data){
+		var project_name_arr = [];
+		for(var i=0;i<data.projects.length;i++){
+			project_name_arr.push(data.projects[i].project);
+		}
+		$scope.items.project_name_arr = project_name_arr;
+	});
+	projectHttp.getProjects({category_id: items.category_id},function(data){
+		$scope.projects = data.result.projects;
+	});
+	$scope.contains = function(arr, obj,_this) {
+	    var i = arr.length;
+	    while (i--) {
+	        if (arr[i] === obj) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+	$scope.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
+	$scope.save = function(){
+		project_ids = [];
+		angular.forEach($scope.projects, function(object,index){
+			if(object.isChecked){
+				project_ids.push(object.id)
+			}
+		});
+		hospitalHttp.addHospitalProjects({hospital_id: items.hospital_id,project_ids: project_ids},function (data) {
+		  $uibModalInstance.close();
+			$state.reload();
+		});
+	};
 }]);
 
 controllers.controller('hospitalDetailController', ['hospitalHttp','$scope', '$state', '$uibModalInstance','items', function (hospitalHttp,$scope, $state, $uibModalInstance,items) {
