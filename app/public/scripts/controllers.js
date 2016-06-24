@@ -823,6 +823,111 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp','project
 				animation: true,
 				templateUrl: 'hospital_project.html',
 				controller: function($scope, $uibModalInstance, items,projectHttp,hospitalHttp){
+			//打开编辑框
+			$scope.open_edit = function(size,project,field,field_ch){
+              $scope.items = {
+              	project: project,
+              	field: field,
+              	field_ch: field_ch
+              }
+              var edit_hospital_project = $uibModal.open({
+              	animation: true,
+                templateUrl: 'edit_hospital_project.html',
+                controller: function($scope, $uibModalInstance, items){
+                  $scope.project = items.project;
+                  $scope.field = items.field;
+                  $scope.field_ch = items.field_ch;
+                  $scope.cancel = function () {
+			        $uibModalInstance.close();
+				  };
+				  $scope.edit_project = function(project){
+				  	hospitalHttp.editHospitalProjects({project: project}, function(data){
+                       $uibModalInstance.close();
+				  	})
+				  };
+                },
+                size: size,
+                resolve:{
+                	items: function(){
+                		return $scope.items;
+                	}
+                }
+              });
+              edit_hospital_project.result.then(function(){
+		        $scope.getHospitalProject();
+		      });
+			};
+            //编辑检查流程
+            $scope.open_workflow = function(size,project){
+              $scope.items = {
+              	project: project
+              }
+              var edit_workflow = $uibModal.open({
+              	animation: true,
+                templateUrl: 'edit_workflow.html',
+                controller: function($scope, $uibModalInstance, items){
+                  $scope.project = items.project;
+                  $scope.inspection_workflows = $scope.project.inspection_workflows
+                  $scope.cancel = function () {
+			        $uibModalInstance.close();
+				  };
+				  $scope.delete_row = function(index){
+                    $scope.inspection_workflows.splice(index, 1);
+				  };
+				  $scope.add_row = function(){
+				  	$scope.inspection_workflows.push({
+                      hospital_project_id:$scope.project.id,
+                      step: '',
+                      step_description: ''
+				  	});
+				  };
+				  $scope.save = function(){
+				  	console.log($scope.inspection_workflows);
+				  	hospitalHttp.updateInspectionWorkflows({hospital_project_id: $scope.project.id, inspection_workflows: $scope.inspection_workflows},function(data){
+                      $uibModalInstance.close();
+				  	})
+				  }
+                },
+                size: size,
+                resolve:{
+                	items: function(){
+                		return $scope.items;
+                	}
+                }
+              });
+            }
+            //编辑医院资源
+            $scope.open_hospital_resources = function(size, project_id){
+            	$scope.items = {
+            		hospital_id: items.hospital_id,
+            		project_id: project_id
+            	}
+            	var edit_hospital_resources = $uibModal.open({
+	              	animation: true,
+	                templateUrl: 'edit_hospital_resources.html',
+	                controller: function($scope, $uibModalInstance, items){
+	                  hospitalHttp.getHospitalResources({hospital_id: items.hospital_id, project_id: items.project_id},function(data){
+                        $scope.co_hospital_resource = data.co_hospital_resource;
+                        $scope.co_appointment_config = data.co_appointment_config;
+	                  })
+	                  $scope.save = function(){
+	                  	hospitalHttp.editHospitalResources({co_hospital_resource: $scope.co_hospital_resource, co_appointment_config: $scope.co_appointment_config},function(data){
+                          console.log(data);
+                          $uibModalInstance.close();
+	                    })                       
+	                  };
+	                  $scope.cancel = function () {
+				        $uibModalInstance.close();
+					  };  
+	                },
+	                size: size,
+	                resolve:{
+	                	items: function(){
+	                		return $scope.items;
+	                	}
+	                }
+                });
+            }
 
 					$scope.add_project =  function () { //纳入项目
 						$scope.items = {

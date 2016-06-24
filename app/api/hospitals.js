@@ -77,7 +77,7 @@ router.get('/get_hospital_projects', function*(){
   var self = this;
   var params = self.query;
   var result = yield http.get('/v1/hospital/hospital_projects', {
-    fields: 'id,status,mbf,windows_phone,app_make_sms,inspection_notes',
+    fields: 'id,project_id,status,mbf,windows_phone,app_make_sms,inspection_notes',
     hospital_id: params.hospital_id
   });
   self.body = {
@@ -111,7 +111,6 @@ router.post('/update_inspection_workflows', function*(){
     hospital_project_id: params.hospital_project_id,
     inspection_workflows: JSON.stringify(params.inspection_workflows)
   });
-  console.log(access);
   this.body = {success: true};
 })
 
@@ -167,6 +166,38 @@ router.post('/add_hospital_assistants', function*(){
     address: assistant.address,
     state: assistant.state,
     remark: assistant.remark
+  });
+  this.body = {success: true};
+})
+
+router.get('/get_hospital_resources', function*(){
+  "use strict";
+  var self = this;
+  var params = self.query;
+  var result = yield http.get('/v1/hospital/get_hospital_resources', {
+    hospital_id: params.hospital_id,
+    project_id: params.project_id
+  });
+  this.body = {
+    success: true,
+    co_hospital_resource: result.co_hospital_resource,
+    co_appointment_config: result.co_appointment_config
+  };
+})
+
+router.put('/edit_hospital_resources', function*(){
+  "use strict";
+  var self = this;
+  var params = self.request.body;
+  var access = yield http.put('/v1/hospital/edit_hospital_resources', {
+    access_token: self.currentUser.access_token,
+    hospital_id: params.co_hospital_resource.hospital_id,
+    project_id: params.co_hospital_resource.project_id,
+    device_count: params.co_hospital_resource.device_count?params.co_hospital_resource.device_count:'',
+    device_hour_output: params.co_hospital_resource.device_hour_output?params.co_hospital_resource.device_hour_output:'',
+    opration_expire_time: params.co_appointment_config.opration_expire_time?params.co_appointment_config.opration_expire_time:'',
+    begin_at: params.co_appointment_config.begin_at?params.co_appointment_config.begin_at:'',
+    end_at: params.co_appointment_config.end_at?params.co_appointment_config.end_at:''
   });
   this.body = {success: true};
 })
