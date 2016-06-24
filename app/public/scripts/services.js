@@ -461,6 +461,18 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
                 errorDo:errorDo,
                 alwaysDo:alwaysDo
             })
+          },
+
+        updateInspectionWorkflows: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.post({
+                url: 'api/hospitals/update_inspection_workflows',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
         }
     }
 }]);

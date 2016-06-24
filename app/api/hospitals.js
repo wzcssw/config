@@ -65,7 +65,7 @@ router.get('/get_hospital_projects', function*(){
   var self = this;
   var params = self.query;
   var result = yield http.get('/v1/hospital/hospital_projects', {
-    fields: 'id,status,mbf',
+    fields: 'id,status,mbf,windows_phone,app_make_sms,inspection_notes',
     hospital_id: params.hospital_id
   });
   self.body = {
@@ -78,26 +78,29 @@ router.put('/edit_hospital_projects', function*(){
   "use strict";
   var self = this;
   var params = self.request.body;
-  if(params.field=="status"){
-    if(params.status==null){
-      params.status = 'default';
-    };
-    var access = yield http.put('/v1/hospital/edit_hospital_projects', {
-      access_token: self.currentUser.access_token,
-      id: params.id,
-      field: params.field,
-      status: params.status
-    })
-    this.body = {success: true};
-  }else{
-    var access = yield http.put('/v1/hospital/edit_hospital_projects', {
-      access_token: self.currentUser.access_token,
-      id: params.id,
-      field: params.field,
-      mbf: params.mbf
-    })
-    this.body = {success: true};
-  }
+  var access = yield http.put('/v1/hospital/edit_hospital_projects', {
+    access_token: self.currentUser.access_token,
+    id: params.project.id,
+    status: params.project.status?params.project.status:'',
+    mbf: params.project.mbf,
+    windows_phone: params.project.windows_phone?params.project.windows_phone:'',
+    app_make_sms: params.project.app_make_sms?params.project.app_make_sms:'',
+    inspection_notes: params.project.inspection_notes?params.project.inspection_notes:''
+  })
+  this.body = {success: true};
+})
+
+router.post('/update_inspection_workflows', function*(){
+  "use strict";
+  var self = this;
+  var params = self.request.body;
+  var access = yield http.post('/v1/hospital/update_inspection_workflows', {
+    access_token: self.currentUser.access_token,
+    hospital_project_id: params.hospital_project_id,
+    inspection_workflows: JSON.stringify(params.inspection_workflows)
+  });
+  console.log(access);
+  this.body = {success: true};
 })
 
 router.put('/edit_hospital_assistants', function*(){

@@ -789,74 +789,160 @@ controllers.controller('bodyModesController', ['$scope', 'bodyModesHttp', 'categ
 
 
 controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state', '$log', '$uibModal', function ($scope, hospitalHttp, $state, $log, $uibModal) {
-    "use strict";
-    $scope.self = $scope;
-    $scope.maxSize = 5;
-    $scope.city_id = "";
-    $scope.q = "";
-    $scope.hospitalEnabled = true;
-    hospitalHttp.getHospital({}, function (data) {
-        $scope.hospitals = data.hospitals;
-        $scope.current_page = data.current_page;
-        $scope.total_count = data.total_count;
-    });
-    $scope.pageChanged = function () {
-        hospitalHttp.getHospital({page: $scope.current_page,q: $scope.q,city_id: $scope.city_id}, function (data) {
-            $scope.current_page = data.current_page;
-            $scope.hospitals = data.hospitals;
-        });
-    };
-    $scope.setPage = function () {
-      $scope.current_page = $('#go_page').val();
-      $scope.pageChanged();
-      $('#go_page').val("");
-    };
-    $scope.search = function(){
-    	hospitalHttp.getHospital({q: $scope.q, city_id: $scope.city_id}, function (data) {
-        $scope.hospitals = data.hospitals;
-        $scope.current_page = data.current_page;
-        $scope.total_count = data.total_count;
-      });
-    };
-    $scope.open_hospital_project = function(size,id){
-    	$scope.items = {
-        	hospital_id: id
-        }
-        var hospital_project = $uibModal.open({
-          animation: true,
-          templateUrl: 'hospital_project.html',
-          controller: function($scope, $uibModalInstance, items){
-            $scope.getHospitalProject = function(){
-          	  hospitalHttp.getHospitalProjects({hospital_id: items.hospital_id}, function (data) {
-		        $scope.projects = data.projects;
-	          });
-            };
-		    $scope.cancel = function () {
-	          $uibModalInstance.dismiss('cancel');
+	"use strict";
+	$scope.self = $scope;
+	$scope.maxSize = 5;
+	$scope.city_id = "";
+	$scope.q = "";
+	$scope.hospitalEnabled = true;
+	hospitalHttp.getHospital({}, function (data) {
+			$scope.hospitals = data.hospitals;
+			$scope.current_page = data.current_page;
+			$scope.total_count = data.total_count;
+	});
+	$scope.pageChanged = function () {
+			hospitalHttp.getHospital({page: $scope.current_page,q: $scope.q,city_id: $scope.city_id}, function (data) {
+					$scope.current_page = data.current_page;
+					$scope.hospitals = data.hospitals;
+			});
+	};
+	$scope.setPage = function () {
+		$scope.current_page = $('#go_page').val();
+		$scope.pageChanged();
+		$('#go_page').val("");
+	};
+	$scope.search = function(){
+		hospitalHttp.getHospital({q: $scope.q, city_id: $scope.city_id}, function (data) {
+			$scope.hospitals = data.hospitals;
+			$scope.current_page = data.current_page;
+			$scope.total_count = data.total_count;
+		});
+	};
+	$scope.open_hospital_project = function(size,id){
+		$scope.items = {
+				hospital_id: id
+			}
+			var hospital_project = $uibModal.open({
+				animation: true,
+				templateUrl: 'hospital_project.html',
+				controller: function($scope, $uibModalInstance, items){
+					$scope.getHospitalProject = function(){
+						hospitalHttp.getHospitalProjects({hospital_id: items.hospital_id}, function (data) {
+					$scope.projects = data.projects;
+					});
+					};
+			$scope.cancel = function () {
+					$uibModalInstance.dismiss('cancel');
+		};
+		$scope.change_status = function(project,field){
+			if(field=='mbf'){
+				if(project.mbf){
+								project.mbf=false;
+				}else{
+					project.mbf=true;
+				};
 			};
-			$scope.change_status = function(project){
-              hospitalHttp.editHospitalProjects({id:project.id,status: project.status, field: 'status'}, function(data){
-                $scope.getHospitalProject();
-              })
+			if(field=='status'){
+				if(project.status!='busy'){
+								project.status = 'busy';
+							}else{
+								project.status = 'default';
+							};
 			};
-			$scope.change_mbf = function(project){
-              hospitalHttp.editHospitalProjects({id:project.id,mbf: project.mbf, field: 'mbf'}, function(data){
-			    $scope.getHospitalProject();
-			  });
-			};
-			$scope.getHospitalProject();
-          },
-          size:size,
-          resolve:{
-            items: function(){
-            	return $scope.items;
-            }
-          }
-        });
-        hospital_project.result.then(function(){
-          $scope.pageChanged();
-        });
-    }
+			hospitalHttp.editHospitalProjects({project: project}, function(data){
+							$scope.getHospitalProject();
+				})
+		}
+		$scope.getHospitalProject();
+		//打开编辑框
+		$scope.open_edit = function(size,project,field,field_ch){
+						$scope.items = {
+							project: project,
+							field: field,
+							field_ch: field_ch
+						}
+						var edit_hospital_project = $uibModal.open({
+							animation: true,
+							templateUrl: 'edit_hospital_project.html',
+							controller: function($scope, $uibModalInstance, items){
+								$scope.project = items.project;
+								$scope.field = items.field;
+								$scope.field_ch = items.field_ch;
+								$scope.cancel = function () {
+						$uibModalInstance.close();
+				};
+				$scope.edit_project = function(project){
+					hospitalHttp.editHospitalProjects({project: project}, function(data){
+										 $uibModalInstance.close();
+					})
+				};
+							},
+							size: size,
+							resolve:{
+								items: function(){
+									return $scope.items;
+								}
+							}
+						});
+						edit_hospital_project.result.then(function(){
+					$scope.getHospitalProject();
+				});
+		};
+					//编辑检查流程
+					$scope.open_workflow = function(size,project){
+						$scope.items = {
+							project: project
+						}
+						var edit_workflow = $uibModal.open({
+							animation: true,
+							templateUrl: 'edit_workflow.html',
+							controller: function($scope, $uibModalInstance, items){
+								$scope.project = items.project;
+								$scope.inspection_workflows = $scope.project.inspection_workflows
+								console.log($scope.inspection_workflows);
+								console.log($scope.project);
+								$scope.cancel = function () {
+						$uibModalInstance.close();
+				};
+				$scope.delete_row = function(index){
+									$scope.inspection_workflows.splice(index, 1);
+				};
+				$scope.add_row = function(){
+					$scope.inspection_workflows.push({
+										hospital_project_id:$scope.project.id,
+										step: '',
+										step_description: ''
+					});
+				};
+				$scope.save = function(){
+					console.log($scope.inspection_workflows);
+					hospitalHttp.updateInspectionWorkflows({hospital_project_id: $scope.project.id, inspection_workflows: $scope.inspection_workflows},function(data){
+										$uibModalInstance.close();
+					})
+				}
+							},
+							size: size,
+							resolve:{
+								items: function(){
+									return $scope.items;
+								}
+							}
+						});
+					}
+
+
+				},
+				size:size,
+				resolve:{
+					items: function(){
+						return $scope.items;
+					}
+				}
+			});
+			hospital_project.result.then(function(){
+				$scope.pageChanged();
+			});
+	}
     $scope.open_detail = function(hospital){
 			var new_modal = $uibModal.open({
 				templateUrl: 'hospital_detail.html',
