@@ -50,7 +50,6 @@ router.put('/edit_hospital_projects', function*(){
   "use strict";
   var self = this;
   var params = self.request.body;
-  console.log(params.project.windows_phone+"电话");
   var access = yield http.put('/v1/hospital/edit_hospital_projects', {
     access_token: self.currentUser.access_token,
     id: params.project.id,
@@ -61,7 +60,19 @@ router.put('/edit_hospital_projects', function*(){
     inspection_notes: params.project.inspection_notes?params.project.inspection_notes:''
   })
   this.body = {success: true};
+})
+
+router.post('/update_inspection_workflows', function*(){
+  "use strict";
+  var self = this;
+  var params = self.request.body;
+  var access = yield http.post('/v1/hospital/update_inspection_workflows', {
+    access_token: self.currentUser.access_token,
+    hospital_project_id: params.hospital_project_id,
+    inspection_workflows: JSON.stringify(params.inspection_workflows)
+  });
   console.log(access);
+  this.body = {success: true};
 })
 
 module.exports = router.routes();

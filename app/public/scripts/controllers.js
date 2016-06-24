@@ -853,6 +853,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
                 $scope.getHospitalProject();
 		  	  })
 			}
+			$scope.getHospitalProject();
 			//打开编辑框
 			$scope.open_edit = function(size,project,field,field_ch){
               $scope.items = {
@@ -886,8 +887,50 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
               edit_hospital_project.result.then(function(){
 		        $scope.getHospitalProject();
 		      });
-			}
-			$scope.getHospitalProject();
+			};
+            //编辑检查流程
+            $scope.open_workflow = function(size,project){
+              $scope.items = {
+              	project: project
+              }
+              var edit_workflow = $uibModal.open({
+              	animation: true,
+                templateUrl: 'edit_workflow.html',
+                controller: function($scope, $uibModalInstance, items){
+                  $scope.project = items.project;
+                  $scope.inspection_workflows = $scope.project.inspection_workflows
+                  console.log($scope.inspection_workflows);
+                  console.log($scope.project);
+                  $scope.cancel = function () {
+			        $uibModalInstance.close();
+				  };
+				  $scope.delete_row = function(index){
+                    $scope.inspection_workflows.splice(index, 1);
+				  };
+				  $scope.add_row = function(){
+				  	$scope.inspection_workflows.push({
+                      hospital_project_id:$scope.project.id,
+                      step: '',
+                      step_description: ''
+				  	});
+				  };
+				  $scope.save = function(){
+				  	console.log($scope.inspection_workflows);
+				  	hospitalHttp.updateInspectionWorkflows({hospital_project_id: $scope.project.id, inspection_workflows: $scope.inspection_workflows},function(data){
+                      $uibModalInstance.close();
+				  	})
+				  }
+                },
+                size: size,
+                resolve:{
+                	items: function(){
+                		return $scope.items;
+                	}
+                }
+              });
+            }
+
+			
           },
           size:size,
           resolve:{

@@ -92,7 +92,7 @@
       <td style="line-height:150px;">{{project.project}}</td>
       <td style="line-height:150px;"><button style="font-size: 14px;" type="button" class="btn btn-link btn-xs" ng-click="open_edit('md',project,'windows_phone','窗口电话')">{{project.windows_phone||"编辑窗口电话"}}</button></td>
       <td style="line-height:150px;"><button style="font-size: 14px;" type="button" class="btn btn-link btn-xs" ng-click="open_edit('md',project,'app_make_sms','短信填充信息')">{{project.app_make_sms||"编辑短信填充信息"}}</button></td>
-      <td width="30%;"><a href=""><li style="text-align:left;margin-left:10px;" ng-repeat="workflow in project.inspection_workflows">{{workflow.step+': '+workflow.step_description}}</li><span style="line-height:150px;" ng-if="project.inspection_workflows==''">编辑就诊流程</span></td>
+      <td width="30%;"><a ng-click="open_workflow('lg', project)" href=""><li style="text-align:left;margin-left:10px;" ng-repeat="workflow in project.inspection_workflows">{{workflow.step+': '+workflow.step_description}}</li><span style="line-height:150px;" ng-if="project.inspection_workflows==''">编辑就诊流程</span></td>
       <td style="line-height:150px;"><button style="font-size: 14px;" type="button" class="btn btn-link btn-xs" ng-click="open_edit('md',project,'inspection_notes','就检注意事项')">{{project.inspection_notes||"编辑就检注意事项"}}</button></td>
       <td style="line-height:150px;"><button style="font-size: 14px;" type="button" class="btn btn-link btn-xs" ng-click="change_status(project,'status')">{{project.status_zh || "正常"}}</button></td>
       <td style="line-height:150px;"><button style="font-size: 14px;" type="button" class="btn btn-link btn-xs" ng-click="change_status(project,'mbf')">{{project.mbf_zh || "无医保"}}</button></td>
@@ -113,5 +113,40 @@
     <textarea style="width:50%;" class="form-control" ng-if="field!='windows_phone'" ng-model="project[field]"></textarea>
     <button style="margin-top: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
     <button style="margin-top: 10px;" ng-click="edit_project(project)" class="btn btn-primary">保存</button>  
+  </div>
+</script>
+
+<script type="text/ng-template" id="edit_workflow.html">
+  <div class="modal-header" align="center">
+      <h3 class="modal-title">编辑检查流程</h3>
+  </div>
+  <div class="modal-body" align="center">
+    <div class="row" style="width: 100%;">
+      <table class="table table-bordered table-bordered table-hover table-condensed">
+        <thead>
+        <tr>
+          <th style="text-align:center;">就检步骤</th>
+          <th style="text-align:center;">步骤说明</th>
+          <th style="text-align:center;">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="inspection_workflow in inspection_workflows track by $index">
+            <td>
+              <input type="text" ng-model="inspection_workflow.step" class="form-control">
+            </td>
+            <td>
+              <input type="text" ng-model="inspection_workflow.step_description" class="form-control">
+            </td>
+            <td style="text-align:center;">
+              <button class="btn btn-danger btn-sm" ng-click="delete_row($index)"  confirm="你确定要删除该类别吗？">删除</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button style="margin-top: 10px;" class="btn btn-success" type="button" ng-click="add_row()">新增</button>
+    <button style="margin-top: 10px;" class="btn btn-primary" type="button" ng-click="save()">保存</button>
+    <button style="margin-top: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
   </div>
 </script>

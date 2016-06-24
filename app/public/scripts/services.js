@@ -416,11 +416,11 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
                 alwaysDo:alwaysDo
             })
         },
-        updateHospitalProjects: function(params, successDo, errorDo, alwaysDo){
+        updateInspectionWorkflows: function(params, successDo, errorDo, alwaysDo){
             "use strict";
             var self = this;
-            httpBase.put({
-                url: 'api/hospitals/update_hospital_projects',
+            httpBase.post({
+                url: 'api/hospitals/update_inspection_workflows',
                 params:params,
                 successDo:successDo,
                 errorDo:errorDo,
