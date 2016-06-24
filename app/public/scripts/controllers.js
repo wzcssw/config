@@ -899,8 +899,6 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
                 controller: function($scope, $uibModalInstance, items){
                   $scope.project = items.project;
                   $scope.inspection_workflows = $scope.project.inspection_workflows
-                  console.log($scope.inspection_workflows);
-                  console.log($scope.project);
                   $scope.cancel = function () {
 			        $uibModalInstance.close();
 				  };
@@ -928,6 +926,38 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', '$state
                 	}
                 }
               });
+            }
+            //编辑医院资源
+            $scope.open_hospital_resources = function(size, project_id){
+            	$scope.items = {
+            		hospital_id: items.hospital_id,
+            		project_id: project_id
+            	}
+            	var edit_hospital_resources = $uibModal.open({
+	              	animation: true,
+	                templateUrl: 'edit_hospital_resources.html',
+	                controller: function($scope, $uibModalInstance, items){
+	                  hospitalHttp.getHospitalResources({hospital_id: items.hospital_id, project_id: items.project_id},function(data){
+                        $scope.co_hospital_resource = data.co_hospital_resource;
+                        $scope.co_appointment_config = data.co_appointment_config;
+	                  })
+	                  $scope.save = function(){
+	                  	hospitalHttp.editHospitalResources({co_hospital_resource: $scope.co_hospital_resource, co_appointment_config: $scope.co_appointment_config},function(data){
+                          console.log(data);
+                          $uibModalInstance.close();
+	                    })                       
+	                  };
+	                  $scope.cancel = function () {
+				        $uibModalInstance.close();
+					  };  
+	                },
+	                size: size,
+	                resolve:{
+	                	items: function(){
+	                		return $scope.items;
+	                	}
+	                }
+                });
             }
 
 			
