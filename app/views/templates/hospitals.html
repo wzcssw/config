@@ -21,6 +21,9 @@
     text-align: left;
     margin-left: 10px;
 	}
+  .app-modal-window .modal-dialog {
+    width: 80%;
+  }
 </style>
 <div class="table-operation">
 	<h3>医院列表</h3>
@@ -191,17 +194,17 @@
     </tr>
     <tr ng-repeat="project in projects" style="text-align: center;">
       <td>{{project.project}}</td>
-      <td><button style="font-size: 14px;" type="button" class="btn btn-link btn-xs" ng-click="open_edit('md',project,'windows_phone','窗口电话')">{{project.windows_phone||"编辑窗口电话"}}</button></td>
-      <td><button style="font-size: 14px;" type="button" class="btn btn-link btn-xs" ng-click="open_edit('md',project,'app_make_sms','短信填充信息')">{{project.app_make_sms||"编辑短信填充信息"}}</button></td>
-      <td><a ng-click="open_workflow('lg', project)" href=""><li style="text-align:left;margin-left:10px;" ng-repeat="workflow in project.inspection_workflows">{{workflow.step+': '+workflow.step_description}}</li><span ng-if="project.inspection_workflows==''">编辑就诊流程</span></td>
-      <td><button style="font-size: 14px;" type="button" class="btn btn-link btn-xs" ng-click="open_edit('md',project,'inspection_notes','就检注意事项')">{{project.inspection_notes||"编辑就检注意事项"}}</button></td>
-      <td><button style="font-size: 14px;" type="button" class="btn btn-link btn-xs" ng-click="change_status(project,'status')">{{project.status_zh || "正常"}}</button></td>
-      <td><button style="font-size: 14px;" type="button" class="btn btn-link btn-xs" ng-click="change_status(project,'mbf')">{{project.mbf_zh || "无医保"}}</button></td>
-      <td><button style="margin: 10px;" class="btn btn-default btn-sm" type="button" ng-click="open_hospital_resources('md', project.project_id)">设置医院资源</button></td>
+      <td><button ng-style="project.windows_phone?{color:'black'}:{}" type="button" class="btn btn-link btn-xs" ng-click="open_edit('sm',project,'windows_phone','窗口电话')">{{project.windows_phone||"编辑窗口电话"}}</button></td>
+      <td><button ng-style="project.app_make_sms?{color:'black'}:{}" type="button" class="btn btn-link btn-xs" ng-click="open_edit('sm',project,'app_make_sms','短信填充信息')">{{project.app_make_sms||"编辑短信填充信息"}}</button></td>
+      <td><a ng-style="project.inspection_workflows==''?{}:{color:'black'}" ng-click="open_workflow('lg', project)" href=""><li style="text-align:left;margin-left:10px;" ng-repeat="workflow in project.inspection_workflows">{{workflow.step+': '+workflow.step_description}}</li><span ng-if="project.inspection_workflows==''">编辑就诊流程</span></td>
+      <td><button ng-style="project.inspection_notes?{color:'black'}:{}" type="button" class="btn btn-link btn-xs" ng-click="open_edit('sm',project,'inspection_notes','就检注意事项')">{{project.inspection_notes||"编辑就检注意事项"}}</button></td>
+      <td><button ng-style="project.status_zh=='正常'?{color:'green'}:{color:'red'}" type="button" class="btn btn-link btn-xs" ng-click="change_status(project,'status')" confirm="你将修改状态, 确定要修改吗？">{{project.status_zh || "正常"}}</button></td>
+      <td><button type="button" class="btn btn-link btn-xs" ng-click="change_status(project,'mbf')">{{project.mbf_zh || "无医保"}}</button></td>
+      <td><button class="btn btn-default btn-sm" type="button" ng-click="open_hospital_resources('sm', project.project_id)">设置医院资源</button></td>
     </tr>
     </table>
+    <button style="margin: 10px;" class="btn btn-sm btn-primary" type="button" ng-click="add_project()">编辑开展项目</button>
     <button  class="btn btn-sm btn-warning" type="button" ng-click="cancel()">关闭</button>
-    <button style="margin: 10px;" class="btn btn-sm btn-primary" type="button" ng-click="add_project()">编辑纳入项目</button>
   </div>
 </script>
 
@@ -274,19 +277,19 @@
   <div class="modal-header" align="center">
       <h3 class="modal-title">编辑医院资源</h3>
   </div>
-  <div class="modal-body" align="center">
+  <div class="modal-body">
     <label for="hos_address">设备数</label>
-    <input style="width:60%;" type="number" ng-model="co_hospital_resource.device_count" class="form-control">
+    <input type="number" ng-model="co_hospital_resource.device_count" class="form-control">
     <label for="hos_address">吞吐量/h</label>
-    <input style="width:60%;" type="number" ng-model="co_hospital_resource.device_hour_output" class="form-control">
+    <input type="number" ng-model="co_hospital_resource.device_hour_output" class="form-control">
     <label for="hos_address">过期时间(分钟)</label>
-    <input style="width:60%;" type="number" ng-model="co_appointment_config.opration_expire_time
+    <input type="number" ng-model="co_appointment_config.opration_expire_time
 " class="form-control" >
     <label for="hos_address">开始时间(整点)</label>
-    <input style="width:60%;" type="number" ng-model="co_appointment_config.begin_at" class="form-control">
+    <input type="number" ng-model="co_appointment_config.begin_at" class="form-control">
     <label for="hos_address">结束时间(整点)</label>
-    <input style="width:60%;" type="number" ng-model="co_appointment_config.end_at" class="form-control" >
+    <input type="number" ng-model="co_appointment_config.end_at" class="form-control" >
     <button style="margin-top: 10px;" class="btn btn-primary" type="button" ng-click="save()">保存</button>
-    <button style="margin-top: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button> 
+    <button style="margin-top: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
   </div>
 </script>
