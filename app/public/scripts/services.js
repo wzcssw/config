@@ -199,6 +199,16 @@ services.factory('citiesHttp', ['httpBase', function(httpBase){
                 alawyDo:alwaysDo
             });
         },
+        getOpenedCities: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url:'/api/cities/opened',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alawyDo:alwaysDo
+            });
+        },
         changeCities: function(params, successDo, errorDo, alwaysDo){
             "use strict";
             httpBase.put({

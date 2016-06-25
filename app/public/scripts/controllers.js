@@ -783,9 +783,7 @@ controllers.controller('bodyModesController', ['$scope', 'bodyModesHttp', 'categ
     }
 }]);
 
-
-
-controllers.controller('hospitalsController', ['$scope', 'hospitalHttp','projectHttp', '$state', '$log', '$uibModal', function ($scope, hospitalHttp,projectHttp, $state, $log, $uibModal) {
+controllers.controller('hospitalsController', ['$scope', 'hospitalHttp','projectHttp','citiesHttp', '$state', '$log', '$uibModal', function ($scope, hospitalHttp,projectHttp,citiesHttp, $state, $log, $uibModal) {
 	"use strict";
 	$scope.self = $scope;
 	$scope.maxSize = 5;
@@ -796,6 +794,9 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp','project
 		$scope.hospitals = data.hospitals;
 		$scope.current_page = data.current_page;
 		$scope.total_count = data.total_count;
+	});
+	citiesHttp.getOpenedCities({}, function (data) {
+			$scope.cities = data.cities;
 	});
 	$scope.pageChanged = function () {
 		hospitalHttp.getHospital({page: $scope.current_page,q: $scope.q,city_id: $scope.city_id}, function (data) {
