@@ -22,7 +22,7 @@
     margin-left: 10px;
 	}
   .app-modal-window .modal-dialog {
-    width: 80%;
+    width: 85%;
   }
 </style>
 <div class="table-operation">
@@ -55,7 +55,7 @@
   		<td>
 				<a class="btn btn-info btn-xs color_box" ng-click="open_detail(hospital)">详情</a>
 				<a class="btn btn-success btn-xs color_box" ng-click="open_assistant(hospital)">合作人员</a>
-				<a class="btn btn-default btn-xs color_box" ng-click="open_hospital_project('lg',hospital.id)">开展项目</a>
+				<a class="btn btn-default btn-xs color_box" ng-click="open_hospital_project('lg',hospital.id,hospital)">开展项目</a>
 			</td>
   	</tr>
   </tbody>
@@ -178,7 +178,7 @@
 
 <script type="text/ng-template" id="hospital_project.html">
   <div class="modal-header">
-      <h3 class="modal-title">医院开展项目情况</h3>
+      <h4 class="modal-title">医院开展项目情况</h4>
   </div>
   <div class="modal-body">
     <table class="table table-bordered table-hover">
@@ -198,9 +198,15 @@
       <td><button ng-style="project.app_make_sms?{color:'black'}:{}" type="button" class="btn btn-link btn-xs" ng-click="open_edit('sm',project,'app_make_sms','短信填充信息')">{{project.app_make_sms||"编辑短信填充信息"}}</button></td>
       <td><a ng-style="project.inspection_workflows==''?{}:{color:'black'}" ng-click="open_workflow('lg', project)" href=""><li style="text-align:left;margin-left:10px;" ng-repeat="workflow in project.inspection_workflows">{{workflow.step+': '+workflow.step_description}}</li><span ng-if="project.inspection_workflows==''">编辑就诊流程</span></td>
       <td><button ng-style="project.inspection_notes?{color:'black'}:{}" type="button" class="btn btn-link btn-xs" ng-click="open_edit('sm',project,'inspection_notes','就检注意事项')">{{project.inspection_notes||"编辑就检注意事项"}}</button></td>
-      <td><button ng-style="project.status_zh=='正常'?{color:'green'}:{color:'red'}" type="button" class="btn btn-link btn-xs" ng-click="change_status(project,'status')" confirm="你将修改状态, 确定要修改吗？">{{project.status_zh || "正常"}}</button></td>
+      <td><button ng-style="project.status_zh=='忙碌'?{color:'red'}:{color:'green'}" type="button" class="btn btn-link btn-xs" ng-click="change_status(project,'status')" confirm="你将修改状态, 确定要修改吗？">{{project.status_zh || "正常"}}</button></td>
       <td><button type="button" class="btn btn-link btn-xs" ng-click="change_status(project,'mbf')">{{project.mbf_zh || "无医保"}}</button></td>
-      <td><button class="btn btn-default btn-sm" type="button" ng-click="open_hospital_resources('sm', project.project_id)">设置医院资源</button></td>
+      <td>
+        <button class="btn btn-default btn-sm" type="button" ng-click="open_hospital_resources('sm', project.project_id)">设置医院资源</button>
+        <a uib-popover-template="dynamicPopover.templateUrl" popover-placement="left-bottom" class="btn btn-primary btn-sm" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-click="bodies_click(project)">部位与价格</a>
+      </td>
+    </tr>
+    <tr ng-show='projects.length==0'>
+      <td colspan=8>无相关数据</td>
     </tr>
     </table>
     <button style="margin: 10px;" class="btn btn-sm btn-primary" type="button" ng-click="add_project()">编辑开展项目</button>
@@ -275,7 +281,7 @@
 
 <script type="text/ng-template" id="edit_hospital_resources.html">
   <div class="modal-header" align="center">
-      <h3 class="modal-title">编辑医院资源</h3>
+      <h4 class="modal-title">编辑医院资源</h4>
   </div>
   <div class="modal-body">
     <label for="hos_address">设备数</label>
@@ -292,4 +298,72 @@
     <button style="margin-top: 10px;" class="btn btn-primary" type="button" ng-click="save()">保存</button>
     <button style="margin-top: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
   </div>
+</script>
+
+<script type="text/ng-template" id="edit_hospital_bodies_price.html">
+  <div class="modal-header" align="center">
+      <h4 class="modal-title">{{items.hospital.name}}-{{items.project.project}}-{{items.body.name}}-价格表</h4>
+  </div>
+  <div class="modal-body">
+    <table class="table table-bordered table-hover">
+      <tr>
+        <th>检查项目名称</th>
+        <th>医生价格(元)</th>
+        <th>医院价格(元)</th>
+        <th>下单可见</th>
+      </tr>
+      <tr ng-repeat="pr in project_relations">
+        <td ng-bind="pr.body_mode_name" ></td>
+        <td>
+          <a uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}"  popover-trigger="outsideClick" ng-bind="pr.price" ng-click="price_input_click(pr)"></a>
+        </td>
+        <td>
+          <a uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="pr.income_price" ng-click="income_price_input_click(pr)"></a>
+        </td>
+        <td>
+          <a uib-popover-template="dynamicPopover.templateUrl" ng-style="pr.state=='visible'?{color:'green'}:{}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="pr.state=='visible'?'可见':'不可见'" ng-click="select_click(pr)"></a>
+        </td>
+      </tr>
+      <tr ng-show="project_relations.length==0">
+        <td colspan=4>无相关数据</td>
+      </tr>
+    </table>
+  </div>
+</script>
+
+<script type="text/ng-template" id="hospital_bodies_pop_input.html">
+  <div>
+      <span ng-repeat="body in project_bodies">
+        <a ng-click="open_edit_price(body)">{{body.name}}</a>
+      </span>
+  </div>
+</script>
+
+<script type="text/ng-template" id="statusPopSelectTemplate.html">
+    <div class="form-group">
+        <select class="form-control" ng-model="pr.state" ng-change="select_change()">
+          <option value="visible">可见</option>
+          <option value="invisible">不可见</option>
+        </select>
+    </div>
+</script>
+
+<!-- 医院价格 -->
+<script type="text/ng-template" id="incomePriceInputTemplate.html">
+  <form class="form-inline">
+    <div class="form-group">
+        <input class="form-control" ng-model="pr.income_price"/>
+        <button class="form-control btn-primary" ng-click="income_price_btn_click()">OK</button>
+    </div>
+  </form>
+</script>
+
+<!-- 医生价格 -->
+<script type="text/ng-template" id="priceInputTemplate.html">
+  <form class="form-inline">
+    <div class="form-group">
+        <input class="form-control" ng-model="pr.price"/>
+        <button class="form-control btn-primary" ng-click="price_btn_click()">OK</button>
+    </div>
+  </form>
 </script>

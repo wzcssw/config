@@ -22,7 +22,8 @@ router.get('/', function*() {
     fields: 'id,name,remark,created_at,address,bus_line,flag,mbf,intro,map_image,location,lng,lat,city_id,dic_hospital_id,is_opened_system,name_code,email,should_send_email',
     page: page,
     q: q,
-    city_id: city_id
+    city_id: city_id,
+    sort_method: 'desc'
   });
   self.body = {
     success: true,
@@ -202,4 +203,36 @@ router.put('/edit_hospital_resources', function*(){
   this.body = {success: true};
 })
 
+router.get('/project_relations', function*(){
+  "use strict";
+  var self = this;
+  var params = self.query;
+  var result = yield http.get('/v1/hospital/project_relations', {
+    hospital_id: params.hospital_id,
+    project_id: params.project_id,
+    body_id: params.body_id
+  });
+  self.body = {
+    success: true,
+    project_relations: result.project_relations
+  }
+})
+
+router.put('/edit_project_relations', function*(){
+  "use strict";
+  var self = this;
+  var params = self.request.body;
+  var access = yield http.put('/v1/hospital/edit_project_relations', {
+    access_token: self.currentUser.access_token,
+    id: params.project_relations.id,
+    hospital_id: params.project_relations.hospital_id,
+    project_id: params.project_relations.project_id,
+    body_id: params.project_relations.body_id,
+    body_mode_id: params.project_relations.body_mode_id,
+    price: params.project_relations.price,
+    income_price: params.project_relations.income_price,
+    state: params.project_relations.state
+  });
+  this.body = {success: true};
+})
 module.exports = router.routes();

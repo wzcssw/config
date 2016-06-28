@@ -235,6 +235,16 @@ services.factory('bodiesHttp', ['httpBase', function(httpBase){
                 alawyDo:alwaysDo
             });
         },
+        getBodyByProject: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url:'/api/bodies/by_project',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alawyDo:alwaysDo
+            });
+        },
         getCategory: function(params, successDo, errorDo, alwaysDo){
             "use strict";
             httpBase.get({
@@ -511,6 +521,28 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
             var self = this;
             httpBase.put({
                 url: 'api/hospitals/edit_hospital_resources',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
+        },
+        getProjectRelations: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.get({
+                url: 'api/hospitals/project_relations',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
+        },
+        editProjectRelations: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.put({
+                url: 'api/hospitals/edit_project_relations',
                 params:params,
                 successDo:successDo,
                 errorDo:errorDo,

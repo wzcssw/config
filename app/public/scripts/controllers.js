@@ -869,7 +869,7 @@ controllers.controller('bodyModesController', ['$scope', 'bodyModesHttp', 'categ
   }
 }]);
 
-controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', 'projectHttp', 'citiesHttp', '$state', '$log', '$uibModal', function($scope, hospitalHttp, projectHttp, citiesHttp, $state, $log, $uibModal) {
+controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', 'projectHttp', 'citiesHttp','bodiesHttp', '$state', '$log', '$uibModal', function($scope, hospitalHttp, projectHttp, citiesHttp,bodiesHttp, $state, $log, $uibModal) {
   "use strict";
   $scope.self = $scope;
   $scope.maxSize = 5;
@@ -909,14 +909,15 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', 'projec
       $scope.total_count = data.total_count;
     });
   };
-  $scope.open_hospital_project = function(size, id) {
+  $scope.open_hospital_project = function(size, id,hospital) {
     $scope.items = {
-      hospital_id: id
+      hospital_id: id,
+      hospital: hospital
     }
     var hospital_project = $uibModal.open({
       animation: true,
       templateUrl: 'hospital_project.html',
-      windowClass: 'app-modal-window',
+			windowClass: 'app-modal-window',
       controller: function($scope, $uibModalInstance, items, projectHttp, hospitalHttp) {
         //打开编辑框
         $scope.open_edit = function(size, project, field, field_ch) {
@@ -1032,6 +1033,38 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', 'projec
             }
           });
         }
+
+					// 部位与价格
+					$scope.bodies_click = function(project) {
+				    $scope.modal_template = {project:project};
+            bodiesHttp.getBodyByProject({project_id: project.project_id}, function(data) {
+              $scope.project_bodies = data.bodies;
+            });
+		        $scope.dynamicPopover = {
+		          templateUrl: 'hospital_bodies_pop_input.html',
+		          title: '部位'
+		        };
+
+						$scope.open_edit_price = function (body) {
+              var modal_datas = {
+                hospital: items.hospital,
+                project: project,
+                body: body
+              };
+							var body_price = $uibModal.open({
+		            templateUrl: 'edit_hospital_bodies_price.html',
+		            controller: 'editHospitalBodiesPriceController',
+		            size: 'lg',
+		            resolve: {
+		              items: function() {
+		                return modal_datas;
+		              }
+		            }
+		          });
+		          body_price.result.then(function() {
+		          });
+						};
+			  };
 
         $scope.add_project = function() { //纳入项目
           $scope.items = {
@@ -1161,9 +1194,6 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', 'projec
               }
             }
           });
-					edit_workflow.result.then(function() {
-			      $scope.getHospitalProject();
-			    });
         }
 
       },
@@ -1374,5 +1404,50 @@ controllers.controller('assistantsDetailController', ['$scope', 'hospitalHttp', 
       default:
         break;
     }
+  };
+}]);
+
+controllers.controller('editHospitalBodiesPriceController', ['$scope', 'hospitalHttp', '$state', '$uibModalInstance', 'items', function($scope, hospitalHttp, $state, $uibModalInstance, items) {
+  $scope.items = items;
+  hospitalHttp.getProjectRelations({hospital_id: items.hospital.id,project_id: items.project.id ,body_id: items.body.id},function (data) {
+    $scope.project_relations = data.project_relations;
+  });
+  $scope.select_click = function (pr) {
+    $scope.pr = pr;
+    $scope.dynamicPopover = {
+      templateUrl: 'statusPopSelectTemplate.html',
+      title: '下单可见'
+    };
+    $scope.select_change = function () {
+      hospitalHttp.editProjectRelations({project_relations: $scope.pr},function (data) {
+      });
+    }
+  }
+  $scope.price_input_click = function (pr) {
+    $scope.dynamicPopover = {
+      templateUrl: 'priceInputTemplate.html',
+      title : '医生价格'
+    };
+    $scope.pr = pr;
+  }
+  $scope.income_price_input_click = function (pr) {
+    $scope.dynamicPopover = {
+      templateUrl: 'incomePriceInputTemplate.html',
+      title : '医院价格'
+    };
+    $scope.pr = pr;
+  }
+  $scope.income_price_btn_click = function () {
+    hospitalHttp.editProjectRelations({project_relations: $scope.pr},function (data) {
+    });
+  }
+  $scope.price_btn_click = function () {
+    hospitalHttp.editProjectRelations({project_relations: $scope.pr},function (data) {
+    });
+  }
+  $scope.cancel = function() {
+    $uibModalInstance.dismiss('cancel');
+  };
+  $scope.save = function(body) {
   };
 }]);
