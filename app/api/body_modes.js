@@ -30,7 +30,6 @@ router.put('/edit_body_mode', function*(){
         details:body_mode.details,
         remark:body_mode.remark
     });
-    console.log(access);
     self.body = {success:true};
 });
 

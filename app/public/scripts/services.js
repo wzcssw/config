@@ -560,6 +560,18 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
                 alwaysDo:alwaysDo
             })
         },
+        createHospitalProject: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.post({
+                url: 'api/hospitals/create_hospital_device',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
+        },
+
         editCooperatingHospital: function (params, successDo, errorDo, alwaysDo) {
             "use strict";
             var self = this;
@@ -570,6 +582,30 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
                 errorDo:errorDo,
                 alwaysDo:alwaysDo
             })
+        },
+
+        updateHospitalProject: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.put({
+                url: 'api/hospitals/update_hospital_device',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
+        },
+        deleteHospitalDevice: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this; 
+            httpBase.get({
+                url: 'api/hospitals/delete_hospital_device',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
         }
+
     }
 }]);

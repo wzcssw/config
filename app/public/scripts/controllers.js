@@ -1161,47 +1161,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', 'projec
             $scope.getHospitalProject();
           });
         };
-        //编辑检查流程
-        $scope.open_workflow = function(size, project) {
-          $scope.items = {
-            project: project
-          }
-          var edit_workflow = $uibModal.open({
-            animation: true,
-            templateUrl: 'edit_workflow.html',
-            controller: function($scope, $uibModalInstance, items) {
-              $scope.project = items.project;
-              $scope.inspection_workflows = $scope.project.inspection_workflows;
-              $scope.cancel = function() {
-                $uibModalInstance.close();
-              };
-              $scope.delete_row = function(index) {
-                $scope.inspection_workflows.splice(index, 1);
-              };
-              $scope.add_row = function() {
-                $scope.inspection_workflows.push({
-                  hospital_project_id: $scope.project.id,
-                  step: '',
-                  step_description: ''
-                });
-              };
-              $scope.save = function() {
-                hospitalHttp.updateInspectionWorkflows({
-                  hospital_project_id: $scope.project.id,
-                  inspection_workflows: $scope.inspection_workflows
-                }, function(data) {
-                  $uibModalInstance.close();
-                })
-              }
-            },
-            size: size,
-            resolve: {
-              items: function() {
-                return $scope.items;
-              }
-            }
-          });
-        }
+        
 
       },
       size: size,
@@ -1215,6 +1175,20 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', 'projec
       $scope.pageChanged();
     });
   }
+
+  $scope.open_device = function(hospital){
+    var hospital_device = $uibModal.open({
+      templateUrl: 'hospital_device.html',
+      controller: 'hospitalDeviceController',
+      size: 'lg',
+      resolve: {
+        items: function() {
+          return hospital;
+        }
+      }
+    });
+  }
+
   $scope.open_detail = function(hospital) {
     var new_modal = $uibModal.open({
       templateUrl: 'hospital_detail.html',
@@ -1503,4 +1477,75 @@ controllers.controller('editHospitalBodiesPriceController', ['$scope', 'hospital
     $uibModalInstance.dismiss('cancel');
   };
 
+}]);
+
+controllers.controller('hospitalDeviceController', ['hospitalHttp', '$scope', '$state', '$uibModalInstance', 'items', '$uibModal', function(hospitalHttp, $scope, $state, $uibModalInstance, items, $uibModal) {
+  $scope.hospital = items;
+  $scope.hospital_devices = $scope.hospital.hospital_project_infos;
+  $scope.close = function() {
+    $uibModalInstance.close();
+  };
+  $scope.create = function() {  
+    $scope.items = {
+      hospital_id: $scope.hospital.id
+    }
+    var create_hospital_device = $uibModal.open({
+      animation: true,
+      templateUrl: 'create_hospital_device.html',
+      controller: function($scope, $uibModalInstance, items, hospitalHttp) {
+        $scope.hospital_id = items.hospital_id;
+        $scope.hospital_device = {
+          hospital_id: items.hospital_id,
+          project_title: '',
+          project_content: '',
+          project_image: ''
+        }
+        $scope.cancel = function() {
+          $uibModalInstance.dismiss('cancel');
+        };
+        $scope.save = function() {
+          hospitalHttp.createHospitalProject({hospital_device: $scope.hospital_device},function(data){
+            $uibModalInstance.close(data.hospital_device);
+          })
+        }
+      },
+      size: "md",
+      resolve: {
+        items: function() {
+          return $scope.items;
+        }
+      }
+    });
+    create_hospital_device.result.then(function(data) {
+      $scope.hospital_devices.push(data);
+    });
+  };
+  $scope.update = function(hospital_device){
+    var update_hospital_device = $uibModal.open({
+      animation: true,
+      templateUrl: 'create_hospital_device.html',
+      controller: function($scope, $uibModalInstance, hospitalHttp) {
+        $scope.hospital_device = hospital_device;
+        $scope.cancel = function() {
+          $uibModalInstance.dismiss("cancel");
+        };
+        $scope.save = function() {
+          hospitalHttp.updateHospitalProject({hospital_device: $scope.hospital_device},function(data){
+            $uibModalInstance.close($scope.hospital_device);
+          })
+        }
+      },
+      size: "md",
+      resolve: {
+        items: function() {
+          return $scope.items;
+        }
+      }
+    });
+  };
+  $scope.delete = function(hospital_device,$index){
+    hospitalHttp.deleteHospitalDevice({hospital_device: hospital_device}, function(data){
+      $scope.hospital_devices.splice($index,1);
+    })
+  }
 }]);
