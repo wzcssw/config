@@ -45,7 +45,7 @@
   	  <td>医院名称</td>
   	  <td>城市</td>
   	  <td>分流医院</td>
-  	  <td>详情</td>
+  	  <td></td>
   	</tr>
   	<tr ng-repeat="hospital in self.hospitals" style="text-align: center;">
   		<td>{{hospital.id}}</td>
@@ -158,8 +158,8 @@
 				</tr>
 			</table>
 			<div>
+        <button class="btn btn-success" ng-click="add_assistant_row()">新增</button>
         <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
-				<button class="btn btn-success" ng-click="add_assistant_row()">新增</button>
 			</div>
     </div>
   </div>
@@ -206,8 +206,8 @@
       <td><button ng-style="project.status_zh=='忙碌'?{color:'red'}:{color:'green'}" type="button" class="btn btn-link btn-xs" ng-click="change_status(project,'status')" confirm="你将修改状态, 确定要修改吗？">{{project.status_zh || "正常"}}</button></td>
       <td><button type="button" class="btn btn-link btn-xs" ng-click="change_status(project,'mbf')">{{project.mbf_zh || "无医保"}}</button></td>
       <td>
-        <button class="btn btn-default btn-sm" type="button" ng-click="open_hospital_resources('sm', project.project_id)">设置医院资源</button>
-        <a uib-popover-template="dynamicPopover.templateUrl" popover-placement="left-bottom" class="btn btn-primary btn-sm" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-click="bodies_click(project)">部位与价格</a>
+        <button class="btn btn-default btn-xs color_box" type="button" ng-click="open_hospital_resources('sm', project.project_id)">设置医院资源</button>
+        <a uib-popover-template="dynamicPopover.templateUrl" popover-placement="left-bottom" class="btn btn-primary btn-xs color_box" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-click="bodies_click(project)">部位与价格</a>
       </td>
     </tr>
     <tr ng-show='projects.length==0'>
@@ -227,8 +227,8 @@
   <div class="modal-body" align="center">
     <input ng-if="field=='windows_phone'" type="text" ng-model="project[field]" class="form-control" id='hos_address'>
     <textarea class="form-control" ng-if="field!='windows_phone'" ng-model="project[field]"></textarea>
-    <button style="margin-top: 10px;" class="btn btn-sm btn-warning" type="button" ng-click="cancel()">取消</button>
     <button style="margin-top: 10px;" ng-click="edit_project(project)" class="btn btn-sm btn-primary">保存</button>
+    <button style="margin-top: 10px;" class="btn btn-sm btn-warning" type="button" ng-click="cancel()">取消</button>
   </div>
 </script>
 
