@@ -45,6 +45,7 @@
   	  <td>医院名称</td>
   	  <td>城市</td>
   	  <td>分流医院</td>
+      <td>设备</td>
   	  <td>详情</td>
   	</tr>
   	<tr ng-repeat="hospital in self.hospitals" style="text-align: center;">
@@ -52,10 +53,11 @@
   		<td>{{hospital.name}}</td>
   		<td>{{hospital.city_zh}}</td>
   		<td>{{hospital.bridgings.join(", ")}}</td>
+      <td><a class="btn btn-primary btn-xs color_box" ng-click="open_device(hospital)">设备信息</a></td>
   		<td>
-				<a class="btn btn-info btn-xs color_box" ng-click="open_detail(hospital)">详情</a>
+				<a class="btn btn-info btn-xs color_box" ng-click="open_detail(hospital)">医院详情</a>
 				<a class="btn btn-success btn-xs color_box" ng-click="open_assistant(hospital)">合作人员</a>
-				<a class="btn btn-default btn-xs color_box" ng-click="open_hospital_project('lg',hospital.id,hospital)">开展项目</a>
+				<a class="btn btn-warning btn-xs color_box" ng-click="open_hospital_project('lg',hospital.id,hospital)">开展项目</a>
 			</td>
   	</tr>
   </tbody>
@@ -366,4 +368,47 @@
         <button class="form-control btn-primary" ng-click="price_btn_click()">OK</button>
     </div>
   </form>
+</script>
+
+<script type="text/ng-template" id="hospital_device.html">
+  <div class="modal-header" align="center">
+      <h4 class="modal-title">{{hospital.name}}设备信息</h4>
+  </div>
+  <div class="modal-body">
+    <table class="table table-bordered table-hover">
+      <tr>
+        <th>设备简介</th>
+        <th>设备详情</th>
+        <th>设备图片</th>
+        <th>操作</th>
+      </tr>
+      <tr ng-repeat="hd in hospital_devices">
+        <td>{{hd.project_title}}</td>
+        <td>{{hd.project_content}}</td>
+        <td><img src="{{hd.project_image}}"></td>
+        <td>
+          <button class="btn btn-primary btn-xs" type="button" ng-click="update(hd)">编辑</button>
+          <button class="btn btn-danger btn-xs" type="button" ng-click="delete(hd,$index)" confirm="你确定要移除该医院设备吗?">删除</button>
+        </td>
+      </tr>
+    </table>
+    <button style="margin-top: 10px;" class="btn btn-success" type="button" ng-click="create()">新增</button>
+    <button style="margin-top: 10px;" class="btn btn-warning" type="button" ng-click="close()">关闭</button>
+  </div>
+</script>
+
+<script type="text/ng-template" id="create_hospital_device.html">
+  <div class="modal-header" align="center">
+      <h4 class="modal-title">修改医院设备信息</h4>
+  </div>
+  <div class="modal-body">
+    <label>设备简介</label>
+    <input type="text" ng-model="hospital_device.project_title" class="form-control">
+    <label>设备详情</label>
+    <textarea ng-model="hospital_device.project_content" class="form-control"></textarea>
+    <label>设备图片</label>
+    <input type="text" ng-model="hospital_device.project_image" class="form-control" >
+    <button style="margin-top: 10px;" class="btn btn-primary" type="button" ng-click="save()">保存</button>
+    <button style="margin-top: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+  </div>
 </script>

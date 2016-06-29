@@ -235,4 +235,49 @@ router.put('/edit_project_relations', function*(){
   });
   this.body = {success: true};
 })
+
+router.post('/create_hospital_device', function*(){
+  "use strict";
+  var self = this;
+  var params = self.request.body;
+  var hospital_device = params.hospital_device;
+  var access = yield http.post('/v1/hospital/create_hospital_device', {
+    access_token: self.currentUser.access_token,
+    hospital_id: hospital_device.hospital_id,
+    project_title: hospital_device.project_title,
+    project_content: hospital_device.project_content,
+    project_image: hospital_device.project_image
+  });
+  this.body = {
+    success: true,
+    hospital_device: access.hospital_device
+  };
+})
+
+router.put('/update_hospital_device', function*(){
+  "use strict";
+  var self = this;
+  var params = self.request.body;
+  var hospital_device = params.hospital_device;
+  var access = yield http.put('/v1/hospital/update_hospital_device', {
+    access_token: self.currentUser.access_token,
+    hospital_id: hospital_device.hospital_id,
+    project_title: hospital_device.project_title,
+    project_content: hospital_device.project_content,
+    project_image: hospital_device.project_image
+  });
+  this.body = {success: true};
+})
+
+router.get('/delete_hospital_device', function*(){
+  "use strict";
+  var self = this;
+  var params = self.query;
+  var id = JSON.parse(params.hospital_device).id;
+  var result = yield http.delete('/v1/hospital/delete_hospital_devie', {
+    id: id
+  });
+  self.body = {success: true}
+})
+
 module.exports = router.routes();
