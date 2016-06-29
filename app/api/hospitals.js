@@ -235,4 +235,30 @@ router.put('/edit_project_relations', function*(){
   });
   this.body = {success: true};
 })
+
+router.get('/get_cooperating_hospital', function*(){
+  "use strict";
+  var self = this;
+  var params = self.query;
+  var result = yield http.get('/v1/hospital/get_cooperating_hospital', {
+    city_id: params.city_id
+  });
+  self.body = {
+    success: true,
+    hospitals: result.hospitals
+  }
+})
+
+router.put('/edit_cooperating_hospital', function*(){
+  "use strict";
+  var self = this;
+  var params = self.request.body;
+  var access = yield http.put('/v1/hospital/edit_cooperating_hospital', {
+    access_token: self.currentUser.access_token,
+    hospital_id: params.hospital_id,
+    cooperating_hospital_ids: JSON.stringify(params.cooperating_hospital_ids)
+  });
+  this.body = {success: true};
+})
+
 module.exports = router.routes();

@@ -51,7 +51,12 @@
   		<td>{{hospital.id}}</td>
   		<td>{{hospital.name}}</td>
   		<td>{{hospital.city_zh}}</td>
-  		<td>{{hospital.bridgings.join(", ")}}</td>
+  		<td>
+        <a ng-click="open_bridging_hospitals_modal(hospital)">
+          {{ show_bridging_hospital_arr(hospital.bridgings) }}
+        </a>
+        <a ng-show="hospital.bridgings.length==0" ng-click="open_bridging_hospitals_modal(hospital)">添加</a>
+      </td>
   		<td>
 				<a class="btn btn-info btn-xs color_box" ng-click="open_detail(hospital)">详情</a>
 				<a class="btn btn-success btn-xs color_box" ng-click="open_assistant(hospital)">合作人员</a>
@@ -227,6 +232,26 @@
   </div>
 </script>
 
+<script type="text/ng-template" id="bridging_hospitals.html">
+  <div class="modal-header">
+      <h4 class="modal-title">分流医院 ({{hospital.name}})</h4>
+  </div>
+  <div class="modal-body container">
+    <div class="col-md-3" style="height: 50px" ng-repeat="brige in opened_hospitals" ng-show="brige.id!=hospital.id">
+      <label>
+        <input type="checkbox"  value="{{brige.id}}" ng-init="brige.isChecked=bridging_contains(hospital.bridgings ,brige.id)" ng-model="brige.isChecked">
+        <span>{{brige.name}}</span>
+      </label>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div style="float:left">
+      <button class="btn btn-success" ng-click="save(opened_hospitals)">保存</button>
+      <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    </div>
+  </div>
+</script>
+
 <script type="text/ng-template" id="edit_workflow.html">
   <div class="modal-header" align="center">
       <h3 class="modal-title">编辑检查流程</h3>
@@ -315,7 +340,7 @@
       <tr ng-repeat="pr in project_relations">
         <td ng-bind="pr.body_mode_name" ></td>
         <td>
-          <a uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}"  popover-trigger="outsideClick" ng-bind="pr.price" ng-click="price_input_click(pr)"></a>
+          <a uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="pr.price" ng-click="price_input_click(pr)"></a>
         </td>
         <td>
           <a uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="pr.income_price" ng-click="income_price_input_click(pr)"></a>

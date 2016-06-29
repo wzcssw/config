@@ -884,6 +884,13 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', 'projec
   citiesHttp.getOpenedCities({}, function(data) {
     $scope.cities = data.cities;
   });
+  $scope.show_bridging_hospital_arr = function (obj) {
+    var arr = [];
+    angular.forEach(obj, function(object, index) {
+      arr.push(object.name);
+    });
+    return arr.join(", ");
+  }
   $scope.pageChanged = function() {
     hospitalHttp.getHospital({
       page: $scope.current_page,
@@ -1234,6 +1241,20 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', 'projec
     });
   }
 
+  $scope.open_bridging_hospitals_modal = function (hospital) {
+    var new_modal = $uibModal.open({
+      templateUrl: 'bridging_hospitals.html',
+      controller: 'bridgingHospitalsController',
+      windowClass: 'app-modal-window',
+      size: 'lg',
+      resolve: {
+        items: function() {
+          return hospital;
+        }
+      }
+    });
+  }
+
 }]);
 
 controllers.controller('addProjectToHospitalController', ['$scope', 'projectHttp', 'hospitalHttp', '$state', '$uibModalInstance', 'items', function($scope, projectHttp, hospitalHttp, $state, $uibModalInstance, items) {
@@ -1407,6 +1428,37 @@ controllers.controller('assistantsDetailController', ['$scope', 'hospitalHttp', 
   };
 }]);
 
+controllers.controller('bridgingHospitalsController', ['hospitalHttp','$scope', '$state', '$uibModalInstance', 'items', function(hospitalHttp,$scope, $state, $uibModalInstance, items) {
+  $scope.hospital = items;
+  hospitalHttp.getCooperatingHospital({city_id: $scope.hospital.city_id},function (data) {
+    $scope.opened_hospitals = data.hospitals
+  });
+  $scope.bridging_contains = function(bridgings,brige_id) {
+    var result = false;
+    angular.forEach(bridgings, function(object, index) {
+      if(brige_id==object.id){
+        result = true;
+      }
+    });
+    return result;
+  };
+  $scope.cancel = function() {
+    $uibModalInstance.dismiss('cancel');
+  };
+  $scope.save = function(opened_hospitals) {
+    arr = [];
+    angular.forEach(opened_hospitals, function(object, index) {
+      if(object.isChecked){
+        arr.push(object.id);
+      }
+    });
+    hospitalHttp.editCooperatingHospital({hospital_id: $scope.hospital.id,cooperating_hospital_ids: arr},function(data) {
+      $state.reload();
+      $uibModalInstance.dismiss('cancel');
+    });
+  };
+}]);
+
 controllers.controller('editHospitalBodiesPriceController', ['$scope', 'hospitalHttp', '$state', '$uibModalInstance', 'items', function($scope, hospitalHttp, $state, $uibModalInstance, items) {
   $scope.items = items;
   hospitalHttp.getProjectRelations({hospital_id: items.hospital.id,project_id: items.project.id ,body_id: items.body.id},function (data) {
@@ -1439,15 +1491,16 @@ controllers.controller('editHospitalBodiesPriceController', ['$scope', 'hospital
   }
   $scope.income_price_btn_click = function () {
     hospitalHttp.editProjectRelations({project_relations: $scope.pr},function (data) {
+      $('body').click();
     });
   }
   $scope.price_btn_click = function () {
     hospitalHttp.editProjectRelations({project_relations: $scope.pr},function (data) {
+      $('body').click();
     });
   }
   $scope.cancel = function() {
     $uibModalInstance.dismiss('cancel');
   };
-  $scope.save = function(body) {
-  };
+
 }]);
