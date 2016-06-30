@@ -28,7 +28,6 @@
 <div class="table-operation">
 	<h3>医院列表</h3>
 	<div>
-	  <button type="button" class="btn btn-default">新增医院</button>
 	  <button type="button" class="btn btn-default">导出</button>
     <button style="float: right;width: 5%;" ng-click="search()" class="btn btn-default">搜索</button>
     <input style="width: 13%;float: right;margin-left: 5px;margin-right: 5px;" type="text" ng-model="q" class="form-control" id="hos_q" placeholder="名称 、拼音">
@@ -158,7 +157,7 @@
           </td>
 					<td>
 					  <a class="btn btn-danger btn-xs color_box" ng-click="delete_click(assistant)" ng-show="assistant.id" confirm="你确定要移除该合作人员吗？">删除</a>
-					  <a class="btn btn-success btn-xs color_box" ng-show="!assistant.id" ng-click="add_click(assistant,hospital.id)">添加</a>
+					  <a class="btn btn-success btn-xs color_box" ng-show="!assistant.id" ng-click="add_click(assistant,hospital.id)">保存</a>
 					</td>
 				</tr>
 			</table>
@@ -188,31 +187,26 @@
 
 <script type="text/ng-template" id="hospital_project.html">
   <div class="modal-header">
-      <h4 class="modal-title">医院开展项目情况</h4>
+      <h4 class="modal-title">{{hospital.name}}开展项目情况</h4>
   </div>
   <div class="modal-body">
     <table class="table table-bordered table-hover">
       <tr style="text-align: center">
       <td>检查项目名称</td>
       <td>窗口电话</td>
-      <td>短信填充信息</td>
-      <td>项目就诊流程</td>
-      <td>就检注意事项</td>
       <td>状态</td>
       <td>医保情况</td>
       <td>操作</td>
     </tr>
     <tr ng-repeat="project in projects" style="text-align: center;">
       <td>{{project.project}}</td>
-      <td><button ng-style="project.windows_phone?{color:'black'}:{}" type="button" class="btn btn-link btn-xs" ng-click="open_edit('sm',project,'windows_phone','窗口电话')">{{project.windows_phone||"编辑窗口电话"}}</button></td>
-      <td><button ng-style="project.app_make_sms?{color:'black'}:{}" type="button" class="btn btn-link btn-xs" ng-click="open_edit('sm',project,'app_make_sms','短信填充信息')">{{project.app_make_sms||"编辑短信填充信息"}}</button></td>
-      <td><a ng-style="project.inspection_workflows==''?{}:{color:'black'}" ng-click="open_workflow('lg', project)" href=""><li style="text-align:left;margin-left:10px;" ng-repeat="workflow in project.inspection_workflows">{{workflow.step+': '+workflow.step_description}}</li><span ng-if="project.inspection_workflows==''">编辑就诊流程</span></td>
-      <td><button ng-style="project.inspection_notes?{color:'black'}:{}" type="button" class="btn btn-link btn-xs" ng-click="open_edit('sm',project,'inspection_notes','就检注意事项')">{{project.inspection_notes||"编辑就检注意事项"}}</button></td>
+      <td>{{project.windows_phone}}</td>
       <td><button ng-style="project.status_zh=='忙碌'?{color:'red'}:{color:'green'}" type="button" class="btn btn-link btn-xs" ng-click="change_status(project,'status')" confirm="你将修改状态, 确定要修改吗？">{{project.status_zh || "正常"}}</button></td>
       <td><button type="button" class="btn btn-link btn-xs" ng-click="change_status(project,'mbf')">{{project.mbf_zh || "无医保"}}</button></td>
       <td>
-        <button class="btn btn-default btn-xs color_box" type="button" ng-click="open_hospital_resources('sm', project.project_id)">设置医院资源</button>
         <a uib-popover-template="dynamicPopover.templateUrl" popover-placement="left-bottom" class="btn btn-primary btn-xs color_box" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-click="bodies_click(project)">部位与价格</a>
+        <button class="btn btn-default btn-xs color_box" type="button" ng-click="open_hospital_resources(project.project_id)">设置医院资源</button>
+        <button class="btn btn-default btn-xs color_box" type="button" ng-click="open_project_detail_modal(project)">编辑详情</button>
       </td>
     </tr>
     <tr ng-show='projects.length==0'>
@@ -221,19 +215,6 @@
     </table>
     <button style="margin: 10px;" class="btn btn-sm btn-primary" type="button" ng-click="add_project()">编辑开展项目</button>
     <button  class="btn btn-sm btn-warning" type="button" ng-click="cancel()">关闭</button>
-  </div>
-</script>
-
-
-<script type="text/ng-template" id="edit_hospital_project.html">
-  <div class="modal-header" align="center">
-      <h4 class="modal-title">编辑{{field_ch}}</h4>
-  </div>
-  <div class="modal-body" align="center">
-    <input ng-if="field=='windows_phone'" type="text" ng-model="project[field]" class="form-control" id='hos_address'>
-    <textarea class="form-control" ng-if="field!='windows_phone'" ng-model="project[field]"></textarea>
-    <button style="margin-top: 10px;" ng-click="edit_project(project)" class="btn btn-sm btn-primary">保存</button>
-    <button style="margin-top: 10px;" class="btn btn-sm btn-warning" type="button" ng-click="cancel()">取消</button>
   </div>
 </script>
 
@@ -257,41 +238,6 @@
   </div>
 </script>
 
-<script type="text/ng-template" id="edit_workflow.html">
-  <div class="modal-header" align="center">
-      <h3 class="modal-title">编辑检查流程</h3>
-  </div>
-  <div class="modal-body" align="center">
-    <div class="row" style="width: 100%;">
-      <table class="table table-bordered table-bordered table-hover table-condensed">
-        <thead>
-        <tr>
-          <th style="text-align:center;">就检步骤</th>
-          <th style="text-align:center;">步骤说明</th>
-          <th style="text-align:center;">操作</th>
-        </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="inspection_workflow in inspection_workflows track by $index">
-            <td>
-              <input type="text" ng-model="inspection_workflow.step" class="form-control">
-            </td>
-            <td>
-              <input type="text" ng-model="inspection_workflow.step_description" class="form-control">
-            </td>
-            <td style="text-align:center;">
-              <button class="btn btn-danger btn-sm" ng-click="delete_row($index)"  confirm="你确定要删除该类别吗？">删除</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <button style="margin-top: 10px;" class="btn btn-sm btn-success" type="button" ng-click="add_row()">新增</button>
-    <button style="margin-top: 10px;" class="btn btn-sm btn-primary" type="button" ng-click="save()">保存</button>
-    <button style="margin-top: 10px;" class="btn btn-sm btn-warning" type="button" ng-click="cancel()">取消</button>
-  </div>
-</script>
-
 <!-- 纳入项目 -->
 <script id="add_project.html" type="text/ng-template">
   <div class="modal-header">
@@ -310,21 +256,26 @@
 </script>
 
 <script type="text/ng-template" id="edit_hospital_resources.html">
-  <div class="modal-header" align="center">
+  <div class="modal-header">
       <h4 class="modal-title">编辑医院资源</h4>
   </div>
   <div class="modal-body">
-    <label for="hos_address">设备数</label>
-    <input type="number" ng-model="co_hospital_resource.device_count" class="form-control">
-    <label for="hos_address">吞吐量/h</label>
-    <input type="number" ng-model="co_hospital_resource.device_hour_output" class="form-control">
-    <label for="hos_address">过期时间(分钟)</label>
-    <input type="number" ng-model="co_appointment_config.opration_expire_time
-" class="form-control" >
-    <label for="hos_address">开始时间(整点)</label>
-    <input type="number" ng-model="co_appointment_config.begin_at" class="form-control">
-    <label for="hos_address">结束时间(整点)</label>
-    <input type="number" ng-model="co_appointment_config.end_at" class="form-control" >
+    <div class="row">
+      <div class="col-md-6">
+        <label for="hos_address">设备数</label>
+        <input type="number" ng-model="co_hospital_resource.device_count" class="form-control">
+        <label for="hos_address">吞吐量/h</label>
+        <input type="number" ng-model="co_hospital_resource.device_hour_output" class="form-control">
+        <label for="hos_address">过期时间(分钟)</label>
+        <input type="number" ng-model="co_appointment_config.opration_expire_time" class="form-control" >
+      </div>
+      <div class="col-md-6">
+        <label for="hos_address">开始时间(整点)</label>
+        <input type="number" ng-model="co_appointment_config.begin_at" class="form-control">
+        <label for="hos_address">结束时间(整点)</label>
+        <input type="number" ng-model="co_appointment_config.end_at" class="form-control" >
+      </div>
+    </div>
     <button style="margin-top: 10px;" class="btn btn-primary" type="button" ng-click="save()">保存</button>
     <button style="margin-top: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
   </div>
@@ -461,4 +412,71 @@
         ng-options="o.v as o.n for o in [{ n: '关闭', v: false }, { n: '开启', v: true }]">
       </select>
   </div>
+</script>
+
+<script type="text/ng-template" id="edit_project_detail.html">
+  <div class="modal-header">
+      <h4 class="modal-title">项目详情<small>    {{hospital.name}}-{{project.project}}</small></h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+        <label>窗口电话</label>
+        <input type="text" class="form-control" placeholder="窗口电话" ng-model="project.windows_phone">
+        <label>就诊注意事项</label>
+        <input type="text" class="form-control" placeholder="就诊注意事项" ng-model="project.inspection_notes">
+      </div>
+      <div class="col-md-6">
+        <label>短信填充信息</label>
+        <textarea rows="4" ng-model="project.app_make_sms" class="form-control" placeholder="短信填充信息"></textarea>
+      </div>
+    </div>
+    <hr/>
+    <div class="row">
+      <div class="col-md-12">
+        <label>就诊流程</label>
+        <table class="table table-bordered table-hover">
+          <tr>
+            <th>#</th>
+            <th width=95>就检步骤</th>
+            <th>步骤说明</th>
+            <th></th>
+          </tr>
+          <tr ng-repeat="workflow in project.inspection_workflows track by $index">
+            <td>{{$index+1}}</td>
+            <td>
+              <a uib-popover-template="dynamicPopover.templateUrl" ng-style="workflow.step?{color:'black'}:{}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="workflow.step || '点击设置'" ng-click="step_click(workflow)"></a>
+            </td>
+            <td>
+              <a uib-popover-template="dynamicPopover.templateUrl" ng-style="workflow.step_description?{color:'black'}:{}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="workflow.step_description || '点击设置'" ng-click="step_description_click(workflow)"></a>
+            </td>
+            <td>
+              <a class="btn btn-danger btn-xs color_box" ng-click="delete_row($index)">删除</a>
+            </td>
+          </tr>
+        </table>
+      <div>
+    </div>
+    <button style="margin-top: 10px;" class="btn btn-primary" type="button" ng-click="save()">保存</button>
+    <button style="margin-top: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    <button style="margin-top: 10px;" class="btn btn-success" type="button" ng-click="add_workflow_row()">新增就诊流程</button>
+  </div>
+</script>
+
+<script type="text/ng-template" id="workflowStepTemplate.html">
+  <form class="form-inline">
+    <div class="form-group">
+        <input class="form-control" ng-model="workflow.step"/>
+        <button class="form-control btn-primary" ng-click="input_ok_click()">OK</button>
+    </div>
+  </form>
+</script>
+
+<script type="text/ng-template" id="workflowStepDescriptionTemplate.html">
+  <form class="form-inline">
+    <div class="form-group">
+        <input class="form-control" ng-model="workflow.step_description"/>
+        <button class="form-control btn-primary" ng-click="input_ok_click()">OK</button>
+    </div>
+  </form>
 </script>

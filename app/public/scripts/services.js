@@ -597,7 +597,7 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
         },
         deleteHospitalDevice: function(params, successDo, errorDo, alwaysDo){
             "use strict";
-            var self = this; 
+            var self = this;
             httpBase.get({
                 url: 'api/hospitals/delete_hospital_device',
                 params:params,

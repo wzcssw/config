@@ -940,85 +940,30 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', 'projec
     var hospital_project = $uibModal.open({
       animation: true,
       templateUrl: 'hospital_project.html',
-			windowClass: 'app-modal-window',
+      size: 'lg',
       controller: function($scope, $uibModalInstance, items, projectHttp, hospitalHttp) {
-        //打开编辑框
-        $scope.open_edit = function(size, project, field, field_ch) {
-          $scope.items = {
-            project: project,
-            field: field,
-            field_ch: field_ch
-          }
-          var edit_hospital_project = $uibModal.open({
-            animation: true,
-            templateUrl: 'edit_hospital_project.html',
-            controller: function($scope, $uibModalInstance, items) {
-              $scope.project = items.project;
-              $scope.field = items.field;
-              $scope.field_ch = items.field_ch;
-              $scope.cancel = function() {
-                $uibModalInstance.close();
-              };
-              $scope.edit_project = function(project) {
-                hospitalHttp.editHospitalProjects({
-                  project: project
-                }, function(data) {
-                  $uibModalInstance.close();
-                })
-              };
-            },
-            size: size,
-            resolve: {
-              items: function() {
-                return $scope.items;
-              }
-            }
-          });
-          edit_hospital_project.result.then(function() {
-            $scope.getHospitalProject();
-          });
-        };
-        //编辑检查流程
-        $scope.open_workflow = function(size, project) {
+        //编辑详情
+        $scope.hospital = items.hospital;
+        $scope.open_project_detail_modal = function (project){
             $scope.items = {
-              project: project
-            }
-            var edit_workflow = $uibModal.open({
+              project: project,
+              hospital: hospital
+            };
+            var project_detail_modal = $uibModal.open({
               animation: true,
-              templateUrl: 'edit_workflow.html',
-              controller: function($scope, $uibModalInstance, items) {
-                $scope.project = items.project;
-                $scope.inspection_workflows = $scope.project.inspection_workflows
-                $scope.cancel = function() {
-                  $uibModalInstance.close();
-                };
-                $scope.delete_row = function(index) {
-                  $scope.inspection_workflows.splice(index, 1);
-                };
-                $scope.add_row = function() {
-                  $scope.inspection_workflows.push({
-                    hospital_project_id: $scope.project.id,
-                    step: '',
-                    step_description: ''
-                  });
-                };
-                $scope.save = function() {
-                  hospitalHttp.updateInspectionWorkflows({
-                    hospital_project_id: $scope.project.id,
-                    inspection_workflows: $scope.inspection_workflows
-                  }, function(data) {
-                    $uibModalInstance.close();
-                  })
-                }
-              },
+              templateUrl: 'edit_project_detail.html',
+              controller: 'editProjectDetailController',
               size: size,
               resolve: {
-                items: function() {
-                  return $scope.items;
+                  items: function() {
+                    return $scope.items;
+                  }
                 }
-              }
+              });
+            project_detail_modal.result.then(function() {
             });
-          }
+        }
+
           //编辑医院资源
         $scope.open_hospital_resources = function(size, project_id) {
           $scope.items = {
@@ -1048,7 +993,6 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', 'projec
                 $uibModalInstance.close();
               };
             },
-            size: size,
             resolve: {
               items: function() {
                 return $scope.items;
@@ -1595,4 +1539,43 @@ controllers.controller('hospitalDeviceController', ['hospitalHttp', '$scope', '$
       $scope.hospital_devices.splice($index,1);
     })
   }
+}]);
+
+controllers.controller('editProjectDetailController', ['$scope', 'projectHttp', 'hospitalHttp', '$state', '$uibModalInstance', 'items', function($scope, projectHttp, hospitalHttp, $state, $uibModalInstance, items) {
+  $scope.project = items.project;
+  $scope.hospital = items.hospital;
+  $scope.add_workflow_row = function() {
+    $scope.project.inspection_workflows.push({
+      step: "",
+      step_description: ""
+    });
+  };
+  $scope.step_click = function(workflow){
+    $scope.dynamicPopover = {
+      title: '就检步骤',
+      templateUrl : 'workflowStepTemplate.html'
+    };
+  }
+  $scope.step_description_click = function(workflow){
+    $scope.dynamicPopover = {
+      title: '步骤说明',
+      templateUrl : 'workflowStepDescriptionTemplate.html'
+    };
+  }
+  $scope.input_ok_click = function (input_value) {
+    $('body').click();
+  }
+  $scope.delete_row = function(tr_num) {
+    $scope.project.inspection_workflows.splice(tr_num, 1);
+  }
+  $scope.cancel = function() {
+    $uibModalInstance.dismiss('cancel');
+  };
+  $scope.save = function() {
+    hospitalHttp.editHospitalProjects({project: $scope.project}, function(data) {
+    });
+    hospitalHttp.updateInspectionWorkflows({hospital_project_id: $scope.project.id, inspection_workflows: $scope.project.inspection_workflows}, function(data) {
+      $uibModalInstance.close();
+    });
+  };
 }]);
