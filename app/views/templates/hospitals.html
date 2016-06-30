@@ -46,6 +46,7 @@
   	  <td>城市</td>
   	  <td>分流医院</td>
   	  <td></td>
+  	  <td></td>
   	</tr>
   	<tr ng-repeat="hospital in self.hospitals" style="text-align: center;">
   		<td>{{hospital.id}}</td>
@@ -63,6 +64,9 @@
 				<a class="btn btn-default btn-xs color_box" ng-click="open_assistant(hospital)">合作人员</a>
         <a class="btn btn-default btn-xs color_box" ng-click="open_device(hospital)">设备信息</a>
 			</td>
+      <td>
+        <a ng-style="hospital.flag?{color:'green'}:{color:'red'}" uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="hospital.flag?'开启':'关闭'" ng-click="flag_click(hospital)"></a>
+      </td>
   	</tr>
   </tbody>
 </table>
@@ -420,7 +424,7 @@
         </td>
       </tr>
       <tr ng-show="hospital_devices.length==0">
-        <td colspan=4>无相关信息</td>
+        <td colspan=4>(无相关信息)</td>
       </tr>
     </table>
     <button style="margin-top: 10px;" class="btn btn-success" type="button" ng-click="create()">新增</button>
@@ -449,4 +453,12 @@
     <div class="modal-body">
         <img ng-src="{{popover_img_url}}" alt='img' width=550/>
     </div>
+</script>
+
+<script type="text/ng-template" id="hospital_flag_select.html">
+  <div class="form-group">
+      <select class="form-control" ng-model="hospital.flag" ng-change="flag_change(hospital)"
+        ng-options="o.v as o.n for o in [{ n: '关闭', v: false }, { n: '开启', v: true }]">
+      </select>
+  </div>
 </script>

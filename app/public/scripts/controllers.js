@@ -869,7 +869,7 @@ controllers.controller('bodyModesController', ['$scope', 'bodyModesHttp', 'categ
   }
 }]);
 
-controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', 'projectHttp', 'citiesHttp','bodiesHttp', '$state', '$log', '$uibModal', function($scope, hospitalHttp, projectHttp, citiesHttp,bodiesHttp, $state, $log, $uibModal) {
+controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', 'projectHttp', 'citiesHttp','bodiesHttp', '$state', '$log', '$uibModal','$confirm', function($scope, hospitalHttp, projectHttp, citiesHttp,bodiesHttp, $state, $log, $uibModal,$confirm) {
   "use strict";
   $scope.self = $scope;
   $scope.maxSize = 5;
@@ -884,6 +884,22 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', 'projec
   citiesHttp.getOpenedCities({}, function(data) {
     $scope.cities = data.cities;
   });
+  $scope.flag_click = function(hospital) {
+    $scope.hospital = hospital;
+    $scope.dynamicPopover = {
+      templateUrl: 'hospital_flag_select.html',
+      title: '开启医院'
+    };
+    $scope.flag_change = function (hospital) {
+      var text_str = hospital.flag ? '确定要开启医院吗？' : '确定要关闭医院吗？'
+      $confirm({text: text_str, title: '医院状态'})
+        .then(function() {
+          hospitalHttp.editHospital({hospital: hospital},function(data) {
+          });
+        });
+    }
+  }
+
   $scope.show_bridging_hospital_arr = function (obj) {
     var arr = [];
     angular.forEach(obj, function(object, index) {
@@ -1506,7 +1522,6 @@ controllers.controller('hospitalDeviceController', ['hospitalHttp', '$scope', '$
           $uibModalInstance.close();
         };
       },
-      // size: 'sm',
       resolve: {
         items: function() {
           return $scope.items;
