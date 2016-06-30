@@ -72,16 +72,23 @@ controllers.controller('dicHospitalsController', ['$scope', 'dic_hospitalHttp', 
     $('#go_page').val("");
   };
   $scope.search = function() {
-      dic_hospitalHttp.getHospital({
-        q: $scope.q,
-        city_id: $scope.city_id
-      }, function(data) {
-        $scope.hospitals = data.hospitals;
-        $scope.current_page = data.current_page;
-        $scope.total_count = data.total_count;
-      });
-    }
+    dic_hospitalHttp.getHospital({
+      q: $scope.q,
+      city_id: $scope.city_id
+    }, function(data) {
+      $scope.hospitals = data.hospitals;
+      $scope.current_page = data.current_page;
+      $scope.total_count = data.total_count;
+    });
+  }
+  $scope.delete = function(id){
+    dic_hospitalHttp.deleteHospital({id: id}, function(data){
+      if(data.success){
+        $scope.pageChanged();
+      } 
+  })
     //打开新建框
+  }
   $scope.open_new = function(size) {
     $scope.items = {
       levels: $scope.levels,
@@ -89,21 +96,26 @@ controllers.controller('dicHospitalsController', ['$scope', 'dic_hospitalHttp', 
       natures: $scope.natures
     };
     var new_hospital = $uibModal.open({
-      animation: $scope.hospitalEnabled,
+      animation: true,
       templateUrl: 'new_hospital.html',
       controller: function($scope, $uibModalInstance, items) {
         $scope.cities = items.cities;
         $scope.levels = items.levels;
         $scope.natures = items.natures;
+        $scope.is_null = false;
         $scope.cancel = function() {
           $uibModalInstance.dismiss('cancel');
         };
         $scope.save = function(hospital) {
-          dic_hospitalHttp.createHospital({
-            hospital: hospital
-          }, function(data) {
-            $uibModalInstance.close();
-          });
+          if(hospital.name==null||hospital.level==null||hospital.nature==null||hospital.city_id==null){
+            $scope.is_null = true;
+          }else{
+            dic_hospitalHttp.createHospital({
+              hospital: hospital
+            }, function(data) {
+              $uibModalInstance.close();
+            });
+          }  
         };
       },
       size: size,
