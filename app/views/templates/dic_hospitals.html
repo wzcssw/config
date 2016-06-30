@@ -31,12 +31,12 @@
       <td><a class="btn btn-default btn-success btn-sm" ng-click="open_device('lg', hospital)">设备信息</a></td>
   		<td>{{hospital.level_name}}</td>
       <td>{{hospital.nature_name}}</td>
-  		<td>{{hospital.city_id}}</td>
+  		<td>{{hospital.city_name}}</td>
   		<td>{{hospital.province_name}}</td>
   		<td>{{hospital.pinyin}}</td>
   		<td>{{hospital.created_at}}</td>
   		<td><a class="btn btn-default btn-success btn-xs" ng-click="open_edit('lg',hospital)">编辑</a>
-  		<a class="btn btn-default btn-danger btn-xs" ng-click="open_delete('lg')">删除</a></td>
+  		<a class="btn btn-default btn-danger btn-xs" ng-click="delete(hospital.id)" confirm="你确定要删除该医院吗？">删除</a></td>
   	</tr>
   </tbody>
 </table>
@@ -68,7 +68,8 @@
       <option ng-repeat="city in cities" value={{city.id}}>{{city.name}}</option>
     </select>
     <button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
-    <button style="float: left;margin-top: 10px;" ng-click="save(hospital)"class="btn btn-primary">确定</button>
+    <button style="float: left;margin-top: 10px;" ng-click="save(hospital)"class="btn btn-primary">保存</button>
+    <span ng-show="is_null" style="float:right;font-size:14px;color:red;">表单内容不能有空值!</span>
   </div>
 </script>
 
