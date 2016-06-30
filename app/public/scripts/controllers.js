@@ -1161,7 +1161,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', 'projec
             $scope.getHospitalProject();
           });
         };
-        
+
 
       },
       size: size,
@@ -1482,10 +1482,42 @@ controllers.controller('editHospitalBodiesPriceController', ['$scope', 'hospital
 controllers.controller('hospitalDeviceController', ['hospitalHttp', '$scope', '$state', '$uibModalInstance', 'items', '$uibModal', function(hospitalHttp, $scope, $state, $uibModalInstance, items, $uibModal) {
   $scope.hospital = items;
   $scope.hospital_devices = $scope.hospital.hospital_project_infos;
+  $scope.show_img = function(url) {
+    if(url==''||url==null)
+      return '';
+    var result = "";
+    var pre_str = url.substring(0,4);
+    if(pre_str!='http'){
+      result = "http://kz.txzs.org" + url;
+    }
+    return result;
+  }
+  $scope.open_img = function(project_image) {
+    var img_url = $scope.show_img(project_image);
+    $scope.items = {
+      img_url: img_url,
+    }
+    var modal = $uibModal.open({
+      animation: true,
+      templateUrl: 'showImgTemplate.html',
+      controller: function($scope, $uibModalInstance, items) {
+        $scope.popover_img_url = items.img_url;
+        $scope.cancel = function() {
+          $uibModalInstance.close();
+        };
+      },
+      // size: 'sm',
+      resolve: {
+        items: function() {
+          return $scope.items;
+        }
+      }
+    });
+  }
   $scope.close = function() {
     $uibModalInstance.close();
   };
-  $scope.create = function() {  
+  $scope.create = function() {
     $scope.items = {
       hospital_id: $scope.hospital.id
     }

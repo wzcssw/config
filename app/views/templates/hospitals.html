@@ -45,7 +45,6 @@
   	  <td>医院名称</td>
   	  <td>城市</td>
   	  <td>分流医院</td>
-      <td>设备</td>
   	  <td></td>
   	</tr>
   	<tr ng-repeat="hospital in self.hospitals" style="text-align: center;">
@@ -58,11 +57,11 @@
         </a>
         <a ng-show="hospital.bridgings.length==0" ng-click="open_bridging_hospitals_modal(hospital)">添加</a>
       </td>
-      <td><a class="btn btn-primary btn-xs color_box" ng-click="open_device(hospital)">设备信息</a></td>
   		<td>
-				<a class="btn btn-info btn-xs color_box" ng-click="open_detail(hospital)">医院详情</a>
-				<a class="btn btn-success btn-xs color_box" ng-click="open_assistant(hospital)">合作人员</a>
-				<a class="btn btn-warning btn-xs color_box" ng-click="open_hospital_project('lg',hospital.id,hospital)">开展项目</a>
+        <a class="btn btn-primary btn-xs color_box" ng-click="open_hospital_project('lg',hospital.id,hospital)">开展项目</a>
+				<a class="btn btn-default btn-xs color_box" ng-click="open_detail(hospital)">详情</a>
+				<a class="btn btn-default btn-xs color_box" ng-click="open_assistant(hospital)">合作人员</a>
+        <a class="btn btn-default btn-xs color_box" ng-click="open_device(hospital)">设备信息</a>
 			</td>
   	</tr>
   </tbody>
@@ -410,11 +409,18 @@
       <tr ng-repeat="hd in hospital_devices">
         <td>{{hd.project_title}}</td>
         <td>{{hd.project_content}}</td>
-        <td><img src="{{hd.project_image}}"></td>
+        <td>
+          <a ng-show="hd.project_image!=''">
+            <img ng-src="{{show_img(hd.project_image)}}" ng-click="open_img(hd.project_image)" width="70">
+          </a>
+        </td>
         <td>
           <button class="btn btn-primary btn-xs" type="button" ng-click="update(hd)">编辑</button>
           <button class="btn btn-danger btn-xs" type="button" ng-click="delete(hd,$index)" confirm="你确定要移除该医院设备吗?">删除</button>
         </td>
+      </tr>
+      <tr ng-show="hospital_devices.length==0">
+        <td colspan=4>无相关信息</td>
       </tr>
     </table>
     <button style="margin-top: 10px;" class="btn btn-success" type="button" ng-click="create()">新增</button>
@@ -436,4 +442,11 @@
     <button style="margin-top: 10px;" class="btn btn-primary" type="button" ng-click="save()">保存</button>
     <button style="margin-top: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
   </div>
+</script>
+
+<!-- 显示图片详情 -->
+<script type="text/ng-template" id="showImgTemplate.html">
+    <div class="modal-body">
+        <img ng-src="{{popover_img_url}}" alt='img' width=550/>
+    </div>
 </script>
