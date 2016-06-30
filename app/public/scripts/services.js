@@ -167,6 +167,16 @@ services.factory('dic_hospitalHttp', ['httpBase', function(httpBase){
                 successDo: successDo,
                 errorDo: errorDo
             })
+        },
+        deleteHospital: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.get({
+                url: '/api/dic_hospitals/delete_hospital',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            })
         }
     }
 }]);

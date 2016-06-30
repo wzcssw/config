@@ -124,4 +124,17 @@ router.post('/save_hospital_device', function*(){
   this.body = {success: true};
 });
 
+router.get('/delete_hospital', function*(){
+  "use strict";
+  var self = this;
+  var params = self.query;
+  console.log(params.id);
+  var id = params.id;
+  console.log(id);
+  var result = yield http.delete('/v1/config_hospital/delete_hospital', {
+    id: id
+  });
+  self.body = {success: true}
+})
+
 module.exports = router.routes();
