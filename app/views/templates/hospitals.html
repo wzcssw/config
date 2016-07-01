@@ -27,8 +27,15 @@
 </style>
 <div class="table-operation">
 	<h3>医院列表</h3>
-	<div>
-	  <button type="button" class="btn btn-default">导出</button>
+	<div style="height:30px;">
+	  <button style="float: right;margin-left: 10px;" type="button" class="btn btn-default">导出</button>
+    <div class='pagination'>
+      <uib-pagination style="margin-top: -20px;" first-text="首页" last-text="尾页" previous-text="上一页" next-text="下一页" ng-change="pageChanged()" items-per-page=20 total-items="total_count" ng-model="current_page" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false"></uib-pagination>
+      <div style="float: right;position: relative;top: -20px;">
+        跳转到第<input style="width: 40px;" id="go_page" type="text"></input>页
+        <button type="button" class="btn btn-sm btn-default" ng-click="setPage()">确定</button>
+      </div>
+    </div>
     <button style="float: right;width: 5%;" ng-click="search()" class="btn btn-default">搜索</button>
     <input style="width: 13%;float: right;margin-left: 5px;margin-right: 5px;" type="text" ng-model="q" class="form-control" id="hos_q" placeholder="名称 、拼音">
     <select style="width: 6%;float: right;" ng-change="search()" ng-model="city_id" class="form-control">
