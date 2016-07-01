@@ -209,7 +209,7 @@
       <td>{{project.project}}</td>
       <td>{{project.windows_phone}}</td>
       <td><button ng-style="project.status_zh=='忙碌'?{color:'red'}:{color:'green'}" type="button" class="btn btn-link btn-xs" ng-click="change_status(project,'status')" confirm="你将修改状态, 确定要修改吗？">{{project.status_zh || "正常"}}</button></td>
-      <td><button type="button" class="btn btn-link btn-xs" ng-click="change_status(project,'mbf')">{{project.mbf_zh || "无医保"}}</button></td>
+      <td><button type="button" ng-style="project.mbf_zh == '无医保'?{color:'red'}:{color:'green'}" class="btn btn-link btn-xs" ng-click="change_status(project,'mbf')" confirm="你将修改状态, 确定要修改吗？">{{project.mbf_zh || "无医保"}}</button></td>
       <td>
         <a uib-popover-template="dynamicPopover.templateUrl" popover-placement="left-bottom" class="btn btn-primary btn-xs color_box" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-click="bodies_click(project)">部位与价格</a>
         <button class="btn btn-default btn-xs color_box" type="button" ng-click="open_hospital_resources(project.project_id)">设置医院资源</button>
