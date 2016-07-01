@@ -270,17 +270,17 @@
     <div class="row">
       <div class="col-md-6">
         <label for="hos_address">设备数</label>
-        <input type="number" ng-model="co_hospital_resource.device_count" class="form-control">
+        <input type="number" ng-model="co_hospital_resource.device_count" class="form-control" placeholder="设备数">
         <label for="hos_address">吞吐量/h</label>
-        <input type="number" ng-model="co_hospital_resource.device_hour_output" class="form-control">
+        <input type="number" ng-model="co_hospital_resource.device_hour_output" class="form-control" placeholder="吞吐量/h">
         <label for="hos_address">过期时间(分钟)</label>
-        <input type="number" ng-model="co_appointment_config.opration_expire_time" class="form-control" >
+        <input type="number" ng-model="co_appointment_config.opration_expire_time" class="form-control" placeholder="过期时间(分钟)">
       </div>
       <div class="col-md-6">
         <label for="hos_address">开始时间(整点)</label>
-        <input type="number" ng-model="co_appointment_config.begin_at" class="form-control">
+        <input type="number" ng-model="co_appointment_config.begin_at" class="form-control" placeholder="开始时间(整点)">
         <label for="hos_address">结束时间(整点)</label>
-        <input type="number" ng-model="co_appointment_config.end_at" class="form-control" >
+        <input type="number" ng-model="co_appointment_config.end_at" class="form-control" placeholder="结束时间(整点)">
       </div>
     </div>
     <button style="margin-top: 10px;" class="btn btn-primary" type="button" ng-click="save()">保存</button>

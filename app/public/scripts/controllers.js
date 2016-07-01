@@ -85,7 +85,7 @@ controllers.controller('dicHospitalsController', ['$scope', 'dic_hospitalHttp', 
     dic_hospitalHttp.deleteHospital({id: id}, function(data){
       if(data.success){
         $scope.pageChanged();
-      } 
+      }
   })
     //打开新建框
   }
@@ -115,7 +115,7 @@ controllers.controller('dicHospitalsController', ['$scope', 'dic_hospitalHttp', 
             }, function(data) {
               $uibModalInstance.close();
             });
-          }  
+          }
         };
       },
       size: size,
@@ -977,7 +977,7 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', 'projec
         }
 
           //编辑医院资源
-        $scope.open_hospital_resources = function(size, project_id) {
+        $scope.open_hospital_resources = function( project_id) {
           $scope.items = {
             hospital_id: items.hospital_id,
             project_id: project_id
