@@ -192,6 +192,26 @@ services.factory('projectHttp', ['httpBase', function(httpBase){
                 errorDo: errorDo,
                 alwaysDo: alwaysDo
             });
+        },
+        editProject: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.put({
+                url: '/api/projects/edit_project',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo,
+                alwaysDo: alwaysDo
+            });
+        },
+        editBodies: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.put({
+                url: '/api/projects/edit_bodies',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo,
+                alwaysDo: alwaysDo
+            });
         }
     }
 }]);
@@ -386,6 +406,17 @@ services.factory('bodyModesHttp', ['httpBase', function(httpBase){
             alwaysDo:alwaysDo
           })
         },
+        createBodyMode: function(params, successDo, errorDo, alwaysDo){
+          "use strict";
+          var self = this;
+          httpBase.post({
+            url: 'api/body_modes/create_body_mode',
+            params:params,
+            successDo:successDo,
+            errorDo:errorDo,
+            alwaysDo:alwaysDo
+          })
+        },
         editBodyModes: function(params, successDo, errorDo, alwaysDo){
           "use strict";
           var self = this;
@@ -397,11 +428,11 @@ services.factory('bodyModesHttp', ['httpBase', function(httpBase){
             alwaysDo:alwaysDo
           })
         },
-        editRank: function(params, successDo, errorDo, alwaysDo){
+        deleteBodyMode: function(params, successDo, errorDo, alwaysDo){
           "use strict";
           var self = this;
-          httpBase.put({
-            url: 'api/body_modes/edit_rank',
+          httpBase.get({
+            url: 'api/body_modes/delete',
             params:params,
             successDo:successDo,
             errorDo:errorDo,

@@ -18,13 +18,39 @@ router.get('/', function*() {
         delete params['categoryZh'];
     }
     params['page'] = params['page'] || 1;
-    params['limit'] = 100;
-    params['fields'] = 'id,name,category_id,rank,created_at,updated_at';
+    params['fields'] = 'id,name,category_id,rank,created_at,favorite';
     var result = yield http.get('/v1/project/list', params);
     this.body = {
         success: true,
         result: result
     };
+});
+
+router.put('/edit_project', function*() {
+    "use strict";
+    var self = this;
+    var params = self.request.body;
+    var project = params.project;
+    var access = yield http.put('/v1/project/edit_project', {
+      access_token: self.currentUser.access_token,
+      id: project.id,
+      name: project.name,
+      category_id: project.category_id,
+      favorite: project.favorite
+    });
+    this.body = {success: true};
+});
+
+router.put('/edit_bodies', function*() {
+    "use strict";
+    var self = this;
+    var params = self.request.body;
+    var access = yield http.put('/v1/project/edit_bodies', {
+      access_token: self.currentUser.access_token,
+      id: params.project_id,
+      bodies_ids: JSON.stringify(params.bodies_ids)
+    });
+    this.body = {success: true};
 });
 
 module.exports = router.routes();

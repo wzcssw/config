@@ -66,12 +66,12 @@
       </td>
   		<td>
         <a class="btn btn-primary btn-xs color_box" ng-click="open_hospital_project('lg',hospital.id,hospital)">开展项目</a>
-				<a class="btn btn-default btn-xs color_box" ng-click="open_detail(hospital)">详情</a>
 				<a class="btn btn-default btn-xs color_box" ng-click="open_assistant(hospital)">合作人员</a>
         <a class="btn btn-default btn-xs color_box" ng-click="open_device(hospital)">设备信息</a>
+        <a class="btn btn-default btn-xs color_box" ng-click="open_detail(hospital)">详情</a>
 			</td>
       <td>
-        <a ng-style="hospital.flag?{color:'green'}:{color:'red'}" uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="hospital.flag?'开启':'关闭'" ng-click="flag_click(hospital)"></a>
+        <a ng-style="hospital.flag?{color:'green'}:{color:'red'}" uib-popover-template="'hospital_flag_select.html'" popover-title="开启医院" popover-trigger="outsideClick" ng-bind="hospital.flag?'开启':'关闭'" ng-click="flag_click(hospital)"></a>
       </td>
   	</tr>
   </tbody>
@@ -147,20 +147,20 @@
 				<tr ng-repeat="assistant in hospital.hospital_assistants" style="text-align: center;">
 					<td>{{assistant.id}}</td>
 					<td>
-						<a uib-popover-template="dynamicPopover.templateUrl" ng-style="{color:'black'}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="assistant.name || '点击设置'" ng-click="select_click('name', assistant)"></a>
+						<a uib-popover-template="'myPopInputTemplate.html'" ng-style="{color:'black'}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="assistant.name || '点击设置'" ng-click="select_click('name', assistant)"></a>
 					</td>
 					<td>
-            <a uib-popover-template="dynamicPopover.templateUrl" ng-style="{color:'black'}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="assistant.phone || '点击设置'" ng-click="select_click('phone', assistant)"></a>
+            <a uib-popover-template="'myPopInputTemplate.html'" ng-style="{color:'black'}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="assistant.phone || '点击设置'" ng-click="select_click('phone', assistant)"></a>
           </td>
 					<td>
-            <a uib-popover-template="dynamicPopover.templateUrl" ng-style="{color:'black'}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="assistant.address || '点击设置'" ng-click="select_click('address', assistant)"></a>
+            <a uib-popover-template="'myPopInputTemplate.html'"ng-style="{color:'black'}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="assistant.address || '点击设置'" ng-click="select_click('address', assistant)"></a>
           </td>
 					<td>
-            <a uib-popover-template="dynamicPopover.templateUrl" ng-style="assistant.state=='issend'?{color:'green'}:{}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="assistant.state=='issend'?'是':'否' " ng-click="select_click('state', assistant)"></a>
+            <a uib-popover-template="'myPopSelectTemplate.html'" ng-style="assistant.state=='issend'?{color:'green'}:{}" popover-title="是否接收短信" popover-trigger="outsideClick" ng-bind="assistant.state=='issend'?'是':'否' " ng-click="select_click('state', assistant)"></a>
 					</td>
 					<td ng-style="{color:'black'}" >{{assistant.created_at | date:'yyyy-MM-dd'}}</td>
 					<td>
-            <a uib-popover-template="dynamicPopover.templateUrl" ng-style="{color:'black'}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="assistant.remark || '点击设置'" ng-click="select_click('remark', assistant)"></a>
+            <a uib-popover-template="'myPopInputTemplate.html'" ng-style="{color:'black'}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="assistant.remark || '点击设置'" ng-click="select_click('remark', assistant)"></a>
           </td>
 					<td>
 					  <a class="btn btn-danger btn-xs color_box" ng-click="delete_click(assistant)" ng-show="assistant.id" confirm="你确定要移除该合作人员吗？">删除</a>
@@ -211,7 +211,7 @@
       <td><button ng-style="project.status_zh=='忙碌'?{color:'red'}:{color:'green'}" type="button" class="btn btn-link btn-xs" ng-click="change_status(project,'status')" confirm="你将修改状态, 确定要修改吗？">{{project.status_zh || "正常"}}</button></td>
       <td><button type="button" class="btn btn-link btn-xs" ng-click="change_status(project,'mbf')">{{project.mbf_zh || "无医保"}}</button></td>
       <td>
-        <a uib-popover-template="dynamicPopover.templateUrl" popover-placement="left-bottom" class="btn btn-primary btn-xs color_box" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-click="bodies_click(project)">部位与价格</a>
+        <a uib-popover-template="'hospital_bodies_pop_input.html'" popover-placement="left-bottom" class="btn btn-primary btn-xs color_box" popover-title="部位" popover-trigger="outsideClick" ng-click="bodies_click(project)">部位与价格</a>
         <button class="btn btn-default btn-xs color_box" type="button" ng-click="open_hospital_resources(project.project_id)">设置医院资源</button>
         <button class="btn btn-default btn-xs color_box" type="button" ng-click="open_project_detail_modal(project)">编辑详情</button>
       </td>
@@ -248,7 +248,7 @@
 <!-- 纳入项目 -->
 <script id="add_project.html" type="text/ng-template">
   <div class="modal-header">
-    <h4 class="modal-title" id="myModalLabel">纳入项目到医院</h4>
+    <h4 class="modal-title" id="myModalLabel">纳入项目到医院<small>   {{items.hospital.name}}</small></h4>
   </div>
   <div class="modal-body" id="project-info-table">
     <div class="projectInfo" style="position:relative;width:100%;overflow-y:auto;">
@@ -303,13 +303,13 @@
       <tr ng-repeat="pr in project_relations">
         <td ng-bind="pr.body_mode_name" ></td>
         <td>
-          <a uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="pr.price" ng-click="price_input_click(pr)"></a>
+          <a uib-popover-template="'priceInputTemplate.html'" popover-title="医生价格" popover-trigger="outsideClick" ng-bind="pr.price" ng-click="price_input_click(pr)"></a>
         </td>
         <td>
-          <a uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="pr.income_price" ng-click="income_price_input_click(pr)"></a>
+          <a uib-popover-template="'incomePriceInputTemplate.html'" popover-title="医院价格" popover-trigger="outsideClick" ng-bind="pr.income_price" ng-click="income_price_input_click(pr)"></a>
         </td>
         <td>
-          <a uib-popover-template="dynamicPopover.templateUrl" ng-style="pr.state=='visible'?{color:'green'}:{}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="pr.state=='visible'?'可见':'不可见'" ng-click="select_click(pr)"></a>
+          <a uib-popover-template="'statusPopSelectTemplate.html'" ng-style="pr.state=='visible'?{color:'green'}:{}" popover-title="下单可见" popover-trigger="outsideClick" ng-bind="pr.state=='visible'?'可见':'不可见'" ng-click="select_click(pr)"></a>
         </td>
       </tr>
       <tr ng-show="project_relations.length==0">
@@ -452,13 +452,13 @@
           <tr ng-repeat="workflow in project.inspection_workflows track by $index">
             <td>{{$index+1}}</td>
             <td>
-              <a uib-popover-template="dynamicPopover.templateUrl" ng-style="workflow.step?{color:'black'}:{}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="workflow.step || '点击设置'" ng-click="step_click(workflow)"></a>
+              <a uib-popover-template="'workflowStepTemplate.html'" ng-style="workflow.step?{color:'black'}:{}" popover-title="就检步骤" popover-trigger="outsideClick" ng-bind="workflow.step || '点击设置'" ng-click="step_click(workflow)"></a>
             </td>
             <td>
-              <a uib-popover-template="dynamicPopover.templateUrl" ng-style="workflow.step_description?{color:'black'}:{}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="workflow.step_description || '点击设置'" ng-click="step_description_click(workflow)"></a>
+              <a uib-popover-template="'workflowStepDescriptionTemplate.html'" ng-style="workflow.step_description?{color:'black'}:{}" popover-title="步骤说明" popover-trigger="outsideClick" ng-bind="workflow.step_description || '点击设置'" ng-click="step_description_click(workflow)"></a>
             </td>
             <td>
-              <a class="btn btn-danger btn-xs color_box" ng-click="delete_row($index)">删除</a>
+              <a class="btn btn-danger btn-xs color_box" ng-click="delete_row($index)">移除</a>
             </td>
           </tr>
         </table>

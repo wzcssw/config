@@ -9,6 +9,7 @@ router.get('/', function*(){
     var self = this;
     var page = 1;
     var params = self.query;
+    params.limit = 200;
     if (params.page != null) {
        page = params.page;
     }

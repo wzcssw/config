@@ -3,7 +3,6 @@ app.run(['$rootScope', '$location', '$state', 'userHttp', function($rootScope, $
     $rootScope.logout = function(){
         "use strict";
         userHttp.logout(function(){
-            console.log('logout success');
             location.href = '/';
         });
     };
@@ -13,8 +12,6 @@ app.run(['$rootScope', '$location', '$state', 'userHttp', function($rootScope, $
     };
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
-        console.log(userHttp.isLogin());
-        console.log($location.$$path.match('login'));
         if (!userHttp.isLogin() && !$location.$$path.match('login')){
             event.preventDefault();
             $state.go('login');
