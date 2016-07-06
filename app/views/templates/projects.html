@@ -46,14 +46,14 @@
 
 </div>
 <table class="table table-bordered table-hover">
-  	<tr style="text-align: center;background-color:#f6f6f6;">
+  	<tr style="background-color:#f6f6f6;">
   	  <th>#</th>
   	  <th>项目名称</th>
   	  <th>类别</th>
   	  <th>常用</th>
   	  <th></th>
   	</tr>
-  	<tr ng-repeat="project in projects" style="text-align: center;">
+  	<tr ng-repeat="project in projects">
   		<td>{{project.id}}</td>
   		<td>
         <a uib-popover-template="'rename_project.html'" popover-title="项目名称" popover-trigger="outsideClick" ng-bind="project.name"></a>

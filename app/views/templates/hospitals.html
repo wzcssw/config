@@ -46,7 +46,7 @@
 
 </div>
 <table class="table table-bordered table-hover">
-  	<tr style="text-align: center;background-color:#f6f6f6;">
+  	<tr style="background-color:#f6f6f6;">
   	  <td>#</td>
   	  <td>医院名称</td>
   	  <td>城市</td>
@@ -54,7 +54,7 @@
   	  <td></td>
   	  <td></td>
   	</tr>
-  	<tr ng-repeat="hospital in self.hospitals" style="text-align: center;">
+  	<tr ng-repeat="hospital in self.hospitals">
   		<td>{{hospital.id}}</td>
   		<td>{{hospital.name}}</td>
   		<td>{{hospital.city_zh}}</td>
@@ -126,7 +126,7 @@
 </script>
 
 <script type="text/ng-template" id="assistants_detail.html">
-  <div class="modal-header"  align="center">
+  <div class="modal-header">
       <h4 class="modal-title">{{hospital.name}}-合作人员</h4>
   </div>
   <div class="modal-body">
@@ -144,7 +144,7 @@
         <tr ng-show="hospital.hospital_assistants.length==0">
           <td colspan="8">(没有相关合作人员记录)</td>
         </tr>
-				<tr ng-repeat="assistant in hospital.hospital_assistants" style="text-align: center;">
+				<tr ng-repeat="assistant in hospital.hospital_assistants">
 					<td>{{assistant.id}}</td>
 					<td>
 						<a uib-popover-template="'myPopInputTemplate.html'" ng-style="{color:'black'}" popover-title="{{dynamicPopover.title}}" popover-trigger="outsideClick" ng-bind="assistant.name || '点击设置'" ng-click="select_click('name', assistant)"></a>
@@ -169,7 +169,7 @@
 				</tr>
 			</table>
 			<div>
-        <button class="btn btn-success" ng-click="add_assistant_row()">新增</button>
+        <button class="btn btn-primary" ng-click="add_assistant_row()">新增</button>
         <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
 			</div>
     </div>

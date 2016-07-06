@@ -1,12 +1,9 @@
 var controllers = angular.module('controllers', ['services', 'directives']);
 controllers.controller('loginController', ['$scope', 'userHttp', '$state', function($scope, userHttp, $state) {
-  $scope.isShow = false;
   $scope.self = $scope;
   if (userHttp.isLogin()) {
     $state.go('hospitals');
     return;
-  } else {
-    $scope.isShow = true;
   }
 
   $scope.login = function() {
@@ -16,10 +13,9 @@ controllers.controller('loginController', ['$scope', 'userHttp', '$state', funct
       password: $scope.password
     }, function(data) {
       userHttp.user = data.user;
-      console.log(data.user);
       location.href = '/';
     }, function() {
-      alert('验证错误');
+      $scope.error_msg = '验证错误';
     });
   };
 }]);
@@ -89,7 +85,7 @@ controllers.controller('dicHospitalsController', ['$scope', 'dic_hospitalHttp', 
   })
     //打开新建框
   }
-  $scope.open_new = function(size) {
+  $scope.open_new = function() {
     $scope.items = {
       levels: $scope.levels,
       cities: $scope.cities,
@@ -118,7 +114,6 @@ controllers.controller('dicHospitalsController', ['$scope', 'dic_hospitalHttp', 
           }
         };
       },
-      size: size,
       resolve: {
         items: function() {
           return $scope.items;
@@ -130,7 +125,7 @@ controllers.controller('dicHospitalsController', ['$scope', 'dic_hospitalHttp', 
     });
   };
   //打开编辑框
-  $scope.open_edit = function(size, hospital) {
+  $scope.open_edit = function(hospital) {
     $scope.items = {
       hospital: hospital,
       levels: $scope.levels,
@@ -171,7 +166,7 @@ controllers.controller('dicHospitalsController', ['$scope', 'dic_hospitalHttp', 
           });
         };
       },
-      size: size,
+      // size: 'sm',
       resolve: {
         items: function() {
           return $scope.items;
@@ -183,7 +178,7 @@ controllers.controller('dicHospitalsController', ['$scope', 'dic_hospitalHttp', 
     });
   };
 
-  $scope.open_device = function(size, hospital) {
+  $scope.open_device = function(hospital) {
     $scope.items = {
       hospital: hospital,
       projects: $scope.projects,
@@ -226,7 +221,6 @@ controllers.controller('dicHospitalsController', ['$scope', 'dic_hospitalHttp', 
           $scope.dic_hospital_device.splice(tr_num, 1);
         }
       },
-      size: size,
       resolve: {
         items: function() {
           return $scope.items;
