@@ -198,14 +198,14 @@
   </div>
   <div class="modal-body">
     <table class="table table-bordered table-hover">
-      <tr style="text-align: center">
+      <tr>
       <td>检查项目名称</td>
       <td>窗口电话</td>
       <td>状态</td>
       <td>医保情况</td>
       <td>操作</td>
     </tr>
-    <tr ng-repeat="project in projects" style="text-align: center;">
+    <tr ng-repeat="project in projects">
       <td>{{project.project}}</td>
       <td>{{project.windows_phone}}</td>
       <td><button ng-style="project.status_zh=='忙碌'?{color:'red'}:{color:'green'}" type="button" class="btn btn-link btn-xs" ng-click="change_status(project,'status')" confirm="你将修改状态, 确定要修改吗？">{{project.status_zh || "正常"}}</button></td>
@@ -296,9 +296,9 @@
     <table class="table table-bordered table-hover">
       <tr>
         <th>检查项目名称</th>
-        <th>医生价格(元)</th>
-        <th>医院价格(元)</th>
-        <th>下单可见</th>
+        <th>医生价格(元) <a uib-popover-template="'multipleModifyPriceTemplate.html'" popover-title="批量修改" popover-trigger="outsideClick" ng-click="choose_popover('price')"><i class="glyphicon glyphicon-pencil"></i></a> </th>
+        <th>医院价格(元) <a uib-popover-template="'multipleModifyPriceTemplate.html'" popover-title="批量修改" popover-trigger="outsideClick" ng-click="choose_popover('income_price')"><i class="glyphicon glyphicon-pencil"></i></a> </th>
+        <th>下单可见  <a uib-popover-template="'multipleModifyStateTemplate.html'" popover-title="批量修改" popover-trigger="outsideClick" ng-click="choose_popover('state')"><i class="glyphicon glyphicon-pencil"></i></a> </th>
       </tr>
       <tr ng-repeat="pr in project_relations">
         <td ng-bind="pr.body_mode_name" ></td>
@@ -353,6 +353,26 @@
         <input class="form-control" ng-model="pr.price"/>
         <button class="form-control btn-primary" ng-click="price_btn_click()">OK</button>
     </div>
+  </form>
+</script>
+
+<!-- 批量修改价格 -->
+<script type="text/ng-template" id="multipleModifyPriceTemplate.html">
+  <form class="form-inline">
+    <div class="form-group">
+        <input class="form-control" ng-model="multipleModifyPrice"/>
+        <button class="form-control btn-primary" ng-click="multipleModifyPriceBtnClick(multipleModifyPrice)">确定</button>
+    </div>
+  </form>
+</script>
+<!-- 批量修改状态 -->
+<script type="text/ng-template" id="multipleModifyStateTemplate.html">
+  <form class="form-inline">
+    <select ng-model="multipleModifyState" class="form-control">
+      <option value="visible">可见</option>
+      <option value="invisible">不可见</option>
+    </select>
+    <button class="form-control btn-primary" ng-click="multipleModifyPriceBtnClick(multipleModifyState)">确定</button>
   </form>
 </script>
 

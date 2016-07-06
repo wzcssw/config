@@ -843,7 +843,6 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', 'projec
         });
     }
   }
-
   $scope.show_bridging_hospital_arr = function (obj) {
     var arr = [];
     angular.forEach(obj, function(object, index) {
@@ -1350,6 +1349,29 @@ controllers.controller('editHospitalBodiesPriceController', ['$scope', 'hospital
   $scope.price_btn_click = function () {
     hospitalHttp.editProjectRelations({project_relations: $scope.pr},function (data) {
       $('body').click();
+    });
+  }
+  $scope.choose_popover =function (obj) {
+    $scope.choose = obj;
+  }
+  $scope.multipleModifyPriceBtnClick = function(val) {
+    if($scope.choose==='price'){
+      hospitalHttp.editProjectRelationsMultiple({price: val,hospital_id: items.hospital.id, body_id: items.body.id,project_id: items.project.project_id},function(data) {
+        refresh_data();
+      });
+    }else if($scope.choose==='income_price'){
+      hospitalHttp.editProjectRelationsMultiple({income_price: val,hospital_id: items.hospital.id, body_id: items.body.id,project_id: items.project.project_id},function(data) {
+        refresh_data();
+      });
+    }else if($scope.choose==='state'){
+      hospitalHttp.editProjectRelationsMultiple({state: val,hospital_id: items.hospital.id, body_id: items.body.id,project_id: items.project.project_id},function(data) {
+        refresh_data();
+      });
+    }
+  }
+  function refresh_data() {
+    hospitalHttp.getProjectRelations({hospital_id: items.hospital.id,project_id: items.project.id ,body_id: items.body.id},function (data) {
+      $scope.project_relations = data.project_relations;
     });
   }
   $scope.cancel = function() {
