@@ -66,7 +66,7 @@
       </td>
   		<td>
         <a class="btn btn-primary btn-xs color_box" ng-click="open_bodies_modal(project)">检查类别</a>
-        <a class="btn btn-default btn-xs color_box" ng-click="open_details_modal(project)">开通城市与医院</a>
+        <a class="btn btn-default btn-xs color_box" ng-click="open_details_modal(project)">已开通城市与医院</a>
       </td>
   	</tr>
   </tbody>
@@ -240,7 +240,7 @@
 <script type="text/ng-template" id="project_details_modal.html">
   <div class="modal-header">
       <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-      <h4 class="modal-title">{{project.name}}-开通城市与医院</h4>
+      <h4 class="modal-title">{{project.name}}-已开通城市与医院</h4>
   </div>
   <div class="modal-body">
     <uib-tabset active="active" justified="false">
@@ -255,8 +255,8 @@
           <tr ng-repeat="hospital in city.hospitals">
             <td>{{hospital.id}}</td>
             <td>{{hospital.name}}</td>
-            <td>{{hospital.name}}</td>
-            <td>{{hospital.name}}</td>
+            <td>{{hospital.level}}</td>
+            <td>{{hospital.nature}}</td>
           </tr>
           <tr ng-show="city.hospitals.length==0">
             <td colspan=4>
