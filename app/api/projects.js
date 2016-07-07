@@ -53,4 +53,18 @@ router.put('/edit_bodies', function*() {
     this.body = {success: true};
 });
 
+router.get('/project_opened_cities', function*() {
+    "use strict";
+    var self = this;
+    var params = self.query;
+    var access = yield http.get('/v1/project/project_opened_cities', {
+      access_token: self.currentUser.access_token,
+      id: params.id,
+    });
+    this.body ={
+      success: true,
+      cities: access.cities
+    };
+});
+
 module.exports = router.routes();

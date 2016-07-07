@@ -277,6 +277,22 @@ controllers.controller('projectsController', ['$scope', 'projectHttp','bodiesHtt
      });
    }
 
+   // details
+   $scope.open_details_modal = function (project) {
+     var project_modal = $uibModal.open({
+       templateUrl: 'project_details_modal.html',
+       controller: 'projectDetailsController',
+       size: 'lg',
+       resolve: {
+         items: function() {
+           return project;
+         }
+       }
+     });
+     project_modal.result.then(function() {
+     });
+   }
+
    $scope.pageChanged = function() {
      projectHttp.getProjects({
        page: $scope.current_page,
@@ -814,6 +830,16 @@ controllers.controller('updateCategoriesController', ['$scope', 'categoriesHttp'
     }, function(data) {
       $uibModalInstance.close();
     });
+  };
+}]);
+
+controllers.controller('projectDetailsController', ['$scope' ,'projectHttp', '$state', '$uibModalInstance', 'items', function($scope, projectHttp, $state, $uibModalInstance, items) {
+  $scope.project = items;
+  projectHttp.getProjectOpenedCitiesHospitals({id: items.id},function(data) {
+    $scope.cities = data.cities;
+  });
+  $scope.cancel = function() {
+    $uibModalInstance.close();
   };
 }]);
 
@@ -1373,6 +1399,7 @@ controllers.controller('editHospitalBodiesPriceController', ['$scope', 'hospital
     hospitalHttp.getProjectRelations({hospital_id: items.hospital.id,project_id: items.project.id ,body_id: items.body.id},function (data) {
       $scope.project_relations = data.project_relations;
     });
+    $('body').click();
   }
   $scope.cancel = function() {
     $uibModalInstance.dismiss('cancel');
@@ -1383,6 +1410,9 @@ controllers.controller('editHospitalBodiesPriceController', ['$scope', 'hospital
 controllers.controller('hospitalDeviceController', ['hospitalHttp', '$scope', '$state', '$uibModalInstance', 'items', '$uibModal', function(hospitalHttp, $scope, $state, $uibModalInstance, items, $uibModal) {
   $scope.hospital = items;
   $scope.hospital_devices = $scope.hospital.hospital_project_infos;
+  $scope.cancel = function() {
+    $uibModalInstance.close();
+  };
   $scope.show_img = function(url) {
     if(url==''||url==null)
       return '';

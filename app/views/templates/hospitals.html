@@ -87,6 +87,7 @@
 <!-- map dialog -->
 <script type="text/ng-template" id="hospital_detail.html">
   <div class="modal-header"  align="center">
+      <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
       <h4 class="modal-title">{{hospital.name}}</h4>
   </div>
   <div class="modal-body">
@@ -127,6 +128,7 @@
 
 <script type="text/ng-template" id="assistants_detail.html">
   <div class="modal-header">
+      <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
       <h4 class="modal-title">{{hospital.name}}-合作人员</h4>
   </div>
   <div class="modal-body">
@@ -194,6 +196,7 @@
 
 <script type="text/ng-template" id="hospital_project.html">
   <div class="modal-header">
+      <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
       <h4 class="modal-title">{{hospital.name}}开展项目情况</h4>
   </div>
   <div class="modal-body">
@@ -227,6 +230,7 @@
 
 <script type="text/ng-template" id="bridging_hospitals.html">
   <div class="modal-header">
+      <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
       <h4 class="modal-title">分流医院 ({{hospital.name}})</h4>
   </div>
   <div class="modal-body container">
@@ -248,6 +252,7 @@
 <!-- 纳入项目 -->
 <script id="add_project.html" type="text/ng-template">
   <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
     <h4 class="modal-title" id="myModalLabel">纳入项目到医院<small>   {{items.hospital.name}}</small></h4>
   </div>
   <div class="modal-body" id="project-info-table">
@@ -264,6 +269,7 @@
 
 <script type="text/ng-template" id="edit_hospital_resources.html">
   <div class="modal-header">
+      <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
       <h4 class="modal-title">编辑医院资源</h4>
   </div>
   <div class="modal-body">
@@ -290,6 +296,7 @@
 
 <script type="text/ng-template" id="edit_hospital_bodies_price.html">
   <div class="modal-header" align="center">
+      <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
       <h4 class="modal-title">{{items.hospital.name}}-{{items.project.project}}-{{items.body.name}}-价格表</h4>
   </div>
   <div class="modal-body">
@@ -322,7 +329,7 @@
 <script type="text/ng-template" id="hospital_bodies_pop_input.html">
   <div>
       <span ng-repeat="body in project_bodies">
-        <a ng-click="open_edit_price(body)">{{body.name}}</a>
+        <a ng-click="open_edit_price(body)" style="display: inline-block;width:120px;height:27px;">{{body.name}}</a>
       </span>
   </div>
 </script>
@@ -378,6 +385,7 @@
 
 <script type="text/ng-template" id="hospital_device.html">
   <div class="modal-header" align="center">
+      <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
       <h4 class="modal-title">{{hospital.name}}设备信息</h4>
   </div>
   <div class="modal-body">
@@ -412,6 +420,7 @@
 
 <script type="text/ng-template" id="create_hospital_device.html">
   <div class="modal-header" align="center">
+      <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
       <h4 class="modal-title">修改医院设备信息</h4>
   </div>
   <div class="modal-body">
@@ -443,6 +452,7 @@
 
 <script type="text/ng-template" id="edit_project_detail.html">
   <div class="modal-header">
+      <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
       <h4 class="modal-title">项目详情<small>    {{hospital.name}}-{{project.project}}</small></h4>
   </div>
   <div class="modal-body">

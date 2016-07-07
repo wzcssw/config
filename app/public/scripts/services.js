@@ -212,6 +212,16 @@ services.factory('projectHttp', ['httpBase', function(httpBase){
                 errorDo: errorDo,
                 alwaysDo: alwaysDo
             });
+        },
+        getProjectOpenedCitiesHospitals: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url: '/api/projects/project_opened_cities',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo,
+                alwaysDo: alwaysDo
+            });
         }
     }
 }]);
