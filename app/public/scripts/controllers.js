@@ -1601,3 +1601,84 @@ controllers.controller('editProjectDetailController', ['$scope', 'projectHttp', 
     });
   };
 }]);
+
+controllers.controller('manageOrdersController', ['$scope', 'manageOrdersHttp', function($scope, manageOrdersHttp) {
+  $scope.self = $scope;
+  $scope.current_page = 1;
+  $scope.maxSize = 5;
+  $scope.high_search = false;
+  $scope.state_ids= [];
+  $scope.states = [
+    {name: '处理中', id: '0'},
+    {name: '未付款', id: '1'},
+    {name: '已付款', id: '2'},
+    {name: '已取消', id: '3'},
+    {name: '待处理', id: '4'},
+    {name: '待定', id: '5'},
+    {name: '测试单', id: '6'},
+  ];
+ 
+  $scope.getOrderList = function(){
+    manageOrdersHttp.getOrderList({
+      city_id: $scope.city_id, 
+      q: $scope.q, 
+      page: $scope.current_page,
+      agent_q: $scope.agent_q,
+      hospital_q: $scope.hospital_q,
+      doctor_q: $scope.doctor_q,
+      assistant_q: $scope.assistant_q,
+      body_mode_q: $scope.body_mode_q,
+      project_id: $scope.project_id,
+      state_ids: $scope.state_ids
+    },function(data){
+      $scope.orders = data.orders;
+      $scope.order_statistic = data.order_statistic;
+      $scope.total_count = data.total_count;
+      $scope.current_page = data.current_page;
+    });
+  }
+  $scope.getOrderList();
+  
+  manageOrdersHttp.getOptionAttr({},function(data){
+    $scope.cities = data.cities;
+    $scope.projects = data.projects;
+  });
+
+  $scope.setPage = function() {
+    $scope.current_page = $('#go_page').val();
+    $scope.getOrderList();
+    $('#go_page').val("");
+  }
+  $scope.search = function() {
+    $scope.current_page = 1;
+    $scope.state_ids = [];
+    angular.forEach($scope.states, function(obj,index){
+      if(obj.isChecked){
+        $scope.state_ids.push(obj.id);
+      }
+    });
+    $scope.getOrderList();
+  }
+  $scope.check_high_search = function(){
+    return $scope.high_search;
+  }
+  $scope.show_high_search = function(){
+    $scope.high_search = !$scope.high_search;
+  }
+  $scope.clear_search = function(){
+    $scope.agent_q = '';
+    $scope.hospital_q = '';
+    $scope.doctor_q = '';
+    $scope.assistant_q = '';
+    $scope.body_mode_q = '';
+    $scope.project_id = '';
+    $scope.city_id = '';
+    $scope.q = '';
+    angular.forEach($scope.states, function(obj,index){
+      if(obj.isChecked){
+        obj.isChecked = false;
+      }
+    });
+    $scope.getOrderList();
+  }
+}]);
