@@ -9,6 +9,7 @@ function JoinedApi(app){
     app.use(require('./operation_logs.js'));
     app.use(require('./body_modes.js'));
     app.use(require('./hospitals.js'));
+    app.use(require('./manage_orders.js'));
 }
 
 module.exports = JoinedApi;

@@ -48,6 +48,10 @@ routes.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
         url:'/hospitals',
         templateUrl:'templates/hospitals.html',
         controller:'hospitalsController'
+    }).state('manage_orders',{
+        url:'/manage_orders',
+        templateUrl:'templates/manage_orders.html',
+        controller:'manageOrdersController'
     });
     $urlRouterProvider.otherwise('/login');
 }]);
