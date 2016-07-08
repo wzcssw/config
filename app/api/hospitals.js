@@ -103,6 +103,17 @@ router.put('/edit_hospital_projects', function*(){
   this.body = {success: true};
 })
 
+router.post('/add_hospital', function*(){
+  "use strict";
+  var self = this;
+  var params = self.request.body;
+  var access = yield http.post('/v1/hospital/add_hospital', {
+    access_token: self.currentUser.access_token,
+    dic_hospital_id: params.dic_hospital_id
+  })
+  this.body = {success: true};
+})
+
 router.post('/update_inspection_workflows', function*(){
   "use strict";
   var self = this;

@@ -2,7 +2,7 @@ var controllers = angular.module('controllers', ['services', 'directives']);
 controllers.controller('loginController', ['$scope', 'userHttp', '$state', function($scope, userHttp, $state) {
   $scope.self = $scope;
   if (userHttp.isLogin()) {
-    $state.go('hospitals');
+    $state.go('dic_hospitals');
     return;
   }
 
@@ -901,6 +901,16 @@ controllers.controller('hospitalsController', ['$scope', 'hospitalHttp', 'projec
       $scope.total_count = data.total_count;
     });
   };
+  $scope.open_new = function() {
+    var new_hospital = $uibModal.open({
+      animation: true,
+      templateUrl: 'new_hospital.html',
+      controller: 'newCorperateHospitalController',
+    });
+    new_hospital.result.then(function() {
+      $scope.pageChanged();
+    });
+  }
   $scope.open_hospital_project = function(size, id,hospital) {
     $scope.items = {
       hospital_id: id,
@@ -1219,6 +1229,58 @@ controllers.controller('hospitalDetailController', ['hospitalHttp', '$scope', '$
     }, function(data) {
       $state.reload();
       $uibModalInstance.dismiss('cancel');
+    });
+  };
+}]);
+
+controllers.controller('newCorperateHospitalController', ['dic_hospitalHttp','hospitalHttp', '$scope', '$state', '$uibModalInstance', function(dic_hospitalHttp,hospitalHttp, $scope, $state, $uibModalInstance) {
+  $scope.test = function () {
+    console.log($scope.city_id);
+  }
+  $scope.input_change = function(input_name) {
+      if(input_name!=""){
+        dic_hospitalHttp.getHospital({q: input_name,limit: 5,city_id:$scope.city_id},function(data) {
+          $scope.searching_hospitals = data.hospitals;
+          $('#search_panel').show();
+        });
+      }
+  }
+
+  $scope.hide_search = function () {
+    var display = $('#search_panel').css('display');
+    if(display != 'none'){
+       $('#search_panel').hide();
+    }
+  }
+  $scope.show_search = function () {
+    $('#search_panel').show();
+  }
+
+  $scope.input_ok_click = function(input_name) {
+    dic_hospitalHttp.getHospital({q: input_name,limit: 5,city_id:$scope.city_id},function(data) {
+      $scope.searched_hospitals = data.hospitals;
+    });
+  }
+
+  $scope.rm_to_table = function(sh) {
+    arr = [sh];
+    $scope.searched_hospitals = arr;
+  }
+
+  $scope.cancel = function() {
+    $uibModalInstance.close();
+  };
+  $scope.save = function(hospital) {
+    angular.forEach($scope.searched_hospitals, function(object, index) {
+      if(object.isSelected){
+        console.log(object.isSelected); //dic_hospital_id
+        hospitalHttp.addHospital({
+          dic_hospital_id: object.isSelected
+        }, function(data) {
+          $state.reload();
+          $uibModalInstance.close();
+        });
+      }
     });
   };
 }]);

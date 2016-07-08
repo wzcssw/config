@@ -8,22 +8,17 @@ var router = require('koa-router')({
 router.get('/', function*() {
   "use strict";
   var self = this;
-  var page = 1;
-  var q = "";
-  var city_id = "";
   var params = self.query;
-  if (params.page != null) {
-    page = params.page;
-  };
-  if (params.q!= null||params.city_id!=null) {
-    q = params.q;
-    city_id = params.city_id;
-  };
+  var page = params.page || 1;
+  var city_id = params.city_id || "";
+  var q = params.q || "";
+  var limit = params.limit || 20;
   var result = yield http.get('/v1/config_hospital/list', {
-  fields: 'id,name,pinyin,level,city_id,province_id,nature',
-  page: page,
-  q: q,
-  city_id: city_id
+    fields: 'id,name,pinyin,level,city_id,province_id,nature',
+    page: page,
+    q: q,
+    city_id: city_id,
+    limit: limit
   });
   self.body = {
     success: true,

@@ -26,7 +26,7 @@
   }
 </style>
 <div class="table-operation">
-	<h3>医院列表</h3>
+	<h3>合作医院</h3>
 	<div style="height:30px;">
 	  <button style="float: right;margin-left: 10px;" type="button" class="btn btn-default">导出</button>
     <div class='pagination'>
@@ -42,6 +42,7 @@
       <option value="">全部</option>
       <option ng-repeat="city in cities" value={{city.id}}>{{city.name}}</option>
     </select>
+    <button type="button" style="float: right;margin-left: 5px;margin-right: 5px;" class="btn btn-default" ng-click="open_new()">新增合作医院</button>
 	</div>
 
 </div>
@@ -367,7 +368,7 @@
 <script type="text/ng-template" id="multipleModifyPriceTemplate.html">
   <form class="form-inline">
     <div class="form-group">
-        <input class="form-control" ng-model="multipleModifyPrice"/>
+        <input class="form-control" ng-model="multipleModifyPrice" placeholder="批量修改价格"/>
         <button class="form-control btn-primary" ng-click="multipleModifyPriceBtnClick(multipleModifyPrice)">确定</button>
     </div>
   </form>
@@ -516,4 +517,75 @@
         <button class="form-control btn-primary" ng-click="input_ok_click()">OK</button>
     </div>
   </form>
+</script>
+
+<!-- 新建合作医院 -->
+<script type="text/ng-template" id="new_hospital.html">
+  <div class="modal-header">
+			<button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+      <h4 class="modal-title">新增合作医院</h4>
+  </div>
+  <div class="modal-body" ng-click="hide_search()">
+    <div class="row">
+      <div class="col-lg-12">
+        <label class="radio-inline">
+          <input type="radio" name="inlineRadioOptions" id="inlineRadio1" checked="checked" ng-model="city_id"> 全部
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value=1 ng-model="city_id"> 北京
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value=73 ng-model="city_id"> 上海
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value=203 ng-model="city_id"> 广州
+        </label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-8" style="margin: 10px 0px 10px 0px;">
+        <div class="input-group">
+          <input type="text" ng-change="input_change(hospital.name)" ng-model="hospital.name" class="form-control" id="hos_name" placeholder="医院名称" ng-click="show_search()">
+          <span class="input-group-btn">
+            <button class="btn btn-default" ng-click="input_ok_click(hospital.name)">搜索</button>
+          </span>
+        </div>
+        <div id='search_panel' class="panel panel-default" style="z-index:55;position:absolute;left:15px;top:37px;width:79%" ng-show="searching_hospitals && searching_hospitals.length!=0 && hospital.name != ''">
+          <div class="panel-body" style="padding:1%;">
+            <span  ng-repeat="sh in searching_hospitals">
+              <a ng-click="rm_to_table(sh)" style="display:inline-block;color:black;margin-top:10px;height:26px;width:500">{{sh.name}}</a>
+              <span style="color:grey">&nbsp;&nbsp;{{sh.city_name}}&nbsp;&nbsp;{{province_name}}</span>
+              <hr style="margin-bottom:1px;margin-top:1px;"/>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <table class="table table-bordered table-hover">
+          	<tr style="background-color:#f6f6f6;">
+              <th>#</th>
+              <th>医院名称</th>
+              <th>城市</th>
+              <th>城市等级</th>
+              <th>医院性质</th>
+              <th>选定</th>
+            </tr>
+            <tr ng-repeat="h in searched_hospitals">
+              <td>{{h.id}}</td>
+              <td>{{h.name}}</td>
+              <td>{{h.city_name}}</td>
+              <td>{{h.level_name}}</td>
+              <td>{{h.nature_name}}</td>
+              <td>
+                <input type="radio" name="select_radio" ng-model="h.isSelected" value='{{h.id}}'/>
+              </td>
+            </tr>
+        </table>
+      </div>
+    </div>
+    <button style="margin-top: 10px;" class="btn btn-sm btn-primary" type="button" ng-click="save()">添加指定医院</button>
+    <button style="margin-top: 10px;" class="btn btn-sm btn-warning" type="button" ng-click="cancel()">取消</button>
+  </div>
 </script>

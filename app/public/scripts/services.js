@@ -465,6 +465,17 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
                 alwaysDo: alwaysDo
             });
         },
+        addHospital: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.post({
+                url: '/api/hospitals/add_hospital',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo,
+                alwaysDo: alwaysDo
+            });
+        },
         editHospital: function(params, successDo, errorDo, alwaysDo){
             "use strict";
             var self = this;
