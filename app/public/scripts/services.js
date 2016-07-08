@@ -671,3 +671,30 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
 
     }
 }]);
+
+services.factory('manageOrdersHttp', ['httpBase', function(httpBase){
+    return{
+        getOrderList: function(params, successDo, errorDo, alwaysDo){
+          "use strict";
+          var self = this;
+          httpBase.get({
+            url: '/api/manage_orders/list',
+            params:params,
+            successDo:successDo,
+            errorDo:errorDo,
+            alwaysDo:alwaysDo
+          })
+        },
+        getOptionAttr: function(params, successDo, errorDo, alwaysDo){
+          "use strict";
+          var self = this;
+          httpBase.get({
+            url: '/api/manage_orders/get_option_attr',
+            params:params,
+            successDo:successDo,
+            errorDo:errorDo,
+            alwaysDo:alwaysDo
+          })
+        }
+    }
+}]);
