@@ -22,14 +22,10 @@ router.get('/list', function*() {
   var project_id = params.project_id;
   var state_ids = null;
   if (params.state_ids&&params.state_ids.length>1){
-    console.log(123);
     state_ids = JSON.stringify(params.state_ids);
   }else{
-    console.log(747);
     state_ids = params.state_ids;
   }
-  console.log("************");
-  console.log(state_ids);
 
 
   var result = yield http.get('/v1/manage_order/list', {

@@ -555,7 +555,7 @@ controllers.controller('editCategoryController', ['$uibModal','$scope', 'categor
 
 }]);
 
-controllers.controller('addBodiesIntoProjectController', ['$scope', 'projectHttp','bodiesHttp', '$state', '$uibModalInstance','$uibModalStack','items', function($scope, projectHttp,bodiesHttp, $state, $uibModalInstance,$uibModalStack,items) {
+controllers.controller('addBodiesIntoProjectController', ['$scope', 'projectHttp','bodiesHttp', '$state', '$uibModal', '$uibModalInstance','items', function($scope, projectHttp,bodiesHttp, $state, $uibModal, $uibModalInstance, items) {
   $scope.project = items;
   bodiesHttp.getBodyByProject({project_id: $scope.project.id},function(data) {
     $scope.project_bodies = data.bodies;
@@ -566,9 +566,14 @@ controllers.controller('addBodiesIntoProjectController', ['$scope', 'projectHttp
     $scope.body_id_arr = arr;
   });
   // 添加所有的bodies
-  bodiesHttp.getBody({category_id: $scope.project.category_id},function(data) {
-    $scope.bodies = data.bodies;
-  });
+  $scope.getBody = function(){
+    bodiesHttp.getBody({category_id: $scope.project.category_id},function(data) {
+      $scope.bodies = data.bodies;
+    });
+  }
+
+  $scope.getBody();
+  
   $scope.contains = function(arr, obj) {
     var i = arr.length;
     while (i--) {
@@ -592,6 +597,34 @@ controllers.controller('addBodiesIntoProjectController', ['$scope', 'projectHttp
       $uibModalInstance.close();
     });
   };
+  $scope.add_body = function(){
+    $scope.items = '';
+    var add_body = $uibModal.open({
+      animation: true,
+      templateUrl: 'add_body.html',
+      controller: 'addBodyController',
+      size: 'sm',
+    });
+    add_body.result.then(function() {
+      $scope.getBody();
+    });
+  }
+}]);
+
+controllers.controller('addBodyController', ['$scope' ,'bodiesHttp', 'categoriesHttp', '$state', '$uibModalInstance', function($scope, bodiesHttp, categoriesHttp, $state, $uibModalInstance) {
+  categoriesHttp.getCategories({}, function(data) {
+    $scope.categories = data.categories;
+  });
+  $scope.save = function(){
+    bodiesHttp.createBody({body: $scope.body}, function(data){
+      if(data.success){
+        $uibModalInstance.close();
+      }   
+    });
+  };
+  $scope.cancel = function(){
+    $uibModalInstance.close();
+  }
 }]);
 
 controllers.controller('citiesController', ['$scope', 'citiesHttp', function($scope, citiesHttp) {
