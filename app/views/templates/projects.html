@@ -95,6 +95,7 @@
     </div>
 		<button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
     <button style="float: left;margin-top: 10px;" ng-click="save()" class="btn btn-primary">保存</button>
+    <button class="btn btn-success" type="button" ng-click="add_body()">新增检查类别</button>
   </div>
 </script>
 
@@ -179,6 +180,22 @@
         <button class="form-control btn-primary btn-sm" ng-click="modify_rank_ok_btn(bm)">确定</button>
     </div>
   </form>
+</script>
+
+<script type="text/ng-template" id="add_body.html">
+  <div class="modal-header">
+      新增检查部位
+  </div>
+  <div class="modal-body" align="center">
+    <label>检查部位名称</label>
+    <input style="width:60%;" type="text" ng-model="body.name" class="form-control">
+    <select style="width: 60%;margin:10px;" ng-model="body.category_id" class="form-control">
+      <option value="">选择类型</option>
+      <option ng-repeat="category in categories" value={{category.id}}>{{category.name}}</option>
+    </select>
+    <button  class="btn btn-sm btn-primary" type="button" ng-click="save()">保存</button>
+    <button  class="btn btn-sm btn-warning" type="button" ng-click="cancel()">关闭</button>
+  </div>
 </script>
 
 <!--- 添加新body_mode --->
