@@ -265,14 +265,14 @@ controllers.controller('projectsController', ['$scope', 'projectHttp','bodiesHtt
        }
      });
      add_project_modal.result.then(function() {
-      //  projectHttp.getProjects({}, function(data) {
-      //    $scope.projects = data.result.projects;
-      //    $scope.total_count = data.result.total_count;
-      //    $scope.current_page = data.result.current_page;
-      //  });
-      //  bodiesHttp.getCategory({}, function(data) {
-      //    $scope.categories = data.categories;
-      //  });
+       projectHttp.getProjects({}, function(data) {
+         $scope.projects = data.result.projects;
+         $scope.total_count = data.result.total_count;
+         $scope.current_page = data.result.current_page;
+       });
+       bodiesHttp.getCategory({}, function(data) {
+         $scope.categories = data.categories;
+       });
      });
    }
    // bodies
@@ -518,6 +518,7 @@ controllers.controller('addProjectController', ['$scope', 'projectHttp','citiesH
     });
     new_pj.cities = opened_cities;
     projectHttp.addProject({project: new_pj},function(data) {
+      $uibModalInstance.close();
     });
   };
 }]);
@@ -616,7 +617,7 @@ controllers.controller('addBodiesIntoProjectController', ['$scope', 'projectHttp
   }
 
   $scope.getBody();
-  
+
   $scope.contains = function(arr, obj) {
     var i = arr.length;
     while (i--) {
@@ -662,7 +663,7 @@ controllers.controller('addBodyController', ['$scope' ,'bodiesHttp', 'categories
     bodiesHttp.createBody({body: $scope.body}, function(data){
       if(data.success){
         $uibModalInstance.close();
-      }   
+      }
     });
   };
   $scope.cancel = function(){
