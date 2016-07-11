@@ -40,6 +40,20 @@ router.put('/edit_project', function*() {
     });
     this.body = {success: true};
 });
+router.post('/add_project', function*() {
+    "use strict";
+    var self = this;
+    var params = self.request.body;
+    var project = params.project;
+    var access = yield http.post('/v1/project/add_project', {
+      access_token: self.currentUser.access_token,
+      name: project.name,
+      category_id: project.category_id,
+      remark: project.remark,
+      city_ids: JSON.stringify(project.cities)
+    });
+    this.body = {success: true};
+});
 
 router.put('/edit_bodies', function*() {
     "use strict";

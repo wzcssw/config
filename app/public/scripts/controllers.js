@@ -253,6 +253,28 @@ controllers.controller('projectsController', ['$scope', 'projectHttp','bodiesHtt
        });
      }
    }
+   // add new project
+   $scope.open_add_project_modal = function () {
+     var add_project_modal = $uibModal.open({
+       templateUrl: 'add_project.html',
+       controller: 'addProjectController',
+       resolve: {
+         items: function() {
+           return $scope.categories;
+         }
+       }
+     });
+     add_project_modal.result.then(function() {
+      //  projectHttp.getProjects({}, function(data) {
+      //    $scope.projects = data.result.projects;
+      //    $scope.total_count = data.result.total_count;
+      //    $scope.current_page = data.result.current_page;
+      //  });
+      //  bodiesHttp.getCategory({}, function(data) {
+      //    $scope.categories = data.categories;
+      //  });
+     });
+   }
    // bodies
    $scope.open_bodies_modal = function (project) {
      var project_modal = $uibModal.open({
@@ -476,6 +498,27 @@ controllers.controller('addBodyModesController', ['$scope', 'bodyModesHttp', '$s
     bodyModesHttp.createBodyMode({body_mode: bm},function(data) {
       $uibModalInstance.close();
     })
+  };
+}]);
+
+controllers.controller('addProjectController', ['$scope', 'projectHttp','citiesHttp', '$state', '$uibModalInstance','items', function($scope, projectHttp, citiesHttp, $state, $uibModalInstance,items) {
+  $scope.categories = items;
+  citiesHttp.getOpenedCities({},function (data) {
+    $scope.cities = data.cities;
+  });
+  $scope.cancel = function() {
+    $uibModalInstance.close();
+  };
+  $scope.save = function(new_pj,cities) {
+    var opened_cities = [];
+    angular.forEach(cities, function(object, index) {
+      if(object.opened_cities){
+        opened_cities.push(object.id);
+      }
+    });
+    new_pj.cities = opened_cities;
+    projectHttp.addProject({project: new_pj},function(data) {
+    });
   };
 }]);
 
@@ -1233,13 +1276,13 @@ controllers.controller('hospitalDetailController', ['hospitalHttp', '$scope', '$
   };
 }]);
 
-controllers.controller('newCorperateHospitalController', ['dic_hospitalHttp','hospitalHttp', '$scope', '$state', '$uibModalInstance', function(dic_hospitalHttp,hospitalHttp, $scope, $state, $uibModalInstance) {
-  $scope.test = function () {
-    console.log($scope.city_id);
-  }
+controllers.controller('newCorperateHospitalController', ['dic_hospitalHttp','hospitalHttp', '$scope', '$state', '$uibModalInstance','citiesHttp', function(dic_hospitalHttp,hospitalHttp, $scope, $state, $uibModalInstance,citiesHttp) {
+  citiesHttp.getOpenedCities({},function (data) {
+      $scope.cities = data.cities;
+    });
   $scope.input_change = function(input_name) {
       if(input_name!=""){
-        dic_hospitalHttp.getHospital({q: input_name,limit: 5,city_id:$scope.city_id},function(data) {
+        dic_hospitalHttp.getHospital({q: input_name,limit: 5,city_id: $scope.city_id},function(data) {
           $scope.searching_hospitals = data.hospitals;
           $('#search_panel').show();
         });
@@ -1257,7 +1300,7 @@ controllers.controller('newCorperateHospitalController', ['dic_hospitalHttp','ho
   }
 
   $scope.input_ok_click = function(input_name) {
-    dic_hospitalHttp.getHospital({q: input_name,limit: 5,city_id:$scope.city_id},function(data) {
+    dic_hospitalHttp.getHospital({q: input_name,limit: 5,city_id: $scope.city_id},function(data) {
       $scope.searched_hospitals = data.hospitals;
     });
   }
@@ -1617,11 +1660,11 @@ controllers.controller('manageOrdersController', ['$scope', 'manageOrdersHttp', 
     {name: '待定', id: '5'},
     {name: '测试单', id: '6'},
   ];
- 
+
   $scope.getOrderList = function(){
     manageOrdersHttp.getOrderList({
-      city_id: $scope.city_id, 
-      q: $scope.q, 
+      city_id: $scope.city_id,
+      q: $scope.q,
       page: $scope.current_page,
       agent_q: $scope.agent_q,
       hospital_q: $scope.hospital_q,
@@ -1638,7 +1681,7 @@ controllers.controller('manageOrdersController', ['$scope', 'manageOrdersHttp', 
     });
   }
   $scope.getOrderList();
-  
+
   manageOrdersHttp.getOptionAttr({},function(data){
     $scope.cities = data.cities;
     $scope.projects = data.projects;

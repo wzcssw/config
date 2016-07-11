@@ -529,16 +529,10 @@
     <div class="row">
       <div class="col-lg-12">
         <label class="radio-inline">
-          <input type="radio" name="inlineRadioOptions" id="inlineRadio1" checked="checked" ng-model="city_id"> 全部
+          <input type="radio" name="inlineRadioOptions" id="inlineRadio1" checked="checked"> 全部
         </label>
-        <label class="radio-inline">
-          <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value=1 ng-model="city_id"> 北京
-        </label>
-        <label class="radio-inline">
-          <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value=73 ng-model="city_id"> 上海
-        </label>
-        <label class="radio-inline">
-          <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value=203 ng-model="city_id"> 广州
+        <label class="radio-inline" ng-repeat="city in cities">
+          <input type="radio" name="inlineRadioOptions" id="inlineRadio{{$index+2}}" value={{city.id}} ng-model="$parent.city_id"> {{city.name}}
         </label>
       </div>
     </div>

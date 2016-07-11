@@ -193,6 +193,16 @@ services.factory('projectHttp', ['httpBase', function(httpBase){
                 alwaysDo: alwaysDo
             });
         },
+        addProject: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.post({
+                url: '/api/projects/add_project',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo,
+                alwaysDo: alwaysDo
+            });
+        },
         editProject: function(params, successDo, errorDo, alwaysDo){
             "use strict";
             httpBase.put({

@@ -42,6 +42,7 @@
       <option value="">全部</option>
       <option ng-repeat="category in categories" value={{category.id}}>{{category.name}}</option>
     </select>
+    <button type="button" style="float: right;margin-left: 5px;margin-right: 5px;" class="btn btn-default" ng-click="open_add_project_modal()">新增项目</button>
 	</div>
 
 </div>
@@ -353,5 +354,42 @@
     <input type="text" ng-model="category.body_mode_name" class="form-control" placeholder="bodyMode名称">
     <button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
     <button style="float: left;margin-top: 10px;" ng-click="save(category)"class="btn btn-primary">确定</button>
+  </div>
+</script>
+
+<script type="text/ng-template" id="add_project.html">
+  <div class="modal-header">
+      <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+      <h4 class="modal-title">新增项目</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+        <label for="hos_name">项目名称</label>
+        <input type="text" ng-model="new_pj.name" class="form-control" placeholder="名称">
+        <label for="hos_level">项目类别</label>
+        <select ng-model="new_pj.category_id" class="form-control">
+          <option ng-repeat="category in categories" value={{category.id}}>{{category.name}}</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="hos_level">备注</label>
+        <textarea rows=4 ng-model="new_pj.remark" class="form-control" placeholder="备注"></textarea>
+      </div>
+    </div>
+    <br/>
+    <div class="row">
+      <div class="col-md-12">
+        <label for="hos_level" style="float:left">业务开展城市</label>
+      </div>
+      <div class="col-md-12">
+        <div class="wb_label ng-scope"  style="min-width:110px;" ng-repeat="city in cities">
+          <input type="checkbox" class="show_box_check ng-pristine ng-untouched ng-valid ng-empty" value={{city.id}} ng-model="city.opened_cities" ng-init="city.opened_cities=false">
+          <p class="wb_name ng-binding">{{city.name}}</p>
+        </div>
+      </div>
+    </div>
+    <button style="margin: 10px;" class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    <button style="float: left;margin-top: 10px;" ng-click="save(new_pj,cities)"class="btn btn-primary">确定</button>
   </div>
 </script>

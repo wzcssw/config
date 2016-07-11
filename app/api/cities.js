@@ -25,7 +25,7 @@ router.get('/opened', function*(){
     "use strict";
     var self = this;
     var params = self.query;
-    params.fields = 'id,name,pinyin,province_id,state,go_public_sea_day,develop_coefficient,maturity';
+    params.fields = 'id,name,pinyin,province_id,state,develop_coefficient,maturity';
     var result = yield http.get('/v1/config_city/open_city_list', params);
     self.body = {
         success:true,
