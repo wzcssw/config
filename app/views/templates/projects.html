@@ -184,15 +184,18 @@
 
 <script type="text/ng-template" id="add_body.html">
   <div class="modal-header">
-      新增检查部位
+      <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+      <h4 class="modal-title">新增检查部位</h4>
   </div>
-  <div class="modal-body" align="center">
+  <div class="modal-body">
     <label>检查部位名称</label>
-    <input style="width:60%;" type="text" ng-model="body.name" class="form-control">
-    <select style="width: 60%;margin:10px;" ng-model="body.category_id" class="form-control">
+    <input  type="text" ng-model="body.name" class="form-control" style="margin-bottom:10px">
+    <label>选择类型</label>
+    <select ng-model="body.category_id" class="form-control">
       <option value="">选择类型</option>
       <option ng-repeat="category in categories" value={{category.id}}>{{category.name}}</option>
     </select>
+    <br/>
     <button  class="btn btn-sm btn-primary" type="button" ng-click="save()">保存</button>
     <button  class="btn btn-sm btn-warning" type="button" ng-click="cancel()">关闭</button>
   </div>

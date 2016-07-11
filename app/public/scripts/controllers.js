@@ -642,12 +642,16 @@ controllers.controller('addBodiesIntoProjectController', ['$scope', 'projectHttp
     });
   };
   $scope.add_body = function(){
-    $scope.items = '';
     var add_body = $uibModal.open({
       animation: true,
       templateUrl: 'add_body.html',
       controller: 'addBodyController',
       size: 'sm',
+      resolve: {
+        items: function() {
+          return $scope.project;
+        }
+      }
     });
     add_body.result.then(function() {
       $scope.getBody();
@@ -655,7 +659,8 @@ controllers.controller('addBodiesIntoProjectController', ['$scope', 'projectHttp
   }
 }]);
 
-controllers.controller('addBodyController', ['$scope' ,'bodiesHttp', 'categoriesHttp', '$state', '$uibModalInstance', function($scope, bodiesHttp, categoriesHttp, $state, $uibModalInstance) {
+controllers.controller('addBodyController', ['$scope' ,'bodiesHttp', 'categoriesHttp', '$state', '$uibModalInstance','items', function($scope, bodiesHttp, categoriesHttp, $state, $uibModalInstance,items) {
+  $scope.project = items;
   categoriesHttp.getCategories({}, function(data) {
     $scope.categories = data.categories;
   });
