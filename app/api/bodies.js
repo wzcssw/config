@@ -9,11 +9,30 @@ router.get('/', function*(){
     var self = this;
     var page = 1;
     var params = self.query;
+    params.limit = 200;
     if (params.page != null) {
        page = params.page;
     }
     params.fields = 'id,name,price,created_at,rank,category_id';
     var result = yield http.get('/v1/body/list', params);
+    self.body = {
+        success:true,
+        bodies:result.bodies,
+        total_count: result.total_count,
+        current_page: result.current_page
+    }
+});
+
+router.get('/by_project', function*(){
+    "use strict";
+    var self = this;
+    var page = 1;
+    var params = self.query;
+    if (params.page != null) {
+       page = params.page;
+    }
+    params.fields = 'id,name,price,created_at,rank,category_id';
+    var result = yield http.get('/v1/body/by_project', params);
     self.body = {
         success:true,
         bodies:result.bodies,

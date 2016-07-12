@@ -105,13 +105,13 @@ services.factory('userHttp', ['httpBase', function(httpBase){
     }
 }]);
 
-services.factory('hospitalHttp', ['httpBase', function(httpBase){
+services.factory('dic_hospitalHttp', ['httpBase', function(httpBase){
     return {
         getHospital: function(params, successDo, errorDo, alwaysDo){
             "use strict";
             var self = this;
             httpBase.get({
-                url: '/api/hospitals',
+                url: '/api/dic_hospitals',
                 params: params,
                 successDo: successDo,
                 errorDo: errorDo,
@@ -122,7 +122,7 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
             "use strict";
             var self = this;
             httpBase.post({
-                url: '/api/hospitals/new_hospital',
+                url: '/api/dic_hospitals/new_hospital',
                 params: params,
                 successDo: successDo,
                 errorDo: errorDo
@@ -132,7 +132,7 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
             "use strict";
             var self = this;
             httpBase.put({
-                url: '/api/hospitals/edit_hospital',
+                url: '/api/dic_hospitals/edit_hospital',
                 params: params,
                 successDo: successDo,
                 errorDo: errorDo
@@ -142,7 +142,7 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
             "use strict";
             var self = this;
             httpBase.get({
-                url: '/api/hospitals/options_attr',
+                url: '/api/dic_hospitals/options_attr',
                 params: params,
                 successDo: successDo,
                 errorDo: errorDo
@@ -152,7 +152,7 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
             "use strict";
             var self = this;
             httpBase.get({
-                url: '/api/hospitals/get_hospital_device',
+                url: '/api/dic_hospitals/get_hospital_device',
                 params: params,
                 successDo: successDo,
                 errorDo: errorDo
@@ -162,7 +162,17 @@ services.factory('hospitalHttp', ['httpBase', function(httpBase){
             "use strict";
             var self = this;
             httpBase.post({
-                url: '/api/hospitals/save_hospital_device',
+                url: '/api/dic_hospitals/save_hospital_device',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo
+            })
+        },
+        deleteHospital: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.get({
+                url: '/api/dic_hospitals/delete_hospital',
                 params: params,
                 successDo: successDo,
                 errorDo: errorDo
@@ -182,6 +192,46 @@ services.factory('projectHttp', ['httpBase', function(httpBase){
                 errorDo: errorDo,
                 alwaysDo: alwaysDo
             });
+        },
+        addProject: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.post({
+                url: '/api/projects/add_project',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo,
+                alwaysDo: alwaysDo
+            });
+        },
+        editProject: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.put({
+                url: '/api/projects/edit_project',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo,
+                alwaysDo: alwaysDo
+            });
+        },
+        editBodies: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.put({
+                url: '/api/projects/edit_bodies',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo,
+                alwaysDo: alwaysDo
+            });
+        },
+        getProjectOpenedCitiesHospitals: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url: '/api/projects/project_opened_cities',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo,
+                alwaysDo: alwaysDo
+            });
         }
     }
 }]);
@@ -193,6 +243,16 @@ services.factory('citiesHttp', ['httpBase', function(httpBase){
             "use strict";
             httpBase.get({
                 url:'/api/cities',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alawyDo:alwaysDo
+            });
+        },
+        getOpenedCities: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url:'/api/cities/opened',
                 params:params,
                 successDo:successDo,
                 errorDo:errorDo,
@@ -219,6 +279,16 @@ services.factory('bodiesHttp', ['httpBase', function(httpBase){
             "use strict";
             httpBase.get({
                 url:'/api/bodies',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alawyDo:alwaysDo
+            });
+        },
+        getBodyByProject: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            httpBase.get({
+                url:'/api/bodies/by_project',
                 params:params,
                 successDo:successDo,
                 errorDo:errorDo,
@@ -356,6 +426,17 @@ services.factory('bodyModesHttp', ['httpBase', function(httpBase){
             alwaysDo:alwaysDo
           })
         },
+        createBodyMode: function(params, successDo, errorDo, alwaysDo){
+          "use strict";
+          var self = this;
+          httpBase.post({
+            url: 'api/body_modes/create_body_mode',
+            params:params,
+            successDo:successDo,
+            errorDo:errorDo,
+            alwaysDo:alwaysDo
+          })
+        },
         editBodyModes: function(params, successDo, errorDo, alwaysDo){
           "use strict";
           var self = this;
@@ -367,11 +448,269 @@ services.factory('bodyModesHttp', ['httpBase', function(httpBase){
             alwaysDo:alwaysDo
           })
         },
-        editRank: function(params, successDo, errorDo, alwaysDo){
+        deleteBodyMode: function(params, successDo, errorDo, alwaysDo){
           "use strict";
           var self = this;
-          httpBase.put({
-            url: 'api/body_modes/edit_rank',
+          httpBase.get({
+            url: 'api/body_modes/delete',
+            params:params,
+            successDo:successDo,
+            errorDo:errorDo,
+            alwaysDo:alwaysDo
+          })
+        }
+    }
+}]);
+
+services.factory('hospitalHttp', ['httpBase', function(httpBase){
+    return{
+        getHospital: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.get({
+                url: '/api/hospitals',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo,
+                alwaysDo: alwaysDo
+            });
+        },
+        addHospital: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.post({
+                url: '/api/hospitals/add_hospital',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo,
+                alwaysDo: alwaysDo
+            });
+        },
+        editHospital: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.put({
+                url: '/api/hospitals/edit_hospital',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo,
+                alwaysDo: alwaysDo
+            });
+        },
+        getHospitalProjects: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.get({
+                url: '/api/hospitals/get_hospital_projects',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo,
+                alwaysDo: alwaysDo
+            })
+        },
+        addHospitalProjects: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.post({
+                url: '/api/hospitals/add_hospital_projects',
+                params: params,
+                successDo: successDo,
+                errorDo: errorDo,
+                alwaysDo: alwaysDo
+            });
+        },
+        editHospitalProjects: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.put({
+                url: 'api/hospitals/edit_hospital_projects',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
+        },
+        editHospitalAssistants: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            if(params.hospital_assistant.id){
+              httpBase.put({
+                  url: 'api/hospitals/edit_hospital_assistants',
+                  params:params,
+                  successDo:successDo,
+                  errorDo:errorDo,
+                  alwaysDo:alwaysDo
+              });
+            }
+        },
+        deleteHospitalAssistants: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.get({
+                url: 'api/hospitals/delete_hospital_assistants',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
+        },
+        addHospitalAssistants: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.post({
+                url: 'api/hospitals/add_hospital_assistants',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
+          },
+
+        updateInspectionWorkflows: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.post({
+                url: 'api/hospitals/update_inspection_workflows',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
+        },
+        getHospitalResources: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.get({
+                url: 'api/hospitals/get_hospital_resources',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
+        },
+        editHospitalResources: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.put({
+                url: 'api/hospitals/edit_hospital_resources',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
+        },
+        getProjectRelations: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.get({
+                url: 'api/hospitals/project_relations',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
+        },
+        editProjectRelations: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.put({
+                url: 'api/hospitals/edit_project_relations',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
+        },
+        editProjectRelationsMultiple: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.put({
+                url: 'api/hospitals/edit_project_relations_multiple',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
+        },
+        getCooperatingHospital: function (params, successDo, errorDo, alwaysDo) {
+            "use strict";
+            var self = this;
+            httpBase.get({
+                url: 'api/hospitals/get_cooperating_hospital',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
+        },
+        createHospitalProject: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.post({
+                url: 'api/hospitals/create_hospital_device',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
+        },
+
+        editCooperatingHospital: function (params, successDo, errorDo, alwaysDo) {
+            "use strict";
+            var self = this;
+            httpBase.put({
+                url: 'api/hospitals/edit_cooperating_hospital',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
+        },
+
+        updateHospitalProject: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.put({
+                url: 'api/hospitals/update_hospital_device',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
+        },
+        deleteHospitalDevice: function(params, successDo, errorDo, alwaysDo){
+            "use strict";
+            var self = this;
+            httpBase.get({
+                url: 'api/hospitals/delete_hospital_device',
+                params:params,
+                successDo:successDo,
+                errorDo:errorDo,
+                alwaysDo:alwaysDo
+            })
+        }
+
+    }
+}]);
+
+services.factory('manageOrdersHttp', ['httpBase', function(httpBase){
+    return{
+        getOrderList: function(params, successDo, errorDo, alwaysDo){
+          "use strict";
+          var self = this;
+          httpBase.get({
+            url: '/api/manage_orders/list',
+            params:params,
+            successDo:successDo,
+            errorDo:errorDo,
+            alwaysDo:alwaysDo
+          })
+        },
+        getOptionAttr: function(params, successDo, errorDo, alwaysDo){
+          "use strict";
+          var self = this;
+          httpBase.get({
+            url: '/api/manage_orders/get_option_attr',
             params:params,
             successDo:successDo,
             errorDo:errorDo,

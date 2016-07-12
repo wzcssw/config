@@ -12,10 +12,10 @@ routes.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
         url:'/register',
         templateUrl:'templates/register.html',
         controller:'registerController'
-    }).state('hospitals', {
-        url:'/hospitals',
-        templateUrl:'templates/hospitals.html',
-        controller:'hospitalsController'
+    }).state('dic_hospitals', {
+        url:'/dic_hospitals',
+        templateUrl:'templates/dic_hospitals.html',
+        controller:'dicHospitalsController'
     }).state('new_hospital', {
         url:'/new_hospital',
         templateUrl:'templates/new_hospital.html',
@@ -28,14 +28,6 @@ routes.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
         url:'/cities',
         templateUrl:'templates/cities.html',
         controller:'citiesController'
-    }).state('bodies',{
-        url:'/bodies',
-        templateUrl:'templates/bodies.html',
-        controller:'bodiesController'
-    }).state('categories',{
-        url:'/categories',
-        templateUrl:'templates/categories.html',
-        controller:'categoriesController'
     }).state('operation_logs',{
         url:'/operation_logs',
         templateUrl:'templates/operation_logs.html',
@@ -44,6 +36,14 @@ routes.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
         url:'/body_modes',
         templateUrl:'templates/body_modes.html',
         controller:'bodyModesController'
+    }).state('hospitals',{
+        url:'/hospitals',
+        templateUrl:'templates/hospitals.html',
+        controller:'hospitalsController'
+    }).state('manage_orders',{
+        url:'/manage_orders',
+        templateUrl:'templates/manage_orders.html',
+        controller:'manageOrdersController'
     });
     $urlRouterProvider.otherwise('/login');
 }]);
